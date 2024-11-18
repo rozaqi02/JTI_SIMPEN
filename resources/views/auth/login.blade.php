@@ -24,6 +24,7 @@
             background-image: url('{{ asset('adminlte/dist/img/landingpages.png') }}');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,35 +32,33 @@
 
         .login-box {
             width: 100%;
-            max-width: 450px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 550px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 35px;
+            padding: 1.9rem;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.649);
         }
 
         .login-box img {
             display: block;
             margin: 0 auto 15px;
-            width: 100px;
+            width: 135px;
         }
 
         .login-box h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
         }
 
         .btn-primary {
-            background-color: #f76c38;
-            border: none;
-            border-radius: 30px;
+            background-color: #f99d1c;
+            border-radius: 13px;
             font-size: 16px;
             font-weight: bold;
         }
 
         .btn-primary:hover {
-            background-color: #e68a3f;
+            background-color: #f99d1c;
         }
 
         .form-control {
@@ -69,7 +68,7 @@
 
         .input-group-text {
             border-radius: 30px;
-            background-color: #f76c38;
+            background-color: #f99d1c;
             border: none;
             color: #fff;
         }
@@ -81,7 +80,7 @@
         }
 
         .footer-text a {
-            color: #f76c38;
+            color: #7f4f0b;
             text-decoration: none;
         }
     </style>
@@ -94,7 +93,7 @@
         <form action="{{ url('login') }}" method="POST" id="form-login">
             @csrf
             <div class="input-group mb-3">
-                <input type="text" id="username" name="username" class="form-control" placeholder="Username">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Nama Pengguna">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-user"></span>
@@ -103,7 +102,7 @@
                 <small id="error-username" class="error-text text-danger"></small>
             </div>
             <div class="input-group mb-3">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Kata Sandi">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
