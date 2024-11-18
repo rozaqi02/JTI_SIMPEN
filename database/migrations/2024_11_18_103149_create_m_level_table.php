@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_kategori_user', function (Blueprint $table) {
-            $table->id('kategori_user_id'); // Primary key
-            $table->string('kategori_user_kode', 10)->unique(); // Unique code for kategori_user
-            $table->enum('kategori_nama', ['dosen', 'mahasiswa', 'tendik', 'admin']); // Enum for kategori nama
-            $table->enum('level', ['admin', 'user']); // Enum for user level
+        Schema::create('m_level', function (Blueprint $table) {
+            $table->id('level_id'); // Primary key
+            $table->string('level_kode', 10)->unique(); // Unique code for kategori_user
+            $table->enum('level_nama', ['dosen', 'mahasiswa', 'tendik', 'admin']); // Enum for kategori nama
             $table->timestamps();
         });
     }
