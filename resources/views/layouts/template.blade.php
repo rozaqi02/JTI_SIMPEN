@@ -30,17 +30,17 @@
             background-color: #1f2d3d;
         }
         .sidebar-dark-primary .nav-link.active {
-            background-color: #007bff;
+            background-color: #e87817;
             border-radius: 8px;
         }
         .sidebar-dark-primary .nav-link:hover {
-            background-color: #007bff;
+            background-color: #e87817;
             color: white;
             transform: translateX(5px);
             border-radius: 8px;
         }
         .brand-link {
-            background-color: #007bff;
+            background-color: #1d3a3b;
             text-align: center;
         }
         .brand-link .brand-text {
@@ -68,9 +68,9 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url('/') }}" class="brand-link">
-                <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                <img src="{{ asset('adminlte/dist/img/polinema.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">PWL - Starter Code</span>
+                <span class="brand-text font-weight-light">JTI-SIMPEN</span>
             </a>
 
             <!-- Sidebar -->

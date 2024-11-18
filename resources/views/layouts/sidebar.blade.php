@@ -27,36 +27,52 @@
                 </a>
             </li>
             <li class="nav-header">Data Pengguna</li>
-            <li class="nav-item">
-                <a href="{{ url('/level') }}" class="nav-link {{ $activeMenu == 'level' ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-layer-group"></i>
-                    <p>Level User</p>
+            <li class="nav-item {{ $activeMenu == 'data-pengguna' ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ $activeMenu == 'data-pengguna' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Data Pengguna<i class="right fas fa-angle-left"></i></p>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
-                    <i class="nav-icon far fa-user"></i>
-                    <p>Data User</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url('/supplier') }}" class="nav-link {{ $activeMenu == 'supplier' ? 'active' : '' }}">
-                    <i class="nav-icon far fa-user"></i>
-                    <p>Data Supplier</p>
-                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ url('/level') }}" class="nav-link {{ $activeMenu == 'level' ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-layer-group"></i>
+                            <p>Level User</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Data User</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('/supplier') }}" class="nav-link {{ $activeMenu == 'supplier' ? 'active' : '' }}">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Data Supplier</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-header">Data Barang</li>
-            <li class="nav-item">
-                <a href="{{ url('/kategori') }}" class="nav-link {{ $activeMenu == 'kategori' ? 'active' : '' }} ">
-                    <i class="nav-icon far fa-bookmark"></i>
-                    <p>Kategori Barang</p>
+            <li class="nav-item {{ $activeMenu == 'data-barang' ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ $activeMenu == 'data-barang' ? 'active' : '' }}">
+                    <i class="nav-icon far fa-box"></i>
+                    <p>Data Barang<i class="right fas fa-angle-left"></i></p>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'barang' ? 'active' : '' }}">
-                    <i class="nav-icon far fa-list-alt"></i>
-                    <p>Data Barang</p>
-                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ url('/kategori') }}" class="nav-link {{ $activeMenu == 'kategori' ? 'active' : '' }}">
+                            <i class="nav-icon far fa-bookmark"></i>
+                            <p>Kategori Barang</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'barang' ? 'active' : '' }}">
+                            <i class="nav-icon far fa-list-alt"></i>
+                            <p>Data Barang</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-header">Data Transaksi</li>
             <li class="nav-item">
@@ -79,8 +95,7 @@
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                 </a>
-                <form id="logout-form" action="{{ url('logout') }}" method="GET" style="display: none;">
-                </form>
+                <form id="logout-form" action="{{ url('logout') }}" method="GET" style="display: none;"></form>
             </li>
         </ul>
     </nav>
