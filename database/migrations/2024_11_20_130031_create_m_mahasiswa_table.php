@@ -13,21 +13,19 @@ return new class extends Migration
     {
         Schema::create('m_mahasiswa', function (Blueprint $table) {
             $table->id('id_mahasiswa'); // Primary key
-            $table->unsignedBigInteger('kategori_user_id'); // Foreign key ke tabel t_kategori_user
-            $table->enum('level', ['admin', 'user']); // Enum untuk level
+            $table->unsignedBigInteger('id_user'); // Foreign key ke tabel m_user
+            $table->unsignedBigInteger('id_bidkom');
+            $table->string('nim', 20)->unique(); // Nomor induk mahasiswa
             $table->string('email'); // Email mahasiswa
-            $table->string('username', 50)->unique(); // Username mahasiswa
-            $table->string('nama', 100); // Nama mahasiswa
-            $table->string('password'); // Password mahasiswa
-            $table->integer('nim'); // Nomor induk mahasiswa
-            $table->string('foto'); // Foto mahasiswa
+            $table->string('nama_mahasiswa', 100); // Nama mahasiswa
+            $table->string('tahun_masuk'); // Foto mahasiswa   
             $table->integer('jumlah_alpa'); // Jumlah alpa mahasiswa
-            $table->string('nama_bidkom'); // Nama bidang komunikasi
+            $table->timestamps();
             
             // Menambahkan foreign key constraint
-            $table->foreign('kategori_user_id')->references('kategori_user_id')->on('t_kategori_user')->onDelete('cascade');
+            $table->foreign('id_user')->references('id_user')->on('m_user');
+            $table->foreign('id_bidkom')->references('id_bidkom')->on('t_bidkom');
             
-            $table->timestamps();
         });
     }
 

@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_level', function (Blueprint $table) {
-            $table->id('level_id'); // Primary key
-            $table->string('level_kode', 10)->unique(); // Unique code for kategori_user
-            $table->enum('level_nama', ['dosen', 'mahasiswa', 'tendik', 'admin']); // Enum for kategori nama
+        Schema::create('t_bidkom', function (Blueprint $table) {
+            $table->id('id_bidkom');
+            $table->string('nama_bidkom'); // Foto mahasiswa   
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_kategori_user');
+        Schema::dropIfExists('t_bidkom');
     }
 };
