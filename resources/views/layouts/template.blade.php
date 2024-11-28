@@ -26,8 +26,42 @@
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
 
     <style>
+        
+            .sidebar-dark-primary {
+        background-color: #2d2d2d;
+    }
+
+    /* Ubah warna menu aktif menjadi oranye */
+    .sidebar-dark-primary .nav-link.active {
+        background-color: #e87817 !important;
+        color: #ffffff !important;
+        border-radius: 8px;
+    }
+
+    /* Tambahkan hover warna oranye */
+    .sidebar-dark-primary .nav-link:hover {
+        background-color: #e87817;
+        color: white;
+        border-radius: 8px;
+    }
+
+    /* Gaya default untuk nav-link */
+    .sidebar-dark-primary .nav-link {
+        color: #c2c7d0;
+    }
+
+    /* Brand Logo */
+    .brand-link {
+        background-color: #2b2b2b;
+        text-align: center;
+    }
+
+    .brand-link .brand-text {
+        color: white;
+        font-weight: bold;
+    }
         .sidebar-dark-primary {
-            background-color: #1f2d3d;
+            background-color: #2d2d2d;
         }
         .sidebar-dark-primary .nav-link.active {
             background-color: #e87817;
@@ -40,7 +74,7 @@
             border-radius: 8px;
         }
         .brand-link {
-            background-color: #1d3a3b;
+            background-color: #2b2b2b;
             text-align: center;
         }
         .brand-link .brand-text {
@@ -51,6 +85,33 @@
             background-color: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .small-box {
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.small-box .icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 60px;
+    opacity: 0.5;
+}
+
+.small-box-footer {
+    display: block;
+    text-align: center;
+    color: #fff;
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    border-radius: 0 0 10px 10px;
+}
+
     </style>
 
     @stack('css')

@@ -85,33 +85,28 @@
         }
     </style>
 </head>
-
+    
 <body>
     <div class="login-box">
         <img src="{{ asset('adminlte/dist/img/LOGO-JTI.png') }}" alt="Logo JTI">
         <h2>Silakan masuk untuk memulai sesi Anda</h2>
-        <form action="{{ url('login') }}" method="POST" id="form-login">
+        <form action="{{ url('login') }}" method="POST" id="login-form">
             @csrf
-            <div class="input-group mb-3">
-                <input type="text" id="username" name="username" class="form-control" placeholder="Nama Pengguna">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-user"></span>
-                    </div>
-                </div>
-                <small id="error-username" class="error-text text-danger"></small>
+            <div class="form-group">
+                <label for="username">Nama Pengguna</label>
+                <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
+                <small id="error-username" class="error-text form-text text-danger"></small>
             </div>
-            <div class="input-group mb-3">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Kata Sandi">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
-                    </div>
-                </div>
-                <small id="error-password" class="error-text text-danger"></small>
+            <div class="form-group">
+                <label for="password">Kata Sandi</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <small id="error-password" class="error-text form-text text-danger"></small>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">MASUK</button>
+            </div>
         </form>
+            
         <p class="footer-text mt-3">
             <a href="#">Butuh Bantuan?</a> | <a href="{{ url('register') }}">Belum Punya Akun?</a>
         </p>
@@ -131,60 +126,43 @@
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
 
     <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(document).ready(function() {
-            $("#form-login").validate({
-                rules: {
-                    username: { required: true, minlength: 4, maxlength: 20 },
-                    password: { required: true, minlength: 5, maxlength: 20 }
-                },
-                submitHandler: function(form) {
-                    $.ajax({
-                        url: form.action,
-                        type: form.method,
-                        data: $(form).serialize(),
-                        success: function(response) {
-                            if (response.status) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: response.message,
-                                }).then(function() {
-                                    window.location = response.redirect;
-                                });
-                            } else {
-                                $('.error-text').text('');
-                                $.each(response.msgField, function(prefix, val) {
-                                    $('#error-' + prefix).text(val[0]);
-                                });
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Terjadi Kesalahan',
-                                    text: response.message
-                                });
-                            }
+        $(document).ready(function () {
+            $('#loginForm').submit(function (event) {
+                event.preventDefault();
+                
+                var email = $('#email').val();
+                var password = $('#password').val();
+    
+                $.ajax({
+                    url: "{{ route('login') }}",
+                    method: 'POST',
+                    data: {
+                        email: email,
+                        password: password,
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function (response) {
+                        if(response.success) {
+                            window.location.href = response.redirect_url; // Arahkan ke halaman utama setelah login berhasil
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Login Gagal',
+                                text: response.message,
+                            });
                         }
-                    });
-                    return false;
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.input-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan',
+                            text: 'Tidak dapat memproses permintaan. Silakan coba lagi.',
+                        });
+                    }
+                });
             });
         });
     </script>
+    
 </body>
 </html>

@@ -1,93 +1,68 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\LevelModel;
-use App\Models\UserModel;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function login()
+    // Menampilkan form register
+    public function showRegisterForm()
     {
-        if (Auth::check()) { // jika sudah login, maka redirect ke halaman home 
-            return redirect('/');
+        return view('auth.register');
+    }
+
+    // Menangani proses registrasi
+    public function register(Request $request)
+    {
+        // Validasi form
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|unique:users,username|max:255',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
+
+        // Membuat user baru
+        try {
+            $user = User::create([
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+            ]);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat membuat akun: ' . $e->getMessage());
+        }
+
+        // Redirect ke login setelah berhasil registrasi
+        return redirect()->route('login.form')->with('success', 'Akun berhasil dibuat, silakan login.');
+    }
+
+    // Menampilkan form login
+    public function showLoginForm()
+    {
         return view('auth.login');
     }
 
-    public function postlogin(Request $request)
+    // Menangani login
+    public function login(Request $request)
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            $credentials = $request->only('username', 'password');
+        $credentials = $request->only('username', 'password');
 
-            if (Auth::attempt($credentials)) {
-                session([
-                    'profile_img_path' => Auth::user()->foto,
-                    'user_id' => Auth::user()->user_id
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Login Berhasil',
-                    'redirect' => url('/')
-                ]);
-            }
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Login Gagal'
-            ]);
+        if (auth()->attempt($credentials)) {
+            return redirect()->intended('dashboard');
         }
 
-        return redirect('login');
+        return back()->withErrors(['username' => 'Username atau password salah.']);
     }
 
-    public function register()
+    // Menangani logout
+    public function logout()
     {
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-
-        return view('auth.register')
-            ->with('level', $level);
-    }
-
-    public function store(Request $request)
-    {
-        // cek apakah request berupa ajax
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'level_id'  => 'required|integer',
-                'username'  => 'required|string|min:3|unique:m_user,username',
-                'nama'      => 'required|string|max:100',
-                'password'  => 'required|min:6'
-            ];
-            // use Illuminate\Support\Facades\Validator;
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'    => false, // response status, false: error/gagal, true: berhasil
-                    'message'   => 'Validasi Gagal',
-                    'msgField'  => $validator->errors(), // pesan error validasi
-                ]);
-            }
-            UserModel::create($request->all());
-            return response()->json([
-                'status'    => true,
-                'message'   => 'Data user berhasil disimpan',
-                'redirect' => url('login')
-            ]);
-        }
-        return redirect('login');
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('login');
+        auth()->logout();
+        return redirect()->route('login.form');
     }
 }

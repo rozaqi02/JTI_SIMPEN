@@ -66,13 +66,13 @@
             <h1>Menu Registrasi</h1>
         </div>
         <div class="card-body">
-            <form action="{{ url('signup') }}" method="POST" id="form-tambah">
+            <form action="{{ url('register') }}" method="POST" id="form-tambah">
                 @csrf
                 <div class="form-group">
                     <label for="level_id">Kategori User</label>
                     <select class="form-control" id="level_id" name="level_id" required>
                         <option value="">Pilih Kategori</option>
-                        @foreach($level as $item)
+                        @foreach($level_nama as $item)
                             <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
                         @endforeach
                     </select>
