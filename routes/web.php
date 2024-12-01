@@ -30,10 +30,11 @@ Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 
+Route::get('/dashboard', [WelcomeController::class, 'index']);
 // Proteksi rute berdasarkan role
 Route::middleware(['auth'])->group(function () {
     // Rute dashboard umum
-    Route::get('/dashboard', [WelcomeController::class, 'index']);
+    
     
     // Rute untuk Mahasiswa
     Route::middleware(['role:mahasiswa'])->group(function () {
