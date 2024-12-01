@@ -90,7 +90,7 @@
     <div class="login-box">
         <img src="{{ asset('adminlte/dist/img/LOGO-JTI.png') }}" alt="Logo JTI">
         <h2>Silakan masuk untuk memulai sesi Anda</h2>
-        <form action="{{ url('login') }}" method="POST" id="login-form">
+        <form action="{{ url('/login') }}" method="POST" id="login-form">
             @csrf
             <div class="form-group">
                 <label for="username">Nama Pengguna</label>

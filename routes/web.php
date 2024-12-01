@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\TugasController;
+use App\Http\Controllers\AlpaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,21 +22,23 @@ use Illuminate\Support\Facades\Route;
 Route::pattern('id', '[0-9]+');
 
 // Rute untuk halaman depan (landing page)
-Route::get('/', [WelcomeController::class, 'landing']);
+Route::get('/', [WelcomeController::class, 'login']);
 
 // Rute registrasi dan login
 // routes/web.php
-Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register.form');
-Route::post('register', [AuthController::class, 'register'])->name('register');
+
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::get('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'postRegister']);
 
-Route::get('/dashboard', [WelcomeController::class, 'index']);
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/', [WelcomeController::class,'index']);
+
 // Proteksi rute berdasarkan role
 Route::middleware(['auth'])->group(function () {
-    // Rute dashboard umum
-    
     
     // Rute untuk Mahasiswa
     Route::middleware(['role:mahasiswa'])->group(function () {
@@ -63,4 +67,5 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [UserController::class, 'destroy']);
         Route::get('/import', [UserController::class, 'import']);
     });
+});
 });

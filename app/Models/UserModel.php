@@ -11,22 +11,16 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class UserModel extends Authenticatable implements JWTSubject
+class UserModel extends Model
 {
-    public function getJWTIdentifier(){
-        return $this->getKey();
-        }   
-        public function getJWTCustomClaims(){
-        return [];
-        }
-        
+
     use HasFactory;
 
     protected $table = 'm_user'; // Mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; // Mendefinisikan primary key dari tabel yang digunakan
     protected $fillable = ['level_id', 'username', 'nama', 'password','created_at', 'updated_at'];
 
-    protected $hiidden = ['password'];
+    protected $hidden = ['password'];
 
     protected $casts = ['password' => 'hashed'];
 
