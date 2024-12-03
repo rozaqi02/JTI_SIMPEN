@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
+use App\Http\Controllers\RegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +22,7 @@ use App\Http\Controllers\TugasController;
 Route::pattern('id', '[0-9]+');
 
 Route::get('/', [WelcomeController::class, 'landing']);
+
 Route::get('register', [RegistrationController::class, 'registration'])->name('signup');
 Route::post('register', [RegistrationController::class, 'store']);
 
