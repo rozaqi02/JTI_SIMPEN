@@ -15,7 +15,7 @@ class RegistrationController extends Controller
     {
         $level = LevelModel::select('level_id', 'level_nama')->get();
 
-        return view('auth.signup')
+        return view('auth.register')
                     ->with('level', $level);
     }
 
@@ -24,10 +24,9 @@ class RegistrationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             //username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
+            'level_id'  => 'required|integer',           //level_id harus diisi dan berupa angka
             'username'  => 'required|string|min:3|unique:m_user,username',
-            'nama'      => 'required|string|max:100',   //nama harus diisi, berupa string, dan maksimal 100 karakter
             'password'  => 'required|min:5',            //password harus diisi dan minimal 5 karakter
-            'level_id'  => 'required|integer'           //level_id harus diisi dan berupa angka
         ]);
 
         if ($validator->fails()) {
@@ -40,10 +39,10 @@ class RegistrationController extends Controller
         }
 
         UserModel::create([
+            'level_id'  => $request->level_id,
             'username'  => $request->username,
-            'nama'      => $request->nama,
             'password'  => bcrypt($request->password),  //password dienkripsi sebelum disimpan
-            'level_id'  => $request->level_id
+            
         ]);
         
         // Kirim respons sukses

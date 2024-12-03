@@ -70,40 +70,10 @@
                 </li>
             @endif
 
-            <!-- Menu untuk Dosen dan Tendik -->
-            @if(auth()->check() && (auth()->user()->level_id == '2' || auth()->user()->level_id == '3' || auth()->user()->level_id == '1'))
-                <li class="nav-header">Penugasanku</li>
-                <li class="nav-item {{ $activeMenu == 'penugasanku' ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ $activeMenu == 'penugasanku' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tasks"></i>
-                        <p>Penugasanku <i class="right fas fa-angle-left"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ url('/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-list-alt"></i>
-                                <p>Daftar Tugas</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/riwayat-tugas') }}" class="nav-link {{ $activeMenu == 'riwayat-tugas' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-history"></i>
-                                <p>Riwayat Tugas</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/info-mahasiswa') }}" class="nav-link {{ $activeMenu == 'info-mahasiswa' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-graduation-cap"></i>
-                        <p>Info Mahasiswa</p>
-                    </a>
-                </li>
-            @endif
-
             <!-- Menu untuk Admin -->
             @if(auth()->check() && auth()->user()->level_id == '1')
-                <li class="nav-header">Manajemen</li>
+            
+                {{-- <li class="nav-header">Manajemen</li> --}}
                 <li class="nav-item {{ $activeMenu == 'manajemen' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'manajemen' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
@@ -135,6 +105,37 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+            @endif
+
+            <!-- Menu untuk Dosen dan Tendik dan Admin -->
+            @if(auth()->check() && (auth()->user()->level_id == '2' || auth()->user()->level_id == '3' || auth()->user()->level_id == '1'))
+                {{-- <li class="nav-header">Penugasanku</li> --}}
+                <li class="nav-item {{ $activeMenu == 'penugasanku' ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ $activeMenu == 'penugasanku' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Penugasanku <i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-list-alt"></i>
+                                <p>Daftar Tugas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/riwayat-tugas') }}" class="nav-link {{ $activeMenu == 'riwayat-tugas' ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-history"></i>
+                                <p>Riwayat Tugas</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/info-mahasiswa') }}" class="nav-link {{ $activeMenu == 'info-mahasiswa' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-graduation-cap"></i>
+                        <p>Info Mahasiswa</p>
+                    </a>
                 </li>
             @endif
 
