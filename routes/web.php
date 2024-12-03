@@ -29,14 +29,14 @@ Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 
-// Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
 Route::get('/sidebar', [SidebarController::class, 'getSidebar'])->name('sidebar');
 
 // Route untuk mengambil tugas
 Route::post('/tugas/{tugas_id}/ambil', [TugasController::class, 'ambilTugas'])->name('tugas.ambil');
 
-    Route::get('/dashboard', [WelcomeController::class, 'index']);
+//    Route::get('/dashboard', [WelcomeController::class, 'index']);
 
         Route::get('/user', [UserController::class, 'index']);                          //menampilkan laman awal user
         Route::post('/user/list', [UserController::class, 'list']);                      //menampilkan data user dalam bentuk json untuk datatable
@@ -48,3 +48,5 @@ Route::post('/tugas/{tugas_id}/ambil', [TugasController::class, 'ambilTugas'])->
         Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //menghapus data user AJAX
         Route::delete('/{id}', [UserController::class, 'destroy']);                 //menghapus data user
         Route::get('/import', [UserController::class, 'import']);                   //menampilkan form impor data user
+
+});

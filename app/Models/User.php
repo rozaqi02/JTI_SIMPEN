@@ -10,21 +10,33 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'm_user'; // Tabel yang digunakan
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'username', 'password', 'level_id', 'name', 'alpa_hours'
+        'username',
+        'password',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
-    // Relasi dengan tabel level (admin, dosen, tendik, mahasiswa)
-    public function level()
+/**
+     * Override the method to login using username, not email.
+     */
+    public function findForPassport($username)
     {
-        return $this->belongsTo(Level::class, 'level_id');
+        return $this->where('username', $username)->first();
     }
 }

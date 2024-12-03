@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
 use App\Models\LevelModel;
 use App\Models\UserModel;
-use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -16,7 +13,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) { // jika sudah login, maka redirect ke halaman home 
-            return redirect('/');
+            return redirect('/dashboard ');
         }
         return view('auth.login');
     }
@@ -29,12 +26,12 @@ class AuthController extends Controller
             if (Auth::attempt($credentials)) {
                 session([
                     'profile_img_path' => Auth::user()->foto,
-                    'user_id' => Auth::user()->user_id
+                    'id_user' => Auth::user()->id_user
                 ]);
                 return response()->json([
                     'status' => true,
                     'message' => 'Login Berhasil',
-                    'redirect' => url('/')
+                    'redirect' => url('/dashboard')
                 ]);
             }
 
@@ -62,7 +59,6 @@ class AuthController extends Controller
             $rules = [
                 'level_id'  => 'required|integer',
                 'username'  => 'required|string|min:3|unique:m_user,username',
-                'nama'      => 'required|string|max:100',
                 'password'  => 'required|min:6'
             ];
             // use Illuminate\Support\Facades\Validator;

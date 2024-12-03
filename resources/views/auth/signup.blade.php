@@ -81,11 +81,6 @@
                     <small id="error-level_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label for="nama">Nama</label>
-                    <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" required>
-                    <small id="error-nama" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
                     <label for="username">Nama Pengguna</label>
                     <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
                     <small id="error-username" class="error-text form-text text-danger"></small>
@@ -138,11 +133,6 @@
                     required: true,
                     minlength: 3,
                     maxlength: 20
-                },
-                nama: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 100
                 },
                 password: {
                     required: true,

@@ -17,22 +17,24 @@
             
             <!-- Dashboard Menu -->
             <li class="nav-item">
-                <a href="{{ url('/') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
 
             <!-- Profile Menu -->
-            <li class="nav-item">
-                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
-                    <i class="nav-icon far fa-address-card"></i>
-                    <p>Profile</p>
-                </a>
-            </li>
+            @if(auth()->check() && auth()->user()->level_id == '4')
+                <li class="nav-item">
+                    <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                        <i class="nav-icon far fa-address-card"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+            @endif
 
             <!-- Menu untuk Mahasiswa -->
-            @if(auth()->user()->level_id == '4')
+            @if(auth()->check() && auth()->user()->level_id == '4')
                 <li class="nav-header">Tugasku</li>
                 <li class="nav-item {{ $activeMenu == 'tugasku' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'tugasku' ? 'active' : '' }}">
@@ -69,7 +71,7 @@
             @endif
 
             <!-- Menu untuk Dosen dan Tendik -->
-            @if(auth()->user()->level_id == '2' || auth()->user()->level_id == '3')
+            @if(auth()->check() && (auth()->user()->level_id == '2' || auth()->user()->level_id == '3' || auth()->user()->level_id == '1'))
                 <li class="nav-header">Penugasanku</li>
                 <li class="nav-item {{ $activeMenu == 'penugasanku' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'penugasanku' ? 'active' : '' }}">
@@ -100,7 +102,7 @@
             @endif
 
             <!-- Menu untuk Admin -->
-            @if(auth()->user()->level_id == '1')
+            @if(auth()->check() && auth()->user()->level_id == '1')
                 <li class="nav-header">Manajemen</li>
                 <li class="nav-item {{ $activeMenu == 'manajemen' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'manajemen' ? 'active' : '' }}">

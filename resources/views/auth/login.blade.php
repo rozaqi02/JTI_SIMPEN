@@ -93,7 +93,7 @@
         <form action="{{ url('login') }}" method="POST" id="form-login">
             @csrf
             <div class="input-group mb-3">
-                <input type="text" id="username" name="username" class="form-control" placeholder="Nama Pengguna">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Nama Pengguna" required>
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-user"></span>
@@ -102,7 +102,7 @@
                 <small id="error-username" class="error-text text-danger"></small>
             </div>
             <div class="input-group mb-3">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Kata Sandi">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Kata Sandi" required>
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -110,8 +110,7 @@
                 </div>
                 <small id="error-password" class="error-text text-danger"></small>
             </div>
-        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
-            
+            <button type="submit" class="btn btn-primary btn-block">Masuk</button>
         </form>
         <p class="footer-text mt-3">
             <a href="#">Butuh Bantuan?</a> | <a href="{{ url('register') }}">Belum Punya Akun?</a>
@@ -137,18 +136,17 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $(document).ready(function() {
             $("#form-login").validate({
                 rules: {
                     username: {
                         required: true,
-                        minlength: 4,
+                        minlength: 2,
                         maxlength: 20
                     },
                     password: {
                         required: true,
-                        minlength: 6,
+                        minlength: 5,
                         maxlength: 20
                     }
                 },
@@ -196,4 +194,5 @@
         });
     </script>
 </body>
+
 </html>
