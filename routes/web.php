@@ -4,68 +4,47 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\TugasController;
-use App\Http\Controllers\AlpaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SidebarController;
+use App\Http\Controllers\TugasController;
 
 /*
-|-------------------------------------------------------------------------- 
+|--------------------------------------------------------------------------
 | Web Routes
-|-------------------------------------------------------------------------- 
-| 
-| Here is where you can register web routes for your application. These 
-| routes are loaded by the RouteServiceProvider and all of them will 
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
-| 
+|
 */
 
 Route::pattern('id', '[0-9]+');
 
-// Rute untuk halaman depan (landing page)
-Route::get('/', [WelcomeController::class, 'login']);
-
-// Rute registrasi dan login
-// routes/web.php
+Route::get('/', [WelcomeController::class, 'landing']);
+Route::get('register', [RegistrationController::class, 'registration'])->name('signup');
+Route::post('register', [RegistrationController::class, 'store']);
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
-Route::get('register', [AuthController::class, 'register']);
-Route::post('register', [AuthController::class, 'postRegister']);
 
+// Route::middleware(['auth'])->group(function () {
 
-Route::middleware(['auth'])->group(function(){
-    Route::get('/', [WelcomeController::class,'index']);
+Route::get('/sidebar', [SidebarController::class, 'getSidebar'])->name('sidebar');
 
-// Proteksi rute berdasarkan role
-Route::middleware(['auth'])->group(function () {
-    
-    // Rute untuk Mahasiswa
-    Route::middleware(['role:mahasiswa'])->group(function () {
-        // Rute khusus mahasiswa
-        Route::get('/tugas', [TugasController::class, 'index']);
-        Route::get('/alpa', [AlpaController::class, 'index']);
-    });
-    
-    // Rute untuk Dosen dan Tendik
-    Route::middleware(['role:dosen', 'role:tendik'])->group(function () {
-        Route::get('/penugasanku', [PenugasanController::class, 'index']);
-        Route::get('/info-mahasiswa', [InfoMahasiswaController::class, 'index']);
-    });
+// Route untuk mengambil tugas
+Route::post('/tugas/{tugas_id}/ambil', [TugasController::class, 'ambilTugas'])->name('tugas.ambil');
 
-    // Rute untuk Admin
-    Route::middleware(['role:admin'])->group(function () {
-        // Rute manajemen pengguna
-        Route::get('/user', [UserController::class, 'index']);
-        Route::post('/user/list', [UserController::class, 'list']);
-        Route::post('/ajax', [UserController::class, 'store_ajax']);
-        Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
-        Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
-        Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
-        Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
-        Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
-        Route::delete('/{id}', [UserController::class, 'destroy']);
-        Route::get('/import', [UserController::class, 'import']);
-    });
-});
-});
+    Route::get('/dashboard', [WelcomeController::class, 'index']);
+
+        Route::get('/user', [UserController::class, 'index']);                          //menampilkan laman awal user
+        Route::post('/user/list', [UserController::class, 'list']);                      //menampilkan data user dalam bentuk json untuk datatable
+        Route::post('/ajax', [UserController::class, 'store_ajax']);                //menyimpan data user baru AJAX                //menyimpan perubahan data user
+        Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);        //menampilkan form detil data user AJAX
+        Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);        //menampilkan laman form edit user AJAX
+        Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);    //menyimpan perubahan data user AJAX
+        Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);   //menampilkan form confirm hapus data user AJAX
+        Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //menghapus data user AJAX
+        Route::delete('/{id}', [UserController::class, 'destroy']);                 //menghapus data user
+        Route::get('/import', [UserController::class, 'import']);                   //menampilkan form impor data user

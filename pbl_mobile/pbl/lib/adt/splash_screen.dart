@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'login_page.dart'; // Pastikan path ini sesuai dengan lokasi file LoginPage Anda
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -11,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Delay sebelum berpindah ke halaman berikutnya
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()), // Navigasi ke halaman Login

@@ -3,13 +3,15 @@ import 'profile_page.dart'; // Pastikan path ini sesuai dengan lokasi file Profi
 import 'home_page.dart'; // Pastikan path ini sesuai dengan lokasi file HomePage Anda
 
 class TugaskuPage extends StatefulWidget {
+  const TugaskuPage({super.key});
+
   @override
   _TugaskuPageState createState() => _TugaskuPageState();
 }
 
 class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _bottomNavIndex = 1;
+  final int _bottomNavIndex = 1;
 
   @override
   void initState() {
@@ -21,12 +23,12 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(120),
+        preferredSize: const Size.fromHeight(120),
         child: Column(
           children: [
             Container(
               color: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
                 children: [
                   Image.asset(
@@ -34,7 +36,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
                     height: 60,
                     width: 130,
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.broken_image, size: 40, color: Colors.grey);
+                      return const Icon(Icons.broken_image, size: 40, color: Colors.grey);
                     },
                   ),
                 ],
@@ -48,7 +50,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
                 indicatorWeight: 4,
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.black,
-                tabs: [
+                tabs: const [
                   Tab(
                     child: Text(
                       'Daftar Tugas',
@@ -99,7 +101,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
             );
           }
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Beranda',
@@ -136,7 +138,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
     ];
 
     return ListView.builder(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       itemCount: tasks.length,
       itemBuilder: (context, index) {
         final task = tasks[index];
@@ -145,18 +147,18 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
             borderRadius: BorderRadius.circular(10),
           ),
           elevation: 3,
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                 child: Image.asset(
                   task['image']!,
                   height: 150,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.broken_image, size: 150, color: Colors.grey);
+                    return const Icon(Icons.broken_image, size: 150, color: Colors.grey);
                   },
                 ),
               ),
@@ -167,24 +169,24 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
                   children: [
                     Text(
                       task['title']!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
                       task['author']!,
                       style: TextStyle(color: Colors.grey[600]),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
                       'Poin Jam: ${task['points']}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                     Text(
                       'Kuota Mahasiswa: ${task['quota']}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -209,7 +211,6 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
                           ),
                         );
                       },
-                      child: Text('Lihat'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepOrange,
                         foregroundColor: Colors.white,
@@ -217,6 +218,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
+                      child: Text('Lihat'),
                     ),
                   ],
                 ),
@@ -245,7 +247,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
     ];
 
     return ListView.builder(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       itemCount: progressTasks.length,
       itemBuilder: (context, index) {
         final task = progressTasks[index];
@@ -254,7 +256,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
             borderRadius: BorderRadius.circular(10),
           ),
           elevation: 3,
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -264,22 +266,22 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
                 height: 50,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return Icon(Icons.broken_image, size: 50, color: Colors.grey);
+                  return const Icon(Icons.broken_image, size: 50, color: Colors.grey);
                 },
               ),
             ),
             title: Text(
               task['title']!,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(task['description']!),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   'Progress: ${task['progress']}',
-                  style: TextStyle(color: Colors.blue),
+                  style: const TextStyle(color: Colors.blue),
                 ),
               ],
             ),
@@ -306,7 +308,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
     ];
 
     return ListView.builder(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       itemCount: completedTasks.length,
       itemBuilder: (context, index) {
         final task = completedTasks[index];
@@ -315,7 +317,7 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
             borderRadius: BorderRadius.circular(10),
           ),
           elevation: 3,
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -325,22 +327,22 @@ class _TugaskuPageState extends State<TugaskuPage> with SingleTickerProviderStat
                 height: 50,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return Icon(Icons.broken_image, size: 50, color: Colors.grey);
+                  return const Icon(Icons.broken_image, size: 50, color: Colors.grey);
                 },
               ),
             ),
             title: Text(
               task['title']!,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(task['description']!),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   'Poin: ${task['time']}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),
@@ -358,7 +360,7 @@ class TaskDetailPage extends StatelessWidget {
   final String quota;
   final String image;
 
-  TaskDetailPage({
+  const TaskDetailPage({super.key, 
     required this.title,
     required this.author,
     required this.points,
@@ -370,7 +372,7 @@ class TaskDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Tugas'),
+        title: const Text('Detail Tugas'),
         backgroundColor: Colors.deepOrange,
       ),
       body: Padding(
@@ -387,28 +389,28 @@ class TaskDetailPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(author),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text('Poin Jam: $points'),
             Text('Kuota Mahasiswa: $quota'),
-            Text('List Mahasiswa: 1. Chandra Bagus Sulaksono\n                             2. Ahmad Rozaki'),
-            SizedBox(height: 20),
+            const Text('List Mahasiswa: 1. Chandra Bagus Sulaksono\n                             2. Ahmad Rozaki'),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 _showHelpDialog(context); // Call the dialog function here
               },
-              child: Text('Edit Tugas'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepOrange,
                 foregroundColor: Colors.white,
                 alignment: Alignment.center, // Menempatkan teks di tengah tombol
               ),
+              child: Text('Edit Tugas'),
             ),
           ],
         ),
@@ -426,7 +428,7 @@ class TaskDetailPage extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 'Silahkan kunjungi website kami\nhttp://jti.simpen.com',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -435,7 +437,7 @@ class TaskDetailPage extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Menutup dialog saat OK ditekan
@@ -445,9 +447,9 @@ class TaskDetailPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                 ),
-                child: Text(
+                child: const Text(
                   'OK',
                   style: TextStyle(color: Colors.white),
                 ),

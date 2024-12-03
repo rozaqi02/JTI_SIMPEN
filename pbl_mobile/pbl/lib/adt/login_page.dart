@@ -4,6 +4,8 @@ import '../widgets/footer_login.dart'; // Import FooterLogin
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -14,8 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   String _errorMessage = '';
   bool _isPasswordVisible = false;
 
-  bool _isUsernameHovered = false;
-  bool _isPasswordHovered = false;
+  final bool _isUsernameHovered = false;
+  final bool _isPasswordHovered = false;
   bool _isLoginButtonHovered = false;
 
   void _login() {
@@ -43,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 
                 'Silahkan Hubungi Admin\nDi Ruang Admin JTI Lantai 6!',
                 textAlign: TextAlign.center,
@@ -53,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Menutup pop-up saat tombol OK diklik
@@ -63,9 +65,9 @@ class _LoginPageState extends State<LoginPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                 ),
-                child: Text(
+                child: const Text(
                   'OK',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -83,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false, // Tambahkan ini
       body: Center(
         child: SingleChildScrollView( // Bungkus dengan SingleChildScrollView
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -92,13 +94,13 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 width: 200, // Ukuran logo diperkecil
                 height: 100,
-                margin: EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 20),
                 child: Image.asset(
                   'assets/logo.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
-              Text(
+              const Text(
                 'Selamat Datang',
                 style: TextStyle(
                   fontSize: 20, // Ukuran font lebih kecil
@@ -106,27 +108,27 @@ class _LoginPageState extends State<LoginPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 5),
-              Text(
+              const SizedBox(height: 5),
+              const Text(
                 'Silahkan login terlebih dahulu',
                 style: TextStyle(
                   fontSize: 14, // Ukuran font lebih kecil
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
                 Stack(
   children: [
-    Container(
+    SizedBox(
       width: 250,
       child: TextField(
         controller: _usernameController,
         decoration: InputDecoration(
           hintText: 'USERNAME', // Placeholder teks
-          hintStyle: TextStyle(color: Colors.grey, fontSize: 12), // Gaya teks placeholder
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 12), // Gaya teks placeholder
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.orange,
               width: 2.0,
             ),
@@ -140,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.orange,
               width: 2.0,
             ),
@@ -148,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     ),
-    Positioned(
+    const Positioned(
       right: 15,
       top: 15,
       child: Icon(
@@ -159,19 +161,19 @@ class _LoginPageState extends State<LoginPage> {
   ],
 ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Stack(
   children: [
-    Container(
+    SizedBox(
       width: 250,
       child: TextField(
         controller: _passwordController,
         decoration: InputDecoration(
           hintText: 'PASSWORD', // Placeholder teks
-          hintStyle: TextStyle(color: Colors.grey, fontSize: 12), // Gaya teks placeholder
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 12), // Gaya teks placeholder
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.orange,
               width: 2.0,
             ),
@@ -185,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.orange,
               width: 2.0,
             ),
@@ -212,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
   ],
 ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               MouseRegion(
                 onEnter: (_) {
                   setState(() {
@@ -228,12 +230,12 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isLoginButtonHovered ? const Color.fromARGB(255, 220, 82, 82) : Colors.orange,
-                    padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Login',
                     style: TextStyle(color: Colors.white, fontSize: 14), // Ukuran font lebih kecil
                   ),
@@ -244,21 +246,21 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Text(
                     _errorMessage,
-                    style: TextStyle(color: Colors.red, fontSize: 12), // Ukuran font lebih kecil
+                    style: const TextStyle(color: Colors.red, fontSize: 12), // Ukuran font lebih kecil
                   ),
                 ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Tidak bisa login?',
                     style: TextStyle(color: Colors.black, fontSize: 12), // Ukuran font lebih kecil
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: _showHelpDialog,
-                    child: Text(
+                    child: const Text(
                       'Bantuan',
                       style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 12), // Ukuran font lebih kecil
                     ),

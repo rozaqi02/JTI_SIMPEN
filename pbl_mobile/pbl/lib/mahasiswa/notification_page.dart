@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NotificationsPage extends StatelessWidget {
+  const NotificationsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final notifications = [
@@ -31,19 +33,19 @@ class NotificationsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
-        title: Text(
+        title: const Text(
           'Notifikasi',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context); // Kembali ke halaman sebelumnya
           },
         ),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         itemCount: notifications.length,
         itemBuilder: (context, index) {
           final notification = notifications[index];
@@ -52,7 +54,7 @@ class NotificationsPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             elevation: 3,
-            margin: EdgeInsets.symmetric(vertical: 8),
+            margin: const EdgeInsets.symmetric(vertical: 8),
             child: ListTile(
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
@@ -62,30 +64,30 @@ class NotificationsPage extends StatelessWidget {
                   height: 50,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.image_not_supported, size: 50, color: Colors.grey);
+                    return const Icon(Icons.image_not_supported, size: 50, color: Colors.grey);
                   },
                 ),
               ),
               title: Text(
                 notification['title']!,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(notification['description']!, maxLines: 2, overflow: TextOverflow.ellipsis),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         notification['time']!,
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                       Text(
                         notification['date']!,
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                     ],
                   ),

@@ -1,38 +1,30 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use Notifiable;
 
-    // Menambahkan kolom 'role' dan 'jam_alpa' ke dalam fillable
+    protected $table = 'm_user'; // Tabel yang digunakan
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role',       // Kolom role
-        'jam_alpa',   // Kolom jam alpa
+        'username', 'password', 'level_id', 'name', 'alpa_hours'
     ];
 
-    // Casting untuk memastikan data kolom terkonversi dengan benar
-    protected $casts = [
-        'email_verified_at' => 'datetime',
+    protected $hidden = [
+        'password', 'remember_token',
     ];
 
-    // Menambahkan method untuk cek apakah user adalah mahasiswa
-    public function isMahasiswa()
+    // Relasi dengan tabel level (admin, dosen, tendik, mahasiswa)
+    public function level()
     {
-        return $this->role === 'mahasiswa';
-    }
-
-    // Menambahkan method untuk cek apakah user adalah dosen/tendik/admin
-    public function isDosenOrTendik()
-    {
-        return in_array($this->role, ['dosen', 'tendik', 'admin']);
+        return $this->belongsTo(Level::class, 'level_id');
     }
 }

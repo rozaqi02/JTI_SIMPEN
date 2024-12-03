@@ -69,10 +69,12 @@
             <form action="{{ url('register') }}" method="POST" id="form-tambah">
                 @csrf
                 <div class="form-group">
+                    <form action="{{ url('register') }}" method="POST" id="form-register">
+                        @csrf
                     <label for="level_id">Kategori User</label>
                     <select class="form-control" id="level_id" name="level_id" required>
                         <option value="">Pilih Kategori</option>
-                        @foreach($level_nama as $item)
+                        @foreach($level as $item)
                             <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
                         @endforeach
                     </select>
@@ -128,40 +130,55 @@
     $(document).ready(function() {
         $("#form-tambah").validate({
             rules: {
-                level_id: {required: true, number: true},
-                username: {required: true, minlength: 3, maxlength: 20},
-                nama: {required: true, minlength: 3, maxlength: 100},
-                password: {required: true, minlength: 5, maxlength: 20}
-            },
+                    level_id: {
+                    required: true,
+                    number: true
+                },
+                username: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                nama: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                }
+                },
             submitHandler: function(form) {
                 $.ajax({
-                    url: form.action,
-                    type: form.method,
-                    data: $(form).serialize(),
-                    success: function(response) {
-                        if(response.status){
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message
-                            }).then(function() {
-                                window.location = response.redirect;
-                            });
-                        }else{
-                            $('.error-text').text('');
-                            $.each(response.msgField, function(prefix, val) {
-                                $('#error-'+prefix).text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: response.message
-                            });
+                        url: form.action,
+                        type: form.method,
+                        data: $(form).serialize(),
+                        success: function(response) {
+                            if (response.status) { // jika sukses
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: response.message,
+                                }).then(function() {
+                                    window.location = response.redirect;
+                                });
+                            } else { // jika error
+                                $('.error-text').text('');
+                                $.each(response.msgField, function(prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Terjadi Kesalahan',
+                                    text: response.message
+                                });
+                            }
                         }
-                    }
-                });
-                return false;
-            },
+                    });
+                    return false;
+                },
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');

@@ -2,44 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tugas;
-use App\Models\RiwayatTugas;
 use Illuminate\Http\Request;
-
+use App\Models\Mahasiswa; // Model Mahasiswa
+use App\Models\Tugas; // Model Tugas
+use App\Models\Alpa;
+use Illuminate\Support\Facades\Auth;
 class TugasController extends Controller
 {
-    // Fungsi untuk menampilkan tugas
-    public function show($id)
+    public function ambilTugas($tugas_id)
     {
-        $tugas = Tugas::findOrFail($id);
+        $mahasiswa = auth()->user();
 
-        // Mengecek apakah user adalah mahasiswa dan tidak memiliki jam alpa
-        if (auth()->user()->role === 'mahasiswa' && auth()->user()->jam_alpa <= 0) {
-            return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki cukup jam alpa untuk mengambil tugas ini.');
+        $alpa = Alpa::where('mahasiswa_id', $mahasiswa->id)->first();
+
+        if ($alpa && $alpa->jam_alpa > 0) {
+            // Mahasiswa bisa mengambil tugas
+            $tugas = Tugas::find($tugas_id);
+            // Logika pengambilan tugas
+        } else {
+            return redirect()->back()->withErrors(['message' => 'Anda tidak memiliki jam alpa cukup untuk mengambil tugas.']);
         }
-
-        return view('tugas.show', compact('tugas'));
-    }
-
-    // Fungsi untuk mengambil tugas
-    public function takeTugas($id)
-    {
-        $tugas = Tugas::findOrFail($id);
-
-        // Mengecek apakah mahasiswa memiliki jam alpa
-        if (auth()->user()->role === 'mahasiswa' && auth()->user()->jam_alpa > 0) {
-            // Menyimpan riwayat tugas yang diambil
-            RiwayatTugas::create([
-                'user_id' => auth()->id(),
-                'tugas_id' => $tugas->id,
-                'status' => 'in-progress',
-            ]);
-
-            // Mengurangi jam alpa mahasiswa
-            auth()->user()->decrement('jam_alpa');
-            return redirect()->route('mahasiswa.tugasku');
-        }
-
-        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki cukup jam alpa untuk mengambil tugas ini.');
     }
 }

@@ -5,6 +5,8 @@ import 'notification_page.dart'; // Tambahkan import untuk NotificationsPage
 import 'kamera_page.dart'; // Tambahkan import untuk KameraPage (buat halaman KameraPage jika belum ada)
 
 class UtamaPage extends StatefulWidget {
+  const UtamaPage({super.key});
+
   @override
   _UtamaPageState createState() => _UtamaPageState();
 }
@@ -45,10 +47,10 @@ class _UtamaPageState extends State<UtamaPage> {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           IconButton(
-            icon: Icon(Icons.qr_code_scanner, color: Colors.black), // Ikon kamera scanner
+            icon: const Icon(Icons.qr_code_scanner, color: Colors.black), // Ikon kamera scanner
             onPressed: () {
               // Navigasi ke KameraPage
               Navigator.push(
@@ -70,7 +72,7 @@ class _UtamaPageState extends State<UtamaPage> {
                   height: 180,
                   fit: BoxFit.cover,
                 ),
-                Positioned(
+                const Positioned(
                   left: 16,
                   bottom: 20,
                   child: Column(
@@ -115,12 +117,12 @@ class _UtamaPageState extends State<UtamaPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Notifications Section
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Notifikasi Teratas :',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
@@ -132,7 +134,7 @@ class _UtamaPageState extends State<UtamaPage> {
                             MaterialPageRoute(builder: (context) => NotificationsPage()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Lihat Semua >>',
                           style: TextStyle(color: Colors.blue),
                         ),
@@ -166,7 +168,7 @@ class _UtamaPageState extends State<UtamaPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Beranda',
@@ -188,7 +190,7 @@ class _UtamaPageState extends State<UtamaPage> {
     return Column(
       children: [
         Icon(icon, color: color, size: 30),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Text(
           count,
           style: TextStyle(
@@ -197,7 +199,7 @@ class _UtamaPageState extends State<UtamaPage> {
             color: color,
           ),
         ),
-        Text(label, style: TextStyle(color: Colors.grey)),
+        Text(label, style: const TextStyle(color: Colors.grey)),
       ],
     );
   }
@@ -220,17 +222,17 @@ class _UtamaPageState extends State<UtamaPage> {
         ),
         title: Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(description, maxLines: 2, overflow: TextOverflow.ellipsis),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               time,
-              style: TextStyle(color: Colors.grey, fontSize: 12),
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
           ],
         ),

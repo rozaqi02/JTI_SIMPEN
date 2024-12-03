@@ -4,6 +4,8 @@ import 'login_page.dart'; // Tambahkan import untuk LoginPage
 import 'tugasku_page.dart'; // Tambahkan import untuk TugaskuPage
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -16,7 +18,7 @@ class ProfilePage extends StatelessWidget {
           title: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white, // Background logo putih
                   borderRadius: BorderRadius.circular(8), // Radius untuk logo
@@ -27,14 +29,14 @@ class ProfilePage extends StatelessWidget {
                   width: 130,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
             ],
           ),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(50), // Tinggi TabBar
+            preferredSize: const Size.fromHeight(50), // Tinggi TabBar
             child: Container(
               color: Colors.deepOrange, // Warna latar TabBar
-              child: TabBar(
+              child: const TabBar(
                 indicatorColor: Colors.white, // Warna garis bawah aktif
                 labelColor: Colors.white, // Warna teks tab aktif
                 unselectedLabelColor: Colors.black, // Warna teks tab tidak aktif
@@ -83,7 +85,7 @@ class ProfilePage extends StatelessWidget {
             }
             // Tidak perlu logika untuk indeks 2 karena ini adalah halaman aktif
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Beranda',
@@ -115,14 +117,14 @@ class ProfilePage extends StatelessWidget {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.grey[200],
-                    child: Icon(
+                    child: const Icon(
                       Icons.person,
                       size: 50,
                       color: Colors.grey,
                     ),
                   ),
-                  SizedBox(height: 16),
-                  Text(
+                  const SizedBox(height: 16),
+                  const Text(
                     'Akun Pengguna',
                     style: TextStyle(
                       fontSize: 20,
@@ -132,7 +134,7 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             _buildProfileRow(
               icon: Icons.person,
               title: 'Username',
@@ -158,7 +160,7 @@ class ProfilePage extends StatelessWidget {
               title: 'Email',
               value: 'adeismail@gmail.com',
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Center(
               child: ElevatedButton(
                 onPressed: () {
@@ -168,17 +170,17 @@ class ProfilePage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => LoginPage()),
                   );
                 },
-                child: Text(
-                  'Logout',
-                  style: TextStyle(fontSize: 16),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red, // Warna tombol logout
                   foregroundColor: Colors.white, // Warna teks tombol
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                ),
+                child: Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
             ),
@@ -196,20 +198,20 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'About System',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Image.asset(
               'assets/logo.jpg', // Ganti dengan path logo Anda
               height: 75,
               width: 150,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -254,15 +256,15 @@ class ProfilePage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             content,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ],
       ),
@@ -275,12 +277,12 @@ class ProfilePage extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, size: 24, color: Colors.deepOrange),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             flex: 3,
             child: Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -290,7 +292,7 @@ class ProfilePage extends StatelessWidget {
             flex: 5,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
               ),
               overflow: TextOverflow.ellipsis,

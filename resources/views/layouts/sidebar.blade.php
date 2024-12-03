@@ -32,7 +32,7 @@
             </li>
 
             <!-- Menu untuk Mahasiswa -->
-            @if(auth()->user()->role == 'mahasiswa')
+            @if(auth()->user()->level_id == '4')
                 <li class="nav-header">Tugasku</li>
                 <li class="nav-item {{ $activeMenu == 'tugasku' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'tugasku' ? 'active' : '' }}">
@@ -69,7 +69,7 @@
             @endif
 
             <!-- Menu untuk Dosen dan Tendik -->
-            @if(auth()->user()->role == 'dosen' || auth()->user()->role == 'tendik')
+            @if(auth()->user()->level_id == '2' || auth()->user()->level_id == '3')
                 <li class="nav-header">Penugasanku</li>
                 <li class="nav-item {{ $activeMenu == 'penugasanku' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'penugasanku' ? 'active' : '' }}">
@@ -100,7 +100,7 @@
             @endif
 
             <!-- Menu untuk Admin -->
-            @if(auth()->user()->role == 'admin')
+            @if(auth()->user()->level_id == '1')
                 <li class="nav-header">Manajemen</li>
                 <li class="nav-item {{ $activeMenu == 'manajemen' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'manajemen' ? 'active' : '' }}">
