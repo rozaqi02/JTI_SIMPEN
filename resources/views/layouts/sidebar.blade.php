@@ -87,10 +87,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/kompetensi') }}" class="nav-link {{ $activeMenu == 'kompetensi' ? 'active' : '' }}">
+                            <a href="{{ url('/bidkom') }}" class="nav-link {{ $activeMenu == 'kompetensi' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>Data Bidang Kompetensi</p>
-                            </a>
+                            </a>                            
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/jenis-kompen') }}" class="nav-link {{ $activeMenu == 'jenis-kompen' ? 'active' : '' }}">
