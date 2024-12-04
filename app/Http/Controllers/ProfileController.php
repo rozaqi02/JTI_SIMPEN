@@ -12,7 +12,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $id = session('user_id');
+        $id = session('id_user');
         $breadcrumb = (object) [
             'title' => 'Profile',
             'list' => ['Home', 'profile']
@@ -48,8 +48,7 @@ class ProfileController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'level_id' => 'nullable|integer',
-                'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',user_id',
-                'nama' => 'nullable|max:100',
+                'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
                 'password' => 'nullable|min:6|max:20'
             ];
             // use Illuminate\Support\Facades\Validator;
@@ -69,15 +68,11 @@ class ProfileController extends Controller
                 if (!$request->filled('username')) { // jika password tidak diisi, maka hapus dari request
                     $request->request->remove('username');
                 }
-                if (!$request->filled('nama')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('nama');
-                }
                 if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
                     $request->request->remove('password');
                 }
                 $check->update([
                     'username'  => $request->username,
-                    'nama'      => $request->nama,
                     'password'  => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
                     'level_id'  => $request->level_id
                 ]);

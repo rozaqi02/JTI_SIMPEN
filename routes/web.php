@@ -4,10 +4,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidkomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\RegistrationController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,9 +60,19 @@ Route::group(['prefix' => 'bidkom'], function () {
 
 });
 
+<<<<<<< HEAD
 // Route untuk mengambil tugas
 Route::post('/tugas/{tugas_id}/ambil', [TugasController::class, 'ambilTugas'])->name('tugas.ambil');
 
 
+=======
+Route::middleware(['authorize:ADM,MHS,TDK,DSN'])->group(function(){
+        Route::get('/profile', [ProfileController::class, 'index']);
+        Route::get('/profile/{id}/edit_ajax', [ProfileController::class, 'edit_ajax']);
+        Route::put('/profile/{id}/update_ajax', [ProfileController::class, 'update_ajax']);
+        Route::get('/profile/{id}/edit_foto', [ProfileController::class, 'edit_foto']);
+        Route::put('/profile/{id}/update_foto', [ProfileController::class, 'update_foto']);
+    });
+>>>>>>> 635ae55f05175d8d6e03019f151355e106351084
 
        
