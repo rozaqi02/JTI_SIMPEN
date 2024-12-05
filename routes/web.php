@@ -8,6 +8,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\TugasMahasiswaController;
+use App\Http\Controllers\JenisKompenController;
+use App\Http\Controllers\RiwayatPenugasanMahasiswaController;
+use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +41,22 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/dashboard', [WelcomeController::class, 'index']);
 
+Route::group(['prefix' => 'jenis-kompen'], function () {
+    Route::get('/', [JenisKompenController::class, 'index']);
+});
+
+
+Route::group(['prefix' => 'daftar-tugas'], function () {
+    Route::get('/', [TugasMahasiswaController::class, 'index']);
+});
+
+Route::group(['prefix' => 'riwayat-tugas'], function () {
+    Route::get('/', [RiwayatPenugasanMahasiswaController::class, 'index']);
+});
+
+Route::group(['prefix' => 'info-mahasiswa'], function () {
+    Route::get('/', [MahasiswaController::class, 'index']);
+});
 
 Route::group(['prefix' => 'user'], function () {
 Route::get('/', [UserController::class, 'index']);                          //menampilkan laman awal user
@@ -60,19 +80,10 @@ Route::group(['prefix' => 'bidkom'], function () {
 
 });
 
-<<<<<<< HEAD
-// Route untuk mengambil tugas
-Route::post('/tugas/{tugas_id}/ambil', [TugasController::class, 'ambilTugas'])->name('tugas.ambil');
-
-
-=======
 Route::middleware(['authorize:ADM,MHS,TDK,DSN'])->group(function(){
-        Route::get('/profile', [ProfileController::class, 'index']);
-        Route::get('/profile/{id}/edit_ajax', [ProfileController::class, 'edit_ajax']);
-        Route::put('/profile/{id}/update_ajax', [ProfileController::class, 'update_ajax']);
-        Route::get('/profile/{id}/edit_foto', [ProfileController::class, 'edit_foto']);
-        Route::put('/profile/{id}/update_foto', [ProfileController::class, 'update_foto']);
-    });
->>>>>>> 635ae55f05175d8d6e03019f151355e106351084
-
-       
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::get('/profile/{id}/edit_ajax', [ProfileController::class, 'edit_ajax']);
+    Route::put('/profile/{id}/update_ajax', [ProfileController::class, 'update_ajax']);
+    Route::get('/profile/{id}/edit_foto', [ProfileController::class, 'edit_foto']);
+    Route::put('/profile/{id}/update_foto', [ProfileController::class, 'update_foto']);
+});
