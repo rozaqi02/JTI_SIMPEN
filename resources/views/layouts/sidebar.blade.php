@@ -24,7 +24,7 @@
             </li>
 
             <!-- Profile Menu -->
-            @if(auth()->check() && auth()->user()->level_id == '4')
+            @if(auth()->check() && auth()->user()->level_id == '4' || auth()->check() && (auth()->user()->level_id == '2' || auth()->user()->level_id == '3' || auth()->user()->level_id == '1'))
                 <li class="nav-item">
                     <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                         <i class="nav-icon far fa-address-card"></i>
@@ -35,7 +35,6 @@
 
             <!-- Menu untuk Mahasiswa -->
             @if(auth()->check() && auth()->user()->level_id == '4')
-                <li class="nav-header">Tugasku</li>
                 <li class="nav-item {{ $activeMenu == 'tugasku' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'tugasku' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tasks"></i>
@@ -63,7 +62,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/alpa') }}" class="nav-link {{ $activeMenu == 'alpa' ? 'active' : '' }}">
+                    <a href="{{ url('/alpaku') }}" class="nav-link {{ $activeMenu == 'alpaku' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clock"></i>
                         <p>Alpaku</p>
                     </a>

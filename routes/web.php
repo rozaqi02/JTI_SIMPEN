@@ -12,6 +12,8 @@ use App\Http\Controllers\TugasMahasiswaController;
 use App\Http\Controllers\JenisKompenController;
 use App\Http\Controllers\RiwayatPenugasanMahasiswaController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\ProgressTugasController;
+use App\Http\Controllers\AlpakuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +59,15 @@ Route::group(['prefix' => 'riwayat-tugas'], function () {
 Route::group(['prefix' => 'info-mahasiswa'], function () {
     Route::get('/', [MahasiswaController::class, 'index']);
 });
+
+Route::group(['prefix' => 'progress-tugas'], function () {
+    Route::get('/', [ProgressTugasController::class, 'index']);
+});
+
+Route::group(['prefix' => 'alpaku'], function () {
+    Route::get('/', [AlpakuController::class, 'index']);
+});
+
 
 Route::group(['prefix' => 'user'], function () {
 Route::get('/', [UserController::class, 'index']);                          //menampilkan laman awal user
