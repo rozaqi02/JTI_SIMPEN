@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id('id_mahasiswa'); // Primary key
             $table->unsignedBigInteger('id_user'); // Foreign key ke tabel m_user
             $table->unsignedBigInteger('id_bidkom');
+            $table->string('nama_mahasiswa', 100); // Nama mahasiswa
             $table->string('nim', 20)->unique(); // Nomor induk mahasiswa
             $table->string('email'); // Email mahasiswa
-            $table->string('nama_mahasiswa', 100); // Nama mahasiswa
+            $table->string('program_studi'); // Email mahasiswa
             $table->string('tahun_masuk'); // Foto mahasiswa   
-            $table->integer('jumlah_alpa'); // Jumlah alpa mahasiswa
             $table->timestamps();
             
-            // Menambahkan foreign key constraint
+            // foreign key constraint
             $table->foreign('id_user')->references('id_user')->on('m_user');
             $table->foreign('id_bidkom')->references('id_bidkom')->on('t_bidkom');
             

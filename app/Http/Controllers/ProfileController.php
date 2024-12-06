@@ -97,6 +97,7 @@ class ProfileController extends Controller
         return view('profile.edit_foto', ['user' => $user, 'level' => $level]);
     }
 
+    
     public function update_foto(Request $request, $id)
     {
         // cek apakah request dari ajax

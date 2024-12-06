@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tugas extends Model
+class TugasModel extends Model
 {
-    protected $table = 'm_tugas_mahasiswa';
+    protected $table = 'm_tugas';
 
     public function mahasiswa()
     {

@@ -9,6 +9,6 @@ class ProgressTugas extends Model
 {
     use HasFactory;
 
-    protected $table = 't_progress_tugas'; // Nama tabel yang sesuai dengan tabel di database
-    protected $fillable = ['id_tugas', 'status_progress', 'deskripsi', 'tanggal_update']; // Kolom yang dapat diisi
+    protected $table = 'm_detail_tugas'; // Nama tabel yang sesuai dengan tabel di database
+    protected $fillable = ['id_detail_tugas', 'status_progress', 'deskripsi', 'tanggal_update']; // Kolom yang dapat diisi
 }

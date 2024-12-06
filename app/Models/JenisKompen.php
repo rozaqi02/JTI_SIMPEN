@@ -10,5 +10,5 @@ class JenisKompen extends Model
     use HasFactory;
 
     protected $table = 'm_jenis_kompen'; // Nama tabel yang sesuai dengan tabel di database
-    protected $fillable = ['jenis_tugas', 'nama_jenis_tugas']; // Kolom yang dapat diisi
+    protected $fillable = ['jenis_kompen', 'nama_jenis_kompen']; // Kolom yang dapat diisi
 }
