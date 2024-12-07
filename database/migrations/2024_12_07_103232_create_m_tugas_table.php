@@ -13,17 +13,10 @@ return new class extends Migration
     {
         Schema::create('m_tugas', function (Blueprint $table) {
             $table->id('id_tugas'); // Primary key
-            $table->unsignedBigInteger('id_user'); // 
-            $table->foreign('id_user')->references('id_user')->on('m_user')->onDelete('cascade');
             $table->unsignedBigInteger('id_detail_tugas'); // 
             $table->foreign('id_detail_tugas')->references('id_detail_tugas')->on('m_detail_tugas')->onDelete('cascade');
-            $table->unsignedBigInteger('id_jenis_kompen');
-            $table->foreign('id_jenis_kompen')->references('id_jenis_kompen')->on('m_jenis_kompen')->onDelete('cascade');
-            $table->unsignedBigInteger('id_mahasiswa');
-            $table->foreign('id_mahasiswa')->references('id_mahasiswa')->on('m_mahasiswa')->onDelete('cascade');
             $table->unsignedBigInteger('id_alpa');
             $table->foreign('id_alpa')->references('id_alpa')->on('t_alpa')->onDelete('cascade');
-
             $table->string('progress_tugas', 50); // Progress tugas
             $table->timestamps();
         });
