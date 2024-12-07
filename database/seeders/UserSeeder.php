@@ -15,32 +15,36 @@ class UserSeeder extends Seeder
     {
         DB::table('m_user')->insert([
             [
-                'level_id' => '1',
-                'username' => 'admin',
+                'id_user' => '1',
+                'level_id' => '1', //admin
+                'username' => 'Ahmad Abror',
                 'password' => Hash::make('12345'), // Hash password
                 'foto' => 'adminlte/dist/image/default-avatar.jpg', // Avatar default
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'level_id' => 2,
-                'username' => 'dosen',
+                'id_user' => '2',
+                'level_id' => 2, //dosen
+                'username' => 'Afifah Rahma',
                 'password' => Hash::make('12345'),
                 'foto' => 'adminlte/dist/image/default-avatar.jpg', // Avatar default
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'level_id' => 3,
-                'username' => 'tendik',
+                'id_user' => '3',
+                'level_id' => 3, //tendik
+                'username' => 'Anas Nur Hidayat',
                 'password' => Hash::make('12345'),
                 'foto' => 'adminlte/dist/image/default-avatar.jpg', // Avatar default
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'level_id' => 4,
-                'username' => 'mahasiswa',
+                'id_user' => '4',
+                'level_id' => 4, //mahasiswa
+                'username' => 'Amanda Jasmyne',
                 'password' => Hash::make('12345'),
                 'foto' => 'adminlte/dist/image/default-avatar.jpg', // Avatar default
                 'created_at' => now(),

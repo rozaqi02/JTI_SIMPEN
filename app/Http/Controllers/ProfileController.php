@@ -15,7 +15,7 @@ class ProfileController extends Controller
         $id = session('id_user');
         $breadcrumb = (object) [
             'title' => 'Profile',
-            'list' => ['Home', 'profile']
+            'list' => ['JTI SIMPEN', 'profile']
         ];
         $page = (object) [
             'title' => 'Profile Anda'
