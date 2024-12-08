@@ -45,9 +45,16 @@
 
     Route::get('/dashboard', [WelcomeController::class, 'index']);
 
+<<<<<<< HEAD
     Route::group(['prefix' => 'jenis-kompen'], function () {
         Route::get('/', [JenisKompenController::class, 'index']);
     });
+=======
+Route::group(['prefix' => 'jenis-kompen'], function () {
+    Route::get('/', [JenisKompenController::class, 'index']);
+    Route::post('/list', [JenisKompenController::class, 'list']);
+});
+>>>>>>> ae6378bd6c87a8700017bf4ca1af0988aaadb193
 
 
     Route::group(['prefix' => 'daftar-tugas'], function () {
@@ -72,6 +79,7 @@
 
 
 
+<<<<<<< HEAD
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::post('/list', [UserController::class, 'list'])->name('user.list');
@@ -81,6 +89,18 @@
         Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
         Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
         Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
+=======
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::post('/list', [UserController::class, 'list'])->name('user.list');
+    Route::get('/create_ajax', [UserController::class, 'create_ajax'])->name('user.create');
+    Route::post('/store_ajax', [UserController::class, 'store_ajax'])->name('user.store');
+    Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax'])->name('user.edit');
+    Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
+    Route::get('/{id_user}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
+    Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
+    Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
+>>>>>>> ae6378bd6c87a8700017bf4ca1af0988aaadb193
 
     });
 
@@ -99,6 +119,11 @@
         Route::get('/{id_bidkom}/confirm_ajax', [BidkomController::class, 'confirm_ajax']); // Menampilkan konfirmasi hapus
         Route::delete('/{id_bidkom}/delete_ajax', [BidkomController::class, 'delete_ajax']);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ae6378bd6c87a8700017bf4ca1af0988aaadb193
         // Menambahkan route untuk show_ajax (menampilkan detail Bidkom)
         Route::get('/{id_bidkom}/show_ajax', [BidkomController::class, 'show_ajax'])->name('show_ajax'); // Menampilkan detail data Bidkom
     });
