@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
+use App\Models\AlpakuModel; // Import model AlpakuModel
 use Illuminate\Http\Request;
 
 class AlpakuController extends Controller
@@ -20,10 +21,8 @@ class AlpakuController extends Controller
 
         $activeMenu = 'alpaku'; // Menu aktif untuk halaman ini
 
-        // Mengambil data mahasiswa yang memiliki jumlah alpa
-        $mahasiswa = Mahasiswa::select('id_mahasiswa', 'nama_mahasiswa', 'nim', 'jumlah_alpa')
-            ->where('jumlah_alpa', '>', 0)  // Menampilkan mahasiswa yang memiliki alpa lebih dari 0
-            ->get();
+        // Mengambil data mahasiswa dan menghitung jumlah alpa
+        $mahasiswa = Mahasiswa::withCount('alpa')->get(); // Menggunakan relasi untuk menghitung jumlah alpa
 
         return view('mahasiswa.alpaku.index', [
             'breadcrumb' => $breadcrumb,

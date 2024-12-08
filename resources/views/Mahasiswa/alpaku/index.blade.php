@@ -28,7 +28,7 @@
                     <td>{{ $item->id_mahasiswa }}</td>
                     <td>{{ $item->nama_mahasiswa }}</td>
                     <td>{{ $item->nim }}</td>
-                    <td>{{ $item->jumlah_alpa }}</td>
+                    <td>{{ $item->alpa_count }}</td> <!-- Menggunakan alpa_count untuk jumlah alpa -->
                 </tr>
                 @endforeach
             </tbody>
