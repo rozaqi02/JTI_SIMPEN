@@ -13,7 +13,7 @@ class TugasController extends Controller
     {
         $mahasiswa = auth()->user();
 
-        $alpa = Alpa::where('mahasiswa_id', $mahasiswa->id)->first();
+        $alpa = Alpa::where('id_mahasiswa', $mahasiswa->id)->first();
 
         if ($alpa && $alpa->jam_alpa > 0) {
             // Mahasiswa bisa mengambil tugas

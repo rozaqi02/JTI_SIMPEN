@@ -1,64 +1,125 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-    <!-- Navbar Search -->
-    <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-        <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-        <form class="form-inline">
-            <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                <i class="fas fa-times"></i>
-                </button>
-            </div>
-            </div>
-        </form>
-        </div>
-    </li>
-    <!-- Notifications Dropdown Menu -->
-    <li class="nav-item dropdown">
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item">
+            <a class="nav-link" data-widget="navbar-search" href="#" role="button" id="notificationButton">
+                <i class="fas fa-bell"></i>
+                <!-- Display the number of notifications -->
+                <span class="badge badge-warning" id="notificationCount">4</span>
+            </a>
+        </li>
 
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <span class="dropdown-item dropdown-header">15 Notifications</span>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-        <i class="fas fa-expand-arrows-alt"></i>
-        </a>
+        <!-- User Info (Display Username and Avatar) -->
+        <li class="nav-item">
+            <a class="nav-link">
+                <img src="{{ asset(auth()->user()->foto) }}" class="img-circle" alt="User Image" style="width: 30px; height: 30px;">
+                <span class="ml-2">{{ auth()->user()->username }}</span>
+            </a>
+        </li>
 
-        
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+        </li>
     </ul>
-</nav>  
+</nav>
+
+<!-- Floating Notification Window -->
+<div id="notificationWindow" class="notification-window" style="display: none;">
+    <div class="notification-header">
+        <h5>Notifications</h5>
+        <button id="closeNotification" class="close-btn">×</button>
+    </div>
+    <div class="notification-body">
+        <ul>
+            <li><i class="fas fa-envelope"></i> 4 new messages</li>
+            
+        </ul>
+    </div>
+</div>
+
+<style>
+    /* Style for the notification window */
+    .notification-window {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 300px;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 9999;
+        padding: 10px;
+        display: none;
+    }
+
+    .notification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .notification-body {
+        margin-top: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .notification-body ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .notification-body li {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+    }
+
+    .notification-body li:hover {
+        background-color: #f4f4f4;
+    }
+
+    .badge {
+        background-color: #e87817;
+        color: white;
+        border-radius: 50%;
+        padding: 3px 8px;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+</style>
+
+<script>
+    // Toggle notification window visibility
+    document.getElementById("notificationButton").onclick = function() {
+        var notificationWindow = document.getElementById("notificationWindow");
+        notificationWindow.style.display = (notificationWindow.style.display === "none" || notificationWindow.style.display === "") ? "block" : "none";
+    }
+
+    // Close notification window
+    document.getElementById("closeNotification").onclick = function() {
+        document.getElementById("notificationWindow").style.display = "none";
+    }
+</script>

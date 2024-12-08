@@ -72,8 +72,12 @@ Route::group(['prefix' => 'alpaku'], function () {
 Route::group(['prefix' => 'user'], function () {
 Route::get('/', [UserController::class, 'index']);                          //menampilkan laman awal user
 Route::post('/list', [UserController::class, 'list']);                      //menampilkan data user dalam bentuk json untuk datatable
-Route::get('/create_ajax', [UserController::class, 'create_ajax']);                //menyimpan data user baru AJAX
+Route::get('/create', [UserController::class, 'create']);                //menyimpan data user baru AJAX
+Route::post('/', [UserController::class, 'store']);
 Route::post('/ajax', [UserController::class, 'store_ajax']);                //menyimpan data user baru AJAX   
+Route::get('/{id}', [UserController::class, 'show']);
+Route::get('/{id}/edit', [UserController::class, 'edit']);
+Route::put('/{id}', [UserController::class, 'update']);
 Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);        //menampilkan form detil data user AJAX
 Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);        //menampilkan laman form edit user AJAX
 Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);    //menyimpan perubahan data user AJAX
@@ -82,7 +86,6 @@ Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //me
 Route::delete('/{id}', [UserController::class, 'destroy']);                 //menghapus data user
 Route::get('/import', [UserController::class, 'import']);                   //menampilkan form impor data user
 });
-
 
 
 Route::group(['prefix' => 'bidkom'], function () {

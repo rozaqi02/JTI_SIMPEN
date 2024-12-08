@@ -15,7 +15,7 @@ class ProfileController extends Controller
         $id = session('id_user');
         $breadcrumb = (object) [
             'title' => 'Profile',
-            'list' => ['Home', 'profile']
+            'list' => ['JTI SIMPEN', 'profile']
         ];
         $page = (object) [
             'title' => 'Profile Anda'
@@ -97,6 +97,7 @@ class ProfileController extends Controller
         return view('profile.edit_foto', ['user' => $user, 'level' => $level]);
     }
 
+    
     public function update_foto(Request $request, $id)
     {
         // cek apakah request dari ajax

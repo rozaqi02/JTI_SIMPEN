@@ -28,7 +28,7 @@ class UserModel extends Authenticatable
     //Relasi tabel m_user ke m_level (many-to-one)
     public function level(): BelongsTo
     {
-        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+        return $this->belongsTo(LevelModel::class, 'level_id');
     }
 
     //Mendapatkan nama role
@@ -43,6 +43,7 @@ class UserModel extends Authenticatable
         return $this->level->level_kode == $role;
     }
 
+    
     //Mendapatkan kode role
     public function getRole()
     {
