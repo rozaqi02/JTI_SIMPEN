@@ -159,6 +159,25 @@ public function update_ajax(Request $request, $id)
     return redirect()->route('bidkom.index');
 }
 
+public function show_ajax($id)
+{
+    // Mengambil data Bidkom berdasarkan ID
+    $bidkom = BidkomModel::find($id);
+
+    // Pastikan data ditemukan
+    if ($bidkom) {
+        // Mengembalikan view show_ajax dengan membawa data Bidkom
+        return view('admin.bidkom.show_ajax', ['bidkom' => $bidkom]);
+    }
+
+    // Jika data tidak ditemukan, mengembalikan response JSON dengan pesan error
+    return response()->json([
+        'status' => false,
+        'message' => 'Bidkom tidak ditemukan',
+    ]);
+}
+
+
 public function confirm_ajax(string $id)
 {
     $bidkom = BidkomModel::find($id);
@@ -186,8 +205,6 @@ public function delete_ajax(Request $request, $id)
     }
     return redirect('/');
 }
-
-
 
 
 }

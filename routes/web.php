@@ -97,8 +97,12 @@ Route::group(['prefix' => 'bidkom'], function () {
 
     // Route untuk Konfirmasi Hapus Bidkom
     Route::get('/{id_bidkom}/confirm_ajax', [BidkomController::class, 'confirm_ajax']); // Menampilkan konfirmasi hapus
-    Route::delete('/{id_bidkom}/delete_ajax', [BidkomController::class, 'delete_ajax']); // Menghapus data Bidkom
+    Route::delete('/{id_bidkom}/delete_ajax', [BidkomController::class, 'delete_ajax']);
+
+    // Menambahkan route untuk show_ajax (menampilkan detail Bidkom)
+    Route::get('/{id_bidkom}/show_ajax', [BidkomController::class, 'show_ajax'])->name('show_ajax'); // Menampilkan detail data Bidkom
 });
+
 
 
 
