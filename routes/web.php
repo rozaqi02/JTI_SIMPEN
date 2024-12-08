@@ -47,6 +47,7 @@ Route::get('/dashboard', [WelcomeController::class, 'index']);
 
 Route::group(['prefix' => 'jenis-kompen'], function () {
     Route::get('/', [JenisKompenController::class, 'index']);
+    Route::post('/list', [JenisKompenController::class, 'list']);
 });
 
 
