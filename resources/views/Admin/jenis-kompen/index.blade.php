@@ -20,7 +20,6 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Kode_Jenis Tugas</th>
                     <th>Nama Jenis Tugas</th>
                     <th>Aksi</th>
                 </tr>
@@ -28,9 +27,8 @@
             <tbody>
                 @foreach($jenisKompen as $item)
                 <tr>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->jenis_tugas }}</td>
-                    <td>{{ $item->nama_jenis_tugas }}</td>
+                    <td>{{ $item->id_jenis_kompen }}</td>
+                    <td>{{ $item->nama_jenis_kompen }}</td>
                     <td>
                         <button class="btn btn-sm btn-warning">Edit</button>
                         <button class="btn btn-sm btn-danger">Hapus</button>
