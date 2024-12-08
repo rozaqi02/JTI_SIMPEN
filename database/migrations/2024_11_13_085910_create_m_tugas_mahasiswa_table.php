@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_mahasiswa'); // Foreign key to m_mahasiswa table
             $table->foreign('id_mahasiswa')->references('id_mahasiswa')->on('m_mahasiswa')->onDelete('cascade');
 
-            $table->enum('jenis_tugas', ['pengabdian', 'penelitian', 'teknis']); // Enum for task type
+            $table->unsignedBigInteger('id_jenis_tugas');
+            $table->foreign('id_jenis_tugas')->references('id_jenis_tugas')->on('m_jenis_kompen')->onDelete('cascade');
             $table->string('pemberi_tugas', 30); // Task giver, varchar(30) as per ERD
             $table->string('nama_tugas'); // Task name
             $table->text('deskripsi_tugas'); // Task description
