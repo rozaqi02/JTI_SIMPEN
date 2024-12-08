@@ -43,6 +43,25 @@ class UserModel extends Authenticatable
         return $this->level->level_kode == $role;
     }
 
+    public function getProfilePhoto()
+{
+    $levelCode = $this->getRole();
+    
+    switch ($levelCode) {
+        case 'MHS': // Mahasiswa
+            return MahasiswaModel::find($this->id_user)->foto ?? null;
+        case 'DSN': // Dosen
+            return DosenModel::find($this->id_user)->foto ?? null;
+        case 'ADM': // Admin
+            return AdminModel::find($this->id_user)->foto ?? null;
+        case 'TDK': // Tendik
+            return TendikModel::find($this->id_user)->foto ?? null;
+        default:
+            return null; // jika tidak ada foto, kembalikan null
+    }
+}
+
+
     
     //Mendapatkan kode role
     public function getRole()

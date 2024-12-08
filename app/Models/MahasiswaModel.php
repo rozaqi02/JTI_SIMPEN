@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -9,15 +9,9 @@ class MahasiswaModel extends Model
 {
     use HasFactory;
 
-    // Relasi banyak-tugas
-    public function tugas()
-    {
-        return $this->belongsToMany(Tugas::class, 'tugas_mahasiswa', 'mahasiswa_id', 'tugas_id');
-    }
-
-    // Relasi ke tabel user
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $table = 'm_mahasiswa'; // Nama tabel yang sesuai dengan tabel di database
+    protected $primaryKey = 'id_mahasiswa'; // Kolom primary key sesuai tabel
+    protected $fillable = ['id_mahasiswa', 'nama_mahasiswa', 'nim', 'program_studi', 'foto']; // Kolom yang dapat diisi
 }
+
+

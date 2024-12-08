@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\LevelModel;
 use App\Models\UserModel;
 use App\Models\MahasiswaModel;
-use App\Models\Mahasiswa;
+use App\Models\AdminModel;
+use App\Models\DosenModel;
+use App\Models\TendikModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -17,144 +19,116 @@ class ProfileController extends Controller
         $id = session('id_user');
         $breadcrumb = (object) [
             'title' => 'Profile',
-            'list' => ['JTI SIMPEN', 'profile']
+            'list' => ['JTI SIMPEN', 'profil']
         ];
         $page = (object) [
-            'title' => 'Profile Anda'
+            'title' => 'Profil Anda'
         ];
         $activeMenu = 'profile'; // set menu yang sedang aktif
         $user = UserModel::with('level')->find($id);
+        
+        // Menentukan model berdasarkan level
+        $levelCode = $user->getRole(); // Ambil kode level pengguna
+        switch ($levelCode) {
+            case 'MHS': // Mahasiswa
+                $profileData = MahasiswaModel::where('id_mahasiswa', $id)->first();
+                break;
+            case 'DSN': // Dosen
+                $profileData = DosenModel::find($id); 
+                break;
+            case 'ADM': // Admin
+                $profileData = AdminModel::find($id); 
+                break;
+            case 'TDK': // Tendik
+                $profileData = TendikModel::find($id);
+                break;
+            default:
+                $profileData = null; // Jika tidak ada level yang cocok
+                break;
+        }
+
         $level = LevelModel::all(); // ambil data level untuk filter level
-        return view('profile.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'user' => $user, 'activeMenu' => $activeMenu]);
-    }
-
-    public function show(string $id)
-    {
-        $user = UserModel::with('level')->find($id);
-        $breadcrumb = (object) ['title' => 'Detail User', 'list' => ['Home', 'User', 'Detail']];
-        $page = (object) ['title' => 'Detail user'];
-        $activeMenu = 'user'; // set menu yang sedang aktif
-        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
-    }
-
-    public function edit_ajax(string $id)
-    {
-        $user = UserModel::find($id);
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-        return view('profile.edit_ajax', ['user' => $user, 'level' => $level]);
+        return view('profile.index', [
+            'breadcrumb' => $breadcrumb, 
+            'page' => $page, 
+            'level' => $level, 
+            'user' => $user, 
+            'profileData' => $profileData, // Mengirim data profil pengguna
+            'activeMenu' => $activeMenu
+        ]);
     }
 
     public function update_ajax(Request $request, $id)
     {
-        // cek apakah request dari ajax
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'level_id' => 'nullable|integer',
-                'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
-                'password' => 'nullable|min:6|max:20'
-            ];
-            // use Illuminate\Support\Facades\Validator;
-            $validator = Validator::make($request->all(), $rules);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false, // respon json, true: berhasil, false: gagal
-                    'message' => 'Validasi gagal.',
-                    'msgField' => $validator->errors() // menunjukkan field mana yang error
-                ]);
-            }
-            $check = UserModel::find($id);
-            if ($check) {
-                if (!$request->filled('level_id')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('level_id');
-                }
-                if (!$request->filled('username')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('username');
-                }
-                if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('password');
-                }
-                $check->update([
+        // Validasi dan update data profil berdasarkan level
+        $rules = [
+            'level_id' => 'nullable|integer',
+            'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
+            'password' => 'nullable|min:6|max:20'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        $check = UserModel::find($id);
+        if ($check) {
+            // Hapus data berdasarkan level yang relevan
+            $levelCode = $check->getRole();
+            $model = $this->getProfileModelByLevel($levelCode);
+            $modelInstance = $model::find($id);
+            if ($modelInstance) {
+                // Update data untuk model sesuai level
+                $modelInstance->update([
                     'username'  => $request->username,
-                    'password'  => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
-                    'level_id'  => $request->level_id
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Data berhasil diupdate'
-                ]);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Data tidak ditemukan'
+                    'password'  => $request->password ? bcrypt($request->password) : $check->password,
+                    // Tambahkan kolom spesifik jika ada di model masing-masing
                 ]);
             }
+
+            // Update tabel m_user untuk username dan password
+            $check->update([
+                'username'  => $request->username,
+                'password'  => $request->password ? bcrypt($request->password) : $check->password,
+                'level_id'  => $request->level_id
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil diupdate'
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
         }
-        return redirect('/');
     }
 
-    public function edit_foto(string $id)
+    // Fungsi untuk mendapatkan model berdasarkan level
+    private function getProfileModelByLevel($levelCode)
     {
-        $user = UserModel::find($id);
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-        return view('profile.edit_foto', ['user' => $user, 'level' => $level]);
-    }
-
-    
-    public function update_foto(Request $request, $id)
-    {
-        // cek apakah request dari ajax
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'foto'   => 'required|mimes:jpeg,png,jpg|max:4096'
-            ];
-            // use Illuminate\Support\Facades\Validator;
-            $validator = Validator::make($request->all(), $rules);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false, // respon json, true: berhasil, false: gagal
-                    'message' => 'Validasi gagal.',
-                    'msgField' => $validator->errors() // menunjukkan field mana yang error
-                ]);
-            }
-            $check = UserModel::find($id);
-            if ($check) {
-                if ($request->has('foto')) {
-
-                    if (isset($check->foto)) {
-                        $fileold = $check->foto;
-                        if (Storage::disk('public')->exists($fileold)) {
-                            Storage::disk('public')->delete($fileold);
-                        }
-                        $file = $request->file('foto');
-                        $filename = $check->foto;
-                        $path = 'image/profile/';
-                        $file->move($path, $filename);
-                        $pathname = $filename;
-                    } else {
-                        $file = $request->file('foto');
-                        $extension = $file->getClientOriginalExtension();
-
-                        $filename = time() . '.' . $extension;
-
-                        $path = 'image/profile/';
-                        $file->move($path, $filename);
-                        $pathname = $path . $filename;
-                    }
-                }
-                $check->update([
-                    'foto'      => $pathname
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Data berhasil diupdate'
-                ]);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Data tidak ditemukan'
-                ]);
-            }
-        }
-        return redirect('/');
+        switch ($levelCode) {
+            case 'MHS': // Mahasiswa
+                $profileData = MahasiswaModel::where('id_mahasiswa', $id)->first(); 
+                break;
+            case 'DSN': // Dosen
+                $profileData = DosenModel::where('id_dosen', $id)->first(); 
+                break;
+            case 'ADM': // Admin
+                $profileData = AdminModel::where('id_admin', $id)->first(); 
+                break;
+            case 'TDK': // Tendik
+                $profileData = TendikModel::where('id_tendik', $id)->first();
+                break;
+            default:
+                $profileData = null; // Jika tidak ada level yang cocok
+                break;
+        }        
     }
 }
