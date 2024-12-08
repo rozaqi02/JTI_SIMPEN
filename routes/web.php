@@ -16,6 +16,8 @@ use App\Http\Controllers\ProgressTugasController;
 use App\Http\Controllers\AlpakuController;
 use Illuminate\Support\Facades\Route;
 
+use function Laravel\Prompts\confirm;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,16 +81,27 @@ Route::group(['prefix' => 'user'], function () {
     Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
     Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
+
 });
 
 
 
 
 Route::group(['prefix' => 'bidkom'], function () {
-    Route::get('/', [BidkomController::class, 'index']);                            // Menampilkan laman awal Bidkom
-    Route::post('/list', [BidkomController::class, 'list']);                        // Menampilkan data Bidkom dalam bentuk JSON untuk DataTable
+    Route::get('/', [BidkomController::class, 'index']); // Menampilkan laman awal Bidkom
+    Route::post('/list', [BidkomController::class, 'list']); // Menampilkan data Bidkom dalam bentuk JSON untuk DataTable
+    Route::get('/create_ajax', [BidkomController::class, 'create_ajax']); // Menampilkan form tambah data (gunakan GET, bukan POST)
+    Route::post('/store_ajax', [BidkomController::class, 'store_ajax']); // Menyimpan data baru
+    Route::get('/{id_bidkom}/edit_ajax', [BidkomController::class, 'edit_ajax'])->name('edit_ajax'); // Menampilkan form edit data
+    Route::put('/update_ajax/{id}', [BidkomController::class, 'update_ajax'])->name('update_ajax'); // Menyimpan perubahan data
 
+    // Route untuk Konfirmasi Hapus Bidkom
+    Route::get('/{id_bidkom}/confirm_ajax', [BidkomController::class, 'confirm_ajax']); // Menampilkan konfirmasi hapus
+    Route::delete('/{id_bidkom}/delete_ajax', [BidkomController::class, 'delete_ajax']); // Menghapus data Bidkom
 });
+
+
+
 
 Route::middleware(['authorize:ADM,MHS,TDK,DSN'])->group(function(){
     Route::get('/profile', [ProfileController::class, 'index']);

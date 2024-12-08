@@ -28,10 +28,15 @@ class BidkomController extends Controller
             'activeMenu' => $activeMenu
         ]);
     }
-
     public function list(Request $request)
     {
         $bidkoms = BidkomModel::select('id_bidkom', 'kode_bidkom', 'nama_bidkom');
+        
+        // Filter berdasarkan id_bidkom jika ada
+        if ($request->has('id_bidkom') && $request->id_bidkom) {
+            $bidkoms->where('id_bidkom', 'like', '%' . $request->id_bidkom . '%');
+        }
+    
         return DataTables::of($bidkoms)
             ->addIndexColumn()
             ->addColumn('aksi', function ($bidkom) {
@@ -44,91 +49,145 @@ class BidkomController extends Controller
             ->make(true);
     }
     
-
+    
+    
     public function create_ajax()
     {
+        // Pada contoh ini, tidak ada data terkait yang perlu diambil untuk BidkomModel.
+        // Jika ada data tambahan yang diperlukan (misalnya data untuk dropdown), bisa diproses di sini.
         return view('admin.bidkom.create_ajax');
     }
 
     public function store_ajax(Request $request)
     {
+        // Cek apakah request berupa AJAX atau JSON
         if ($request->ajax() || $request->wantsJson()) {
+            // Validasi data
             $rules = [
-                'kode_bidkom' => 'required|string|max:10|unique:t_bidkom,kode_bidkom',
-                'nama_bidkom' => 'required|string|max:255'
+                'kode_bidkom' => 'required|string|max:255|unique:t_bidkom',
+                'nama_bidkom' => 'required|string|max:255',
             ];
 
+            // Lakukan validasi
             $validator = Validator::make($request->all(), $rules);
 
+            // Jika validasi gagal
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => false,
-                    'message' => 'Validasi Gagal',
-                    'msgField' => $validator->errors(),
+                    'status' => false, // Response status, false jika gagal
+                    'message' => 'Validasi Gagal', 
+                    'msgField' => $validator->errors(), // Pesan error validasi
                 ]);
             }
 
-            BidkomModel::create($request->all());
-            return response()->json([
-                'status' => true,
-                'message' => 'Data bidang kompetensi berhasil disimpan'
-            ]);
+            // Menyimpan data Bidkom ke database
+            try {
+                BidkomModel::create([
+                    'kode_bidkom' => $request->kode_bidkom,
+                    'nama_bidkom' => $request->nama_bidkom,
+                ]);
+
+                // Jika berhasil
+                return response()->json([
+                    'status' => true, // Response status, true jika berhasil
+                    'message' => 'Data Bidang Kompetensi berhasil disimpan',
+                ]);
+            } catch (\Exception $e) {
+                // Jika terjadi error saat menyimpan data
+                return response()->json([
+                    'status' => false, // Response status, false jika gagal
+                    'message' => 'Terjadi kesalahan saat menyimpan data',
+                ]);
+            }
         }
+
+        // Jika bukan request AJAX, redirect ke halaman utama
+        return redirect('/');
+    }
+public function edit_ajax($id)
+{
+    $bidkom = BidkomModel::find($id);
+    if ($bidkom) {
+        return view('admin.bidkom.edit_ajax', compact('bidkom'));
     }
 
-    public function edit_ajax($id)
-    {
+    return response()->json([
+        'status' => false,
+        'message' => 'Bidkom tidak ditemukan'
+    ]);
+}
+
+
+
+public function update_ajax(Request $request, $id)
+{
+    if ($request->ajax() || $request->wantsJson()) {
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'kode_bidkom' => 'required|max:255',
+            'nama_bidkom' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal!',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
         $bidkom = BidkomModel::find($id);
-        return view('admin.bidkom.edit_ajax')->with('bidkom', $bidkom);
-    }
-
-    public function update_ajax(Request $request, $id)
-    {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'kode_bidkom' => 'required|string|max:10|unique:t_bidkom,kode_bidkom,' . $id . ',id_bidkom',
-                'nama_bidkom' => 'required|string|max:255'
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validasi Gagal',
-                    'msgField' => $validator->errors(),
-                ]);
-            }
-
-            $bidkom = BidkomModel::find($id);
-            $bidkom->update($request->all());
+        if ($bidkom) {
+            // Update data
+            $bidkom->update([
+                'kode_bidkom' => $request->kode_bidkom,
+                'nama_bidkom' => $request->nama_bidkom,
+            ]);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Data bidang komunikasi berhasil diperbarui'
+                'message' => 'Data Bidkom berhasil diupdate!'
             ]);
         }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Data Bidkom tidak ditemukan!'
+        ]);
     }
 
-    public function delete_ajax($id)
-    {
+    return redirect()->route('bidkom.index');
+}
+
+public function confirm_ajax(string $id)
+{
+    $bidkom = BidkomModel::find($id);
+
+    return view('admin.bidkom.confirm_ajax', ['bidkom' => $bidkom]);
+}
+
+// Fungsi untuk menghapus data Bidkom
+public function delete_ajax(Request $request, $id)
+{
+    if ($request->ajax() || $request->wantsJson()) {
         $bidkom = BidkomModel::find($id);
         if ($bidkom) {
             $bidkom->delete();
             return response()->json([
-                'status' => true,
-                'message' => 'Data bidang komunikasi berhasil dihapus'
+                'status'    => true,
+                'message'   => 'Data berhasil dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Data tidak ditemukan!'
             ]);
         }
-        return response()->json([
-            'status' => false,
-            'message' => 'Data tidak ditemukan'
-        ]);
     }
+    return redirect('/');
+}
 
-    public function show_ajax($id)
-    {
-        $bidkom = BidkomModel::find($id);
-        return view('admin.bidkom.show_ajax')->with('bidkom', $bidkom);
-    }
+
+
+
 }

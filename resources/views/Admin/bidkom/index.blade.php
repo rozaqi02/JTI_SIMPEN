@@ -16,6 +16,19 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
+        <!-- Filter Form -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <label class="col-1 control-label col-form-label">Filter: </label>
+                    <div class="col-3">
+                        <input type="text" class="form-control" id="id_bidkom_filter" placeholder="Cari ID Bidkom">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
         <table class="table table-bordered table-striped table-hover table-sm" id="table_bidkom">
             <thead>
                 <tr>
@@ -48,48 +61,56 @@
 
     // Initialize DataTable
     var dataBidkom;
-    $(document).ready(function() {
-        dataBidkom = $('#table_bidkom').DataTable({
-            serverSide: true,
-            processing: true,
-            ajax: {
-                "url": "{{ url('bidkom/list') }}",
-                "dataType": "json",
-                "type": "POST",
-                "data": function(d) {
-                    d._token = "{{ csrf_token() }}";
-                },
-                "error": function(xhr, status, error) {
-                    console.log(xhr.responseText);
-                }
+$(document).ready(function() {
+    dataBidkom = $('#table_bidkom').DataTable({
+        serverSide: true, // Memastikan DataTable menggunakan server-side processing
+        processing: true, // Menunjukkan bahwa data sedang diproses
+        ajax: {
+            "url": "{{ url('bidkom/list') }}", // Pastikan ini sesuai dengan URL route yang benar
+            "dataType": "json",
+            "type": "POST", // Pastikan method-nya POST, sesuai dengan controller
+            "data": function(d) {
+                d._token = "{{ csrf_token() }}"; // Menambahkan CSRF token untuk keamanan
+                // Anda bisa menambahkan parameter lain di sini jika perlu filter tambahan
+                d.id_bidkom = $('#id_bidkom').val(); // Misalnya mengambil filter id_bidkom dari input
             },
-            columns: [
-                {
-                    data: "DT_RowIndex",
-                    className: "text-center",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: "kode_bidkom",
-                    className: "",
-                    orderable: true,
-                    searchable: true
-                },
-                {
-                    data: "nama_bidkom",
-                    className: "",
-                    orderable: true,
-                    searchable: true
-                },
-                {
-                    data: "aksi",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-        });
+            "error": function(xhr, status, error) {
+                console.log(xhr.responseText); // Log error jika ada
+            }
+        },
+        columns: [
+            {
+                data: "DT_RowIndex", // Data untuk index otomatis
+                className: "text-center",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "kode_bidkom", // Data untuk kolom kode_bidkom
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "nama_bidkom", // Data untuk kolom nama_bidkom
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "aksi", // Data untuk tombol aksi (Detail, Edit, Hapus)
+                className: "",
+                orderable: false,
+                searchable: false
+            }
+        ]
     });
+
+    // Jika Anda menambahkan filter berdasarkan id_bidkom, Anda bisa menangkap event change
+    $('#id_bidkom').on('change', function() {
+        dataBidkom.ajax.reload(); // Reload DataTable dengan filter baru
+    });
+});
+
 </script>
 @endpush
