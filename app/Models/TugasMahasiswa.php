@@ -9,6 +9,6 @@ class TugasMahasiswa extends Model
 {
     use HasFactory;
 
-    protected $table = 'm_tugas'; // Nama tabel yang sesuai dengan tabel di database
-    protected $fillable = ['id_tugas', 'judul_tugas', 'tanggal_dibuat']; // Kolom yang dapat diisi
+    protected $table = 'm_detail_tugas'; // Nama tabel yang sesuai dengan tabel di database
+    protected $fillable = ['id_detail_tugas', 'nama_tugas', 'deskripsi_tugas', 'kuota', 'nilai_kompen' ,'jumlah_jam ']; // Kolom yang dapat diisi
 }
