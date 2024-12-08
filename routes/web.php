@@ -69,23 +69,19 @@ Route::group(['prefix' => 'alpaku'], function () {
 });
 
 
+
 Route::group(['prefix' => 'user'], function () {
-Route::get('/', [UserController::class, 'index']);                          //menampilkan laman awal user
-Route::post('/list', [UserController::class, 'list']);                      //menampilkan data user dalam bentuk json untuk datatable
-Route::get('/create', [UserController::class, 'create']);                //menyimpan data user baru AJAX
-Route::post('/', [UserController::class, 'store']);
-Route::post('/ajax', [UserController::class, 'store_ajax']);                //menyimpan data user baru AJAX   
-Route::get('/{id}', [UserController::class, 'show']);
-Route::get('/{id}/edit', [UserController::class, 'edit']);
-Route::put('/{id}', [UserController::class, 'update']);
-Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);        //menampilkan form detil data user AJAX
-Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);        //menampilkan laman form edit user AJAX
-Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);    //menyimpan perubahan data user AJAX
-Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);   //menampilkan form confirm hapus data user AJAX
-Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //menghapus data user AJAX
-Route::delete('/{id}', [UserController::class, 'destroy']);                 //menghapus data user
-Route::get('/import', [UserController::class, 'import']);                   //menampilkan form impor data user
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::post('/list', [UserController::class, 'list'])->name('user.list');
+    Route::get('/create_ajax', [UserController::class, 'create_ajax'])->name('user.create');
+    Route::post('/store_ajax', [UserController::class, 'store_ajax'])->name('user.store');
+    Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax'])->name('user.edit');
+    Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
+    Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
+    Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
 });
+
+
 
 
 Route::group(['prefix' => 'bidkom'], function () {

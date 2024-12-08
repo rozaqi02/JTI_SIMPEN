@@ -100,18 +100,32 @@
                     orderable: false,
                     searchable: false,
                     render: function(data, type, row) {
-                        return '******';
+                        return '*****';
                     }
                 },
                 {
                     data: "aksi",
                     className: "",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    render: function(data, type, row) {
+                        // Tombol Detail
+                        var detailBtn = '<button onclick="modalAction(\'' + '{{ url("/user") }}/' + row.id_user + '/show_ajax\')" class="btn btn-info btn-sm">Detail</button> ';
+                        
+                        // Tombol Edit
+                        var editBtn = '<button onclick="modalAction(\'' + '{{ url("/user") }}/' + row.id_user + '/edit_ajax\')" class="btn btn-warning btn-sm">Edit</button> ';
+                        
+                        // Tombol Hapus
+                        var deleteBtn = '<button onclick="modalAction(\'' + '{{ url("/user") }}/' + row.id_user + '/delete_ajax\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                        
+                        // Gabungkan semua tombol
+                        return detailBtn + editBtn + deleteBtn;
+                    }
                 }
             ]
         });
 
+        // Memfilter berdasarkan level_id
         $('#level_id').on('change', function() {
             dataUser.ajax.reload();
         });

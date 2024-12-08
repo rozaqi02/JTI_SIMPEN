@@ -1,6 +1,6 @@
-<form action="{{ url('/user/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/user/store_ajax') }}" method="POST" id="form-tambah">
     @csrf
-    <div id="modal-master" class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Data User</h5>
@@ -8,29 +8,33 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Level Pengguna</label>
+                    <label for="level_id">Level Pengguna</label>
                     <select name="level_id" id="level_id" class="form-control" required>
                         <option value="">- Pilih Level -</option>
                         @foreach($level as $l)
                             <option value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
                         @endforeach
                     </select>
-                    <small id="error-level_id" class="error-text form-text text-danger"></small>
+                    <small id="error-level_id" class="form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Username</label>
-                    <input value="" type="text" name="username" id="username" class="form-control" required>
-                    <small id="error-username" class="error-text form-text text-danger"></small>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
+                    <small id="error-username" class="form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <input value="" type="password" name="password" id="password" class="form-control" required>
-                    <small id="error-password" class="error-text form-text text-danger"></small>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                    <small id="error-password" class="form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Batal
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
             </div>
         </div>
     </div>
@@ -40,9 +44,9 @@
     $(document).ready(function() { 
         $("#form-tambah").validate({ 
             rules: { 
-                level_id: {required: true, number: true}, 
-                username: {required: true, minlength: 3, maxlength: 20}, 
-                password: {required: true, minlength: 5, maxlength: 20} 
+                level_id: { required: true, number: true }, 
+                username: { required: true, minlength: 3, maxlength: 20 }, 
+                password: { required: true, minlength: 5, maxlength: 20 } 
             }, 
             submitHandler: function(form) { 
                 $.ajax({ 
@@ -57,8 +61,8 @@
                                 title: 'Berhasil', 
                                 text: response.message 
                             }); 
-                            dataUser.ajax.reload(); 
-                        }else{ 
+                            dataUser.ajax.reload();  // Refresh data tabel
+                        } else { 
                             $('.error-text').text(''); 
                             $.each(response.msgField, function(prefix, val) { 
                                 $('#error-'+prefix).text(val[0]); 
