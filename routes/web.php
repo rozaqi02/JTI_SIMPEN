@@ -80,6 +80,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/store_ajax', [UserController::class, 'store_ajax'])->name('user.store');
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax'])->name('user.edit');
     Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
+    Route::get('/{id_user}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
     Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
 
@@ -88,21 +89,23 @@ Route::group(['prefix' => 'user'], function () {
 
 
 
-Route::group(['prefix' => 'bidkom'], function () {
-    Route::get('/', [BidkomController::class, 'index']); // Menampilkan laman awal Bidkom
-    Route::post('/list', [BidkomController::class, 'list']); // Menampilkan data Bidkom dalam bentuk JSON untuk DataTable
-    Route::get('/create_ajax', [BidkomController::class, 'create_ajax']); // Menampilkan form tambah data (gunakan GET, bukan POST)
-    Route::post('/store_ajax', [BidkomController::class, 'store_ajax']); // Menyimpan data baru
-    Route::get('/{id_bidkom}/edit_ajax', [BidkomController::class, 'edit_ajax'])->name('edit_ajax'); // Menampilkan form edit data
-    Route::put('/update_ajax/{id}', [BidkomController::class, 'update_ajax'])->name('update_ajax'); // Menyimpan perubahan data
+    Route::group(['prefix' => 'bidkom'], function () {
+        Route::get('/', [BidkomController::class, 'index']); // Menampilkan laman awal Bidkom
+        Route::post('/list', [BidkomController::class, 'list']); // Menampilkan data Bidkom dalam bentuk JSON untuk DataTable
+        Route::get('/create_ajax', [BidkomController::class, 'create_ajax']); // Menampilkan form tambah data (gunakan GET, bukan POST)
+        Route::post('/store_ajax', [BidkomController::class, 'store_ajax']); // Menyimpan data baru
+        Route::get('/{id_bidkom}/edit_ajax', [BidkomController::class, 'edit_ajax'])->name('edit_ajax'); // Menampilkan form edit data
+        Route::put('/update_ajax/{id}', [BidkomController::class, 'update_ajax'])->name('update_ajax'); // Menyimpan perubahan data
 
-    // Route untuk Konfirmasi Hapus Bidkom
-    Route::get('/{id_bidkom}/confirm_ajax', [BidkomController::class, 'confirm_ajax']); // Menampilkan konfirmasi hapus
-    Route::delete('/{id_bidkom}/delete_ajax', [BidkomController::class, 'delete_ajax']);
+        // Route untuk Konfirmasi Hapus Bidkom
+        Route::get('/{id_bidkom}/confirm_ajax', [BidkomController::class, 'confirm_ajax']); // Menampilkan konfirmasi hapus
+        Route::delete('/{id_bidkom}/delete_ajax', [BidkomController::class, 'delete_ajax']);
 
-    // Menambahkan route untuk show_ajax (menampilkan detail Bidkom)
-    Route::get('/{id_bidkom}/show_ajax', [BidkomController::class, 'show_ajax'])->name('show_ajax'); // Menampilkan detail data Bidkom
-});
+
+
+        // Menambahkan route untuk show_ajax (menampilkan detail Bidkom)
+        Route::get('/{id_bidkom}/show_ajax', [BidkomController::class, 'show_ajax'])->name('show_ajax'); // Menampilkan detail data Bidkom
+    });
 
 
 

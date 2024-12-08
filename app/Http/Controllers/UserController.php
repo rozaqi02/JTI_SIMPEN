@@ -55,12 +55,13 @@ class UserController extends Controller
                 // Tombol Detail
                 $btn = '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/delete_ajax') . '\')" class="btn btn-warning btn-sm">Hapus</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> '; // Tombol Hapus menjadi merah
                 return $btn;
             })
             ->rawColumns(['aksi'])  // Menandai kolom aksi untuk diproses sebagai HTML
             ->make(true);
     }
+    
     
 
 
@@ -172,6 +173,25 @@ public function edit_ajax($id)
     
         return redirect('/');
     }
+
+    public function show_ajax($id)
+{
+    // Mengambil data User berdasarkan ID
+    $user = UserModel::find($id);
+
+    // Pastikan data ditemukan
+    if ($user) {
+        // Mengembalikan view show_ajax dengan membawa data User
+        return view('admin.user.show_ajax', ['user' => $user]);
+    }
+
+    // Jika data tidak ditemukan, mengembalikan response JSON dengan pesan error
+    return response()->json([
+        'status' => false,
+        'message' => 'User tidak ditemukan',
+    ]);
+}
+
     
  // Menampilkan konfirmasi penghapusan di modal
  public function confirm_ajax(string $id){
