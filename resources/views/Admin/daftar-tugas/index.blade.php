@@ -20,18 +20,23 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    
-                    <th>Judul Tugas</th>
-                    <th>Tanggal Dibuat</th>
+                    <th>Nama Tugas</th>
+                    <th>Deskripsi</th>
+                    <th>Kuota</th>
+                    <th>Nilai Kompen</th>
+                    <th>Jumlah Jam</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($tugasPendidik as $item)
+                @foreach($TugasPendidik as $item)
                 <tr>
                     <td>{{ $item->id_detail_tugas }}</td>
-                    <td>{{ $item->judul_tugas }}</td>
-                    <td>{{ $item->tanggal_dibuat }}</td>
+                    <td>{{ $item->nama_tugas }}</td>
+                    <td>{{ $item->deskripsi_tugas }}</td>
+                    <td>{{ $item->kuota }}</td>
+                    <td>{{ $item->nilai_kompen }}</td>
+                    <td>{{ $item->jumlah_jam }}</td>
                     <td>
                         <button class="btn btn-sm btn-warning">Edit</button>
                         <button class="btn btn-sm btn-danger">Hapus</button>
