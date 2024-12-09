@@ -71,65 +71,128 @@ class ProfileController extends Controller
 
 
     public function edit_ajax(string $id)
-{
-    $user = UserModel::find($id); // Cari data user berdasarkan id_user
-    if (!$user) {
-        return abort(404, 'Data tidak ditemukan');
+    {
+        $user = UserModel::find($id); // Cari data user berdasarkan id_user
+        if (!$user) {
+            return abort(404, 'Data tidak ditemukan');
+        }
+    
+        // Tentukan model yang digunakan berdasarkan level user
+        $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
+        $admin = AdminModel::where('id_user', $id)->first();
+        $dosen = DosenModel::where('id_user', $id)->first();
+        $tendik = TendikModel::where('id_user', $id)->first();
+    
+        return view('profile.edit_ajax', [
+            'user' => $user,
+            'mahasiswa' => $mahasiswa,
+            'admin' => $admin,
+            'dosen' => $dosen,
+            'tendik' => $tendik,
+            'level' => LevelModel::select('level_id', 'level_nama')->get()
+        ]);
     }
-
-    // Tentukan model yang digunakan berdasarkan level user
-    $levelId = $user->level_id;
-
-    $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
-    $admin = AdminModel::where('id_user', $id)->first();
-    $dosen = DosenModel::where('id_user', $id)->first();
-    $tendik = TendikModel::where('id_user', $id)->first();
-
-    return view('profile.edit_ajax', [
-        'user' => $user,
-        'mahasiswa' => $mahasiswa,
-        'admin' => $admin,
-        'dosen' => $dosen,
-        'tendik' => $tendik,
-        'level' => LevelModel::select('level_id', 'level_nama')->get()
-    ]);
-}
+    
 
 
     public function update_ajax(Request $request, $id)
     {
-        // cek apakah request dari ajax
+        // Cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
+            // Validasi data input
             $rules = [
                 'level_id' => 'nullable|integer',
                 'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
-                'password' => 'nullable|min:6|max:20'
+                'password' => 'nullable|min:6|max:20',
+                // Aturan validasi untuk masing-masing role (Admin, Dosen, Tendik, Mahasiswa)
+                'nama_admin' => 'nullable|max:255',
+                'nip' => 'nullable|max:20',
+                'no_telepon' => 'nullable|max:20',
+                'email' => 'nullable|email|max:255',
+                'nama_dosen' => 'nullable|max:255',
+                'nama_tendik' => 'nullable|max:255',
+                'nama_mahasiswa' => 'nullable|max:255',
+                'program_studi' => 'nullable|max:100',
+                'tahun_masuk' => 'nullable|integer'
             ];
-            // use Illuminate\Support\Facades\Validator;
+    
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => false, // respon json, true: berhasil, false: gagal
+                    'status' => false,
                     'message' => 'Validasi gagal.',
-                    'msgField' => $validator->errors() // menunjukkan field mana yang error
+                    'msgField' => $validator->errors()
                 ]);
             }
+    
+            // Mencari data user
             $check = UserModel::find($id);
             if ($check) {
-                if (!$request->filled('level_id')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('level_id');
+                // Perbarui data user (username, password, level_id)
+                if ($request->filled('password')) {
+                    $request->merge(['password' => bcrypt($request->password)]);
                 }
-                if (!$request->filled('username')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('username');
-                }
-                if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('password');
-                }
+    
                 $check->update([
-                    'username'  => $request->username,
-                    'password'  => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
-                    'level_id'  => $request->level_id
+                    'username' => $request->username,
+                    'password' => $request->password ?? $check->password,
+                    'level_id' => $request->level_id
                 ]);
+    
+                // Update data berdasarkan level/role
+                if ($request->level_id == 1 && $check->level->level_nama == 'Admin' && $request->filled('nama_admin')) {
+                    // Update data untuk Admin
+                    $admin = AdminModel::where('id_user', $id)->first();
+                    if ($admin) {
+                        $admin->update([
+                            'nama_admin' => $request->nama_admin,
+                            'nip' => $request->nip,
+                            'email' => $request->email,
+                            'no_telepon' => $request->no_telepon
+                        ]);
+                    }
+                }
+    
+                if ($request->level_id == 2 && $check->level->level_nama == 'Dosen' && $request->filled('nama_dosen')) {
+                    // Update data untuk Dosen
+                    $dosen = DosenModel::where('id_user', $id)->first();
+                    if ($dosen) {
+                        $dosen->update([
+                            'nama_dosen' => $request->nama_dosen,
+                            'nip' => $request->nip,
+                            'email' => $request->email,
+                            'no_telepon' => $request->no_telepon
+                        ]);
+                    }
+                }
+    
+                if ($request->level_id == 3 && $check->level->level_nama == 'Tendik' && $request->filled('nama_tendik')) {
+                    // Update data untuk Tendik
+                    $tendik = TendikModel::where('id_user', $id)->first();
+                    if ($tendik) {
+                        $tendik->update([
+                            'nama_tendik' => $request->nama_tendik,
+                            'nip' => $request->nip,
+                            'email' => $request->email,
+                            'no_telepon' => $request->no_telepon
+                        ]);
+                    }
+                }
+    
+                if ($request->level_id == 4 && $check->level->level_nama == 'Mahasiswa' && $request->filled('nama_mahasiswa')) {
+                    // Update data untuk Mahasiswa
+                    $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
+                    if ($mahasiswa) {
+                        $mahasiswa->update([
+                            'nama_mahasiswa' => $request->nama_mahasiswa,
+                            'nim' => $request->nim,
+                            'email' => $request->email,
+                            'program_studi' => $request->program_studi,
+                            'tahun_masuk' => $request->tahun_masuk
+                        ]);
+                    }
+                }
+    
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil diupdate'
@@ -141,8 +204,13 @@ class ProfileController extends Controller
                 ]);
             }
         }
+    
+        // Jika bukan request AJAX atau JSON, redirect ke halaman utama
         return redirect('/');
     }
+    
+    
+    
 
     public function edit_foto(string $id)
     {
