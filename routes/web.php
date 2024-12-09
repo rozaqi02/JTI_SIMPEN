@@ -51,9 +51,9 @@ Route::group(['prefix' => 'jenis-kompen'], function () {
 });
 
 
-Route::group(['prefix' => 'daftar-tugas'], function () {
-    Route::get('/', [TugasMahasiswaController::class, 'index']);
-});
+// Route::group(['prefix' => 'daftar-tugas'], function () {
+//     Route::get('/', [TugasMahasiswaController::class, 'index']);
+// });
 
 Route::group(['prefix' => 'riwayat-tugas'], function () {
     Route::get('/', [RiwayatPenugasanMahasiswaController::class, 'index']);
@@ -80,11 +80,11 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/store_ajax', [UserController::class, 'store_ajax'])->name('user.store');
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax'])->name('user.edit');
     Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
-    Route::get('/{id_user}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
     Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
-
 });
+
 
 
 

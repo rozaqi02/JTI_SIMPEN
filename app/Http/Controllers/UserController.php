@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\LevelModel;
 use App\Models\UserModel;
-use App\Models\User;
+use App\Models\AdminModel;
+use App\Models\DosenModel;
+use App\Models\TendikModel;
+use App\Models\MahasiswaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
@@ -174,23 +177,35 @@ public function edit_ajax($id)
         return redirect('/');
     }
 
-    public function show_ajax($id)
-{
-    // Mengambil data User berdasarkan ID
-    $user = UserModel::find($id);
-
-    // Pastikan data ditemukan
-    if ($user) {
-        // Mengembalikan view show_ajax dengan membawa data User
-        return view('admin.user.show_ajax', ['user' => $user]);
-    }
-
-    // Jika data tidak ditemukan, mengembalikan response JSON dengan pesan error
-    return response()->json([
-        'status' => false,
-        'message' => 'User tidak ditemukan',
-    ]);
-}
+    public function show_ajax(string $id)
+    {
+        $user = UserModel::find($id);
+    
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
+    
+        // Ambil data berdasarkan level
+        $admin = null;
+        $dosen = null;
+        $tendik = null;
+        $mahasiswa = null;
+    
+        if ($user->level_id == 1) {
+            $admin = AdminModel::where('id_user', $user->id_user)->first();
+        } elseif ($user->level_id == 2) {
+            $dosen = DosenModel::where('id_user', $user->id_user)->first();
+        } elseif ($user->level_id == 3) {
+            $tendik = TendikModel::where('id_user', $user->id_user)->first();
+        } elseif ($user->level_id == 4) {
+            $mahasiswa = MahasiswaModel::where('id_user', $user->id_user)->first();
+        }
+    
+        return view('admin.user.show_ajax', compact('user', 'admin', 'dosen', 'tendik', 'mahasiswa'));
+    }    
 
     
  // Menampilkan konfirmasi penghapusan di modal
