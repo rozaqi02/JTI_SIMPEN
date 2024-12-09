@@ -20,6 +20,13 @@ class AlpakuModel extends Model
     // Relasi dengan model Mahasiswa
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa');
+        return $this->belongsTo(MahasiswaModel::class, 'id_mahasiswa');
     }
+    // Relasi dengan model Periode
+    public function periode()
+    {
+        return $this->belongsTo(PeriodeModel::class, 'id_periode');
+    }
+
+    
 }

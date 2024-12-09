@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Mahasiswa;
 use App\Models\AlpakuModel; // Import model AlpakuModel
+use App\Models\PeriodeModel;
 use Illuminate\Http\Request;
 
 class AlpakuController extends Controller
@@ -21,14 +20,15 @@ class AlpakuController extends Controller
 
         $activeMenu = 'alpaku'; // Menu aktif untuk halaman ini
 
-        // Mengambil data mahasiswa dan menghitung jumlah alpa
-        $mahasiswa = Mahasiswa::withCount('alpa')->get(); // Menggunakan relasi untuk menghitung jumlah alpa
+        // Mengambil data alpa dan periode, tanpa perlu menghitung jumlah alpa
+        $alpaData = AlpakuModel::with('periode') // Memuat relasi periode
+            ->get(); // Ambil semua data yang sudah ada (tidak perlu COUNT)
 
         return view('mahasiswa.alpaku.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
-            'mahasiswa' => $mahasiswa
+            'alpaData' => $alpaData
         ]);
     }
 }

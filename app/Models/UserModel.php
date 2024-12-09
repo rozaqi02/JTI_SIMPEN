@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany; // Tambahkan HasMany
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -84,6 +85,12 @@ class UserModel extends Authenticatable
     public function tendik()
     {
         return $this->hasOne(TendikModel::class, 'id_user', 'id_user');
+    }
+
+    // Relasi dengan TugasModel (seorang user bisa memiliki banyak tugas)
+    public function tugas()
+    {
+        return $this->hasMany(TugasModel::class, 'id_user', 'id_user');
     }
 
     // Mendapatkan kode role

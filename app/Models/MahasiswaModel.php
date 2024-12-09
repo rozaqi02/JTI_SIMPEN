@@ -34,6 +34,7 @@ class MahasiswaModel extends Model
     {
         return $this->belongsTo(BidkomModel::class, 'id_bidkom', 'id_bidkom');
     }
+    
 }
 
 

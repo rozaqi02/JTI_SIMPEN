@@ -1,38 +1,34 @@
-@extends('layouts.template')
+@extends('layouts.app')
 
 @section('content')
-<div class="card card-outline card-primary">
-    <div class="card-header">
-        <h3 class="card-title">{{ $page->title }}</h3>
-    </div>
-    <div class="card-body">
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
+<div class="container">
+    <h2>{{ $page->title }}</h2>
 
-        <table class="table table-bordered table-striped table-hover table-sm" id="table_alpaku">
-            <thead>
+    <!-- Tampilkan Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach ($breadcrumb->list as $item)
+                <li class="breadcrumb-item">{{ $item }}</li>
+            @endforeach
+        </ol>
+    </nav>
+
+    <!-- Tabel Data Alpa -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Periode</th>
+                <th scope="col">Jumlah Alpa</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($alpaData as $data)
                 <tr>
-                    <th>ID Mahasiswa</th>
-                    <th>Nama Mahasiswa</th>
-                    <th>NIM</th>
-                    <th>Jumlah Alpa</th>
+                    <td>{{ $data->periode->periode_name }}</td>  <!-- Mengambil nama periode -->
+                    <td>{{ $data->jumlah_alpa }}</td>  <!-- Menampilkan jumlah alpa -->
                 </tr>
-            </thead>
-            <tbody>
-                @foreach($mahasiswa as $item)
-                <tr>
-                    <td>{{ $item->id_mahasiswa }}</td>
-                    <td>{{ $item->nama_mahasiswa }}</td>
-                    <td>{{ $item->nim }}</td>
-                    <td>{{ $item->alpa_count }}</td> <!-- Menggunakan alpa_count untuk jumlah alpa -->
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endsection

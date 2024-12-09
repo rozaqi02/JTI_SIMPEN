@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mahasiswa;
+use App\Models\MahasiswaModel;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -21,7 +21,7 @@ class MahasiswaController extends Controller
         $activeMenu = 'info-mahasiswa'; // Menu aktif untuk halaman ini
 
         // Mengambil data dari model
-        $mahasiswa = Mahasiswa::all();
+        $mahasiswa = MahasiswaModel::all();
 
         return view('admin.info-mahasiswa.index', [
             'breadcrumb' => $breadcrumb,
