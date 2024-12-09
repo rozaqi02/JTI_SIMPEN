@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\LevelModel;
 use App\Models\UserModel;
+use App\Models\AdminModel;
+use App\Models\DosenModel;
+use App\Models\TendikModel;
+use App\Models\MahasiswaModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +16,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $id = session('id_user');
+        $id = session('id_user'); // ambil id_user dari session
         $breadcrumb = (object) [
             'title' => 'Profil',
             'list' => ['JTI SIMPEN', 'profile']
@@ -21,11 +25,34 @@ class ProfileController extends Controller
             'title' => 'Profile Anda'
         ];
         $activeMenu = 'profile'; // set menu yang sedang aktif
+    
+        // Ambil data user lengkap dengan relasi level
         $user = UserModel::with('level')->find($id);
-        $level = LevelModel::all(); // ambil data level untuk filter level
-        return view('profile.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'user' => $user, 'activeMenu' => $activeMenu]);
+    
+        // Ambil data terkait berdasarkan role pengguna
+        $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
+        $admin = AdminModel::where('id_user', $id)->first();
+        $dosen = DosenModel::where('id_user', $id)->first();
+        $tendik = TendikModel::where('id_user', $id)->first();
+    
+        // Gabungkan data yang relevan berdasarkan role
+        $data = [
+            'user' => $user,
+            'mahasiswa' => $mahasiswa,
+            'admin' => $admin,
+            'dosen' => $dosen,
+            'tendik' => $tendik
+        ];
+    
+        return view('profile.index', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'user' => $user,
+            'data' => $data,  // data lengkap
+            'activeMenu' => $activeMenu
+        ]);
     }
-
+    
     public function show(string $id)
     {
         $user = UserModel::with('level')->find($id);
@@ -35,12 +62,39 @@ class ProfileController extends Controller
         return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
+    // public function edit_ajax(string $id)
+    // {
+    //     $user = UserModel::find($id);
+    //     $level = LevelModel::select('level_id', 'level_nama')->get();
+    //     return view('profile.edit_ajax', ['user' => $user, 'level' => $level]);
+    // }
+
+
     public function edit_ajax(string $id)
-    {
-        $user = UserModel::find($id);
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-        return view('profile.edit_ajax', ['user' => $user, 'level' => $level]);
+{
+    $user = UserModel::find($id); // Cari data user berdasarkan id_user
+    if (!$user) {
+        return abort(404, 'Data tidak ditemukan');
     }
+
+    // Tentukan model yang digunakan berdasarkan level user
+    $levelId = $user->level_id;
+
+    $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
+    $admin = AdminModel::where('id_user', $id)->first();
+    $dosen = DosenModel::where('id_user', $id)->first();
+    $tendik = TendikModel::where('id_user', $id)->first();
+
+    return view('profile.edit_ajax', [
+        'user' => $user,
+        'mahasiswa' => $mahasiswa,
+        'admin' => $admin,
+        'dosen' => $dosen,
+        'tendik' => $tendik,
+        'level' => LevelModel::select('level_id', 'level_nama')->get()
+    ]);
+}
+
 
     public function update_ajax(Request $request, $id)
     {
