@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TugasMahasiswa;
 use App\Models\TugasPendidik;
 use Illuminate\Http\Request;
 
@@ -19,16 +18,36 @@ class TugasPendidikController extends Controller
             'title' => 'Daftar Tugas'
         ];
 
-        $activeMenu = 'daftar-tugas'; // Menu aktif untuk halaman ini
+        $activeMenu = 'daftar-tugas';
 
         // Mengambil data dari model
-        $tugasMahasiswa = TugasPendidik::all();
+        $TugasPendidik = TugasPendidik::latest()->get();
 
         return view('admin.daftar-tugas.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
-            'tugasMahasiswa' => $tugasMahasiswa
+            'TugasPendidik' => $TugasPendidik
         ]);
+    }
+
+    public function create()
+    {
+        return view('admin.daftar-tugas.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_tugas' => 'required|string|max:255',
+            'deskripsi_tugas' => 'nullable|string',
+            'kuota' => 'required|integer|min:1',
+            'nilai_kompen' => 'required|numeric|min:0',
+            'jumlah_jam' => 'required|numeric|min:0'
+        ]);
+
+        TugasPendidik::create($validated);
+
+        return redirect('/daftar-tugas')->with('success', 'Tugas berhasil ditambahkan.');
     }
 }

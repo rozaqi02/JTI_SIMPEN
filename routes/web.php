@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\TugasPendidikController;
 use App\Http\Controllers\TugasMahasiswaController;
 use App\Http\Controllers\JenisKompenController;
 use App\Http\Controllers\RiwayatPenugasanMahasiswaController;
@@ -51,9 +52,9 @@ Route::group(['prefix' => 'jenis-kompen'], function () {
 });
 
 
-// Route::group(['prefix' => 'daftar-tugas'], function () {
-//     Route::get('/', [TugasMahasiswaController::class, 'index']);
-// });
+ Route::group(['prefix' => 'daftar-tugas'], function () {
+     Route::get('/', [TugasPendidikController::class, 'index']);
+ });
 
 Route::group(['prefix' => 'riwayat-tugas'], function () {
     Route::get('/', [RiwayatPenugasanMahasiswaController::class, 'index']);
@@ -63,9 +64,12 @@ Route::group(['prefix' => 'info-mahasiswa'], function () {
     Route::get('/', [MahasiswaController::class, 'index']);
 });
 
-Route::group(['prefix' => 'progress-tugas'], function () {
-    Route::get('/', [ProgressTugasController::class, 'index']);
+Route::group(['prefix' => 'daftar-tugas'], function () {
+    Route::get('/', [TugasPendidikController::class, 'index']);
+    Route::get('/create', [TugasPendidikController::class, 'create']);
+    Route::post('/store', [TugasPendidikController::class, 'store']);
 });
+
 
 Route::group(['prefix' => 'alpaku'], function () {
     Route::get('/', [AlpakuController::class, 'index']);
