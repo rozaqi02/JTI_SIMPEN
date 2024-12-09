@@ -26,6 +26,6 @@ class TugasPendidik extends Model
     // Relasi (jika ada)
     public function tugasMahasiswa()
     {
-        return $this->hasMany(TugasMahasiswa::class, 'id_detail_tugas', 'id_detail_tugas');
+        return $this->hasMany(TugasPendidik::class, 'id_detail_tugas', 'id_detail_tugas');
     }
 }
