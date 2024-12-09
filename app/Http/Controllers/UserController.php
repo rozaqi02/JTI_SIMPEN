@@ -58,7 +58,7 @@ class UserController extends Controller
                 // Tombol Detail
                 $btn = '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> '; // Tombol Hapus menjadi merah
+                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->id_user . '/confirm_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> '; // Tombol Hapus menjadi merah
                 return $btn;
             })
             ->rawColumns(['aksi'])  // Menandai kolom aksi untuk diproses sebagai HTML
