@@ -6,9 +6,8 @@
         <div class="row" id="profile">
             <div class="col-md-4 border-right">
                 <div class="p-3 py-5">
-
-                    <div class="d-flex flex-column align-items-center text-center p-3 ">
-                        <img class="rounded mt-3 mb-2" width="250px" src="{{ asset($user->getProfilePhoto() ?? 'default-foto.jpg') }}">
+                    <div class="d-flex flex-column align-items-center text-center p-3 "><img class="rounded mt-3 mb-2"
+                            width="250px" src=" {{ asset($user->foto) }} ">
                     </div>
                     <div onclick="modalAction('{{ url('/profile/' . session('id_user') . '/edit_foto') }}')"
                         class="mt-4 text-center"><button class="btn btn-primary profile-button" type="button">Edit
@@ -36,7 +35,7 @@
                             </tr>
                             <tr>
                                 <th>Nama</th>
-                                <td>{{ $profileData->nama }}</td> <!-- Mengambil data nama dari model yang sesuai -->
+                                <td>{{ $user->nama }}</td>
                             </tr>
                             <tr>
                                 <th>Password</th>
@@ -46,13 +45,42 @@
                     </div>
                     <div class="mt-3 text-center">
                         <button onclick="modalAction('{{ url('/profile/' . session('id_user') . '/edit_ajax') }}')"
-                            class="btn btn-primary profile-button">Edit Profile</button>
+                            class="btn btn-primary profile-button">Edit
+                            Profile</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-
             </div>
         </div>
     </div>
 @endsection
+@push('css')
+@endpush
+@push('js')
+    <script>
+        function modalAction(url = '') {
+            $('#myModal').load(url, function() {
+                $('#myModal').modal('show');
+            });
+        }
+        var profile;
+        $(document).ready(function() {
+            profile = $('#profile').on({
+                autoWidth: false,
+                serverSide: true,
+                ajax: {
+                    "url": "{{ url('penjualan/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function(d) {
+                        d.id_user = $('#id_user').val();
+                    }
+                },
+            });
+            $('#profile').on('change', function() {
+                profile.ajax.reload();
+            });
+        });
+    </script>
+    @endpush

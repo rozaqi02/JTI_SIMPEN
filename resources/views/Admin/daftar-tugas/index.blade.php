@@ -20,15 +20,16 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    
                     <th>Judul Tugas</th>
                     <th>Tanggal Dibuat</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($tugasMahasiswa as $item)
+                @foreach($tugasPendidik as $item)
                 <tr>
-                    <td>{{ $item->id_tugas }}</td>
+                    <td>{{ $item->id_detail_tugas }}</td>
                     <td>{{ $item->judul_tugas }}</td>
                     <td>{{ $item->tanggal_dibuat }}</td>
                     <td>

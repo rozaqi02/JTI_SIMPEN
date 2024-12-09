@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\TugasMahasiswa;
+use App\Models\TugasPendidik;
 use Illuminate\Http\Request;
 
-class TugasMahasiswaController extends Controller
+class TugasPendidikController extends Controller
 {
     public function index()
     {
         $breadcrumb = (object) [
             'title' => 'Manajemen Daftar Tugas',
-            'list' => ['Home', 'Manajemen', 'Daftar Tugas']
+            'list' => ['Home', 'Manajemen', 'Daftar Tugas Pendidik']
         ];
 
         $page = (object) [
@@ -21,7 +22,7 @@ class TugasMahasiswaController extends Controller
         $activeMenu = 'daftar-tugas'; // Menu aktif untuk halaman ini
 
         // Mengambil data dari model
-        $tugasMahasiswa = TugasMahasiswa::all();
+        $tugasMahasiswa = TugasPendidik::all();
 
         return view('admin.daftar-tugas.index', [
             'breadcrumb' => $breadcrumb,

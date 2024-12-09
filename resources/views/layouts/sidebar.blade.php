@@ -28,7 +28,7 @@
                 <li class="nav-item">
                     <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                         <i class="nav-icon far fa-address-card"></i>
-                        <p>Profile</p>
+                        <p>Profil</p>
                     </a>
                 </li>
             @endif
@@ -98,9 +98,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }}">
+                            <a href="{{ url('/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tasks"></i>
-                                <p>Data Tugas A, D, T</p>
+                                <p>Data Tugas Pendidik</p>
                             </a>
                         </li>
                     </ul>
