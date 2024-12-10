@@ -34,7 +34,7 @@
                         <label>Level Pengguna</label>
                         <select name="level_id" id="level_id" class="form-control" required>
                             <option value="">- Pilih Level -</option>
-                            @foreach ($level as $l)
+                            @foreach ($levels as $l)
                                 <option {{ $l->level_id == $user->level_id ? 'selected' : '' }}
                                     value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
                             @endforeach

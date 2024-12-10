@@ -34,10 +34,6 @@
                                 <td id="profile-username">{{ $user->username }}</td>
                             </tr>
                             <tr>
-                                <th>Nama</th>
-                                <td id="profile-nama">{{ $user->nama }}</td>
-                            </tr>
-                            <tr>
                                 <th>Password</th>
                                 <td>********</td>
                             </tr>
