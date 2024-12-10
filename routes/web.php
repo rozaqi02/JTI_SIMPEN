@@ -64,11 +64,24 @@ Route::group(['prefix' => 'info-mahasiswa'], function () {
     Route::get('/', [MahasiswaController::class, 'index']);
 });
 
-Route::group(['prefix' => 'daftar-tugas'], function () {
-    Route::get('/', [TugasPendidikController::class, 'index']);
-    Route::get('/create', [TugasPendidikController::class, 'create']);
-    Route::post('/store', [TugasPendidikController::class, 'store']);
+
+// Group routes for tugas-pendidik
+Route::group(['prefix' => 'tugas-pendidik'], function () {
+    Route::get('/', [TugasPendidikController::class, 'index']); // Menampilkan halaman daftar tugas pendidik
+    Route::post('/list', [TugasPendidikController::class, 'list']); // Menampilkan data tugas pendidik dalam bentuk JSON untuk DataTable
+    Route::get('/create_ajax', [TugasPendidikController::class, 'create_ajax']); // Menampilkan form tambah data
+    Route::post('/store_ajax', [TugasPendidikController::class, 'store_ajax']); // Menyimpan data baru
+    Route::get('/{id_detail_tugas}/edit_ajax', [TugasPendidikController::class, 'edit_ajax'])->name('edit_ajax'); // Menampilkan form edit data
+    Route::put('/update_ajax/{id}', [TugasPendidikController::class, 'update_ajax'])->name('update_ajax'); // Menyimpan perubahan data
+
+    // Route untuk Konfirmasi Hapus Tugas Pendidik
+    Route::get('/{id_detail_tugas}/confirm_ajax', [TugasPendidikController::class, 'confirm_ajax']); // Menampilkan konfirmasi hapus
+    Route::delete('/{id_detail_tugas}/delete_ajax', [TugasPendidikController::class, 'delete_ajax']); // Menghapus tugas pendidik
+
+    // Menambahkan route untuk show_ajax (menampilkan detail tugas pendidik)
+    Route::get('/{id_detail_tugas}/show_ajax', [TugasPendidikController::class, 'show_ajax'])->name('show_ajax'); // Menampilkan detail data tugas pendidik
 });
+
 
 
 Route::group(['prefix' => 'alpaku'], function () {

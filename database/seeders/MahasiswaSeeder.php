@@ -13,9 +13,9 @@ class MahasiswaSeeder extends Seeder
         DB::table('m_mahasiswa')->insert([
             [
                 'id_user'=> '4',
-                'id_bidkom'=> '1',
                 'nama_mahasiswa' => 'Amanda Jasmyne',
                 'nim' => 2241760123,
+                'no_telepon' => '081237621316',
                 'email' => 'amandajbp04@gmail.com',
                 'program_studi' => 'Sistem Informasi Bisnis',
                 'tahun_masuk' => 2024,

@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\LevelModel;
 use App\Models\UserModel;
 use App\Models\AdminModel;
+use App\Models\BidkomModel;
 use App\Models\DosenModel;
 use App\Models\TendikModel;
 use App\Models\MahasiswaModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -25,16 +27,16 @@ class ProfileController extends Controller
             'title' => 'Profile Anda'
         ];
         $activeMenu = 'profile'; // set menu yang sedang aktif
-    
+
         // Ambil data user lengkap dengan relasi level
         $user = UserModel::with('level')->find($id);
-    
+
         // Ambil data terkait berdasarkan role pengguna
         $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
         $admin = AdminModel::where('id_user', $id)->first();
         $dosen = DosenModel::where('id_user', $id)->first();
         $tendik = TendikModel::where('id_user', $id)->first();
-    
+
         // Gabungkan data yang relevan berdasarkan role
         $data = [
             'user' => $user,
@@ -43,7 +45,7 @@ class ProfileController extends Controller
             'dosen' => $dosen,
             'tendik' => $tendik
         ];
-    
+
         return view('profile.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
@@ -52,7 +54,7 @@ class ProfileController extends Controller
             'activeMenu' => $activeMenu
         ]);
     }
-    
+
     public function show(string $id)
     {
         $user = UserModel::with('level')->find($id);
@@ -72,16 +74,27 @@ class ProfileController extends Controller
 
     public function edit_ajax(string $id)
     {
-        $user = UserModel::find($id); // Cari data user berdasarkan id_user
-        if (!$user) {
-            return abort(404, 'Data tidak ditemukan');
-        }
+        $user = UserModel::findOrFail($id); // Gunakan findOrFail untuk menangani kasus tidak ditemukan
     
-        // Tentukan model yang digunakan berdasarkan level user
+        // Ambil data sesuai tipe user
         $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
         $admin = AdminModel::where('id_user', $id)->first();
         $dosen = DosenModel::where('id_user', $id)->first();
         $tendik = TendikModel::where('id_user', $id)->first();
+    
+        // Muat relasi yang diperlukan hanya jika mahasiswa tidak null
+        if ($mahasiswa) {
+            $mahasiswa->load('detailBidkom.bidkom');
+        } else {
+            // Inisialisasi mahasiswa sebagai objek kosong jika null
+            $mahasiswa = new MahasiswaModel();
+        }
+    
+        // Ambil semua bidkom untuk dropdown
+        $bidkoms = BidkomModel::all(); 
+    
+        // Mengambil data level untuk dropdown
+        $levels = LevelModel::select('level_id', 'level_nama')->get();
     
         return view('profile.edit_ajax', [
             'user' => $user,
@@ -89,10 +102,12 @@ class ProfileController extends Controller
             'admin' => $admin,
             'dosen' => $dosen,
             'tendik' => $tendik,
-            'level' => LevelModel::select('level_id', 'level_nama')->get()
+            'levels' => $levels,
+            'bidkoms' => $bidkoms,
         ]);
     }
     
+
 
 
     public function update_ajax(Request $request, $id)
@@ -101,6 +116,7 @@ class ProfileController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             // Validasi data input
             $rules = [
+                'id_user' => 'required',
                 'level_id' => 'nullable|integer',
                 'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
                 'password' => 'nullable|min:6|max:20',
@@ -113,9 +129,11 @@ class ProfileController extends Controller
                 'nama_tendik' => 'nullable|max:255',
                 'nama_mahasiswa' => 'nullable|max:255',
                 'program_studi' => 'nullable|max:100',
-                'tahun_masuk' => 'nullable|integer'
+                'tahun_masuk' => 'nullable|integer',
+                'bidkom' => 'required',
+                'bidkom.*' => 'exists:m_bidkom,id_bidkom', 
             ];
-    
+
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
@@ -124,7 +142,7 @@ class ProfileController extends Controller
                     'msgField' => $validator->errors()
                 ]);
             }
-    
+
             // Mencari data user
             $check = UserModel::find($id);
             if ($check) {
@@ -132,67 +150,60 @@ class ProfileController extends Controller
                 if ($request->filled('password')) {
                     $request->merge(['password' => bcrypt($request->password)]);
                 }
-    
+
                 $check->update([
                     'username' => $request->username,
                     'password' => $request->password ?? $check->password,
                     'level_id' => $request->level_id
                 ]);
-    
+
                 // Update data berdasarkan level/role
-                if ($request->level_id == 1 && $check->level->level_nama == 'Admin' && $request->filled('nama_admin')) {
-                    // Update data untuk Admin
-                    $admin = AdminModel::where('id_user', $id)->first();
-                    if ($admin) {
-                        $admin->update([
-                            'nama_admin' => $request->nama_admin,
-                            'nip' => $request->nip,
-                            'email' => $request->email,
-                            'no_telepon' => $request->no_telepon
-                        ]);
-                    }
+                if ($request->level_id == 1) {
+                    // Perbarui data admin berdasarkan id_user
+                    AdminModel::where('id_user', $request->id_user)->update([
+                        'id_user' => $request->id_user,
+                        'nama_admin' => $request->nama_admin,
+                        'nip' => $request->nip,
+                        'email' => $request->email,
+                        'no_telepon' => $request->no_telepon
+                    ]);
                 }
-    
-                if ($request->level_id == 2 && $check->level->level_nama == 'Dosen' && $request->filled('nama_dosen')) {
-                    // Update data untuk Dosen
-                    $dosen = DosenModel::where('id_user', $id)->first();
-                    if ($dosen) {
-                        $dosen->update([
-                            'nama_dosen' => $request->nama_dosen,
-                            'nip' => $request->nip,
-                            'email' => $request->email,
-                            'no_telepon' => $request->no_telepon
-                        ]);
-                    }
+
+
+
+                if ($request->level_id == 2) {
+                    DosenModel::where('id_user', $request->id_user)->update([
+                        'id_user' => $request->id_user,
+                        'nama_dosen' => $request->nama_dosen,
+                        'nip' => $request->nip,
+                        'email' => $request->email,
+                        'no_telepon' => $request->no_telepon
+                    ]);
                 }
-    
-                if ($request->level_id == 3 && $check->level->level_nama == 'Tendik' && $request->filled('nama_tendik')) {
+
+                if ($request->level_id == 3) {
                     // Update data untuk Tendik
-                    $tendik = TendikModel::where('id_user', $id)->first();
-                    if ($tendik) {
-                        $tendik->update([
-                            'nama_tendik' => $request->nama_tendik,
-                            'nip' => $request->nip,
-                            'email' => $request->email,
-                            'no_telepon' => $request->no_telepon
-                        ]);
-                    }
+                    TendikModel::where('id_user', $request->id_user)->update([
+                        'id_user' => $request->id_user,
+                        'nama_tendik' => $request->nama_tendik,
+                        'nip' => $request->nip,
+                        'email' => $request->email,
+                        'no_telepon' => $request->no_telepon
+                    ]);
                 }
-    
-                if ($request->level_id == 4 && $check->level->level_nama == 'Mahasiswa' && $request->filled('nama_mahasiswa')) {
+
+                if ($request->level_id == 4) {
                     // Update data untuk Mahasiswa
-                    $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
-                    if ($mahasiswa) {
-                        $mahasiswa->update([
-                            'nama_mahasiswa' => $request->nama_mahasiswa,
-                            'nim' => $request->nim,
-                            'email' => $request->email,
-                            'program_studi' => $request->program_studi,
-                            'tahun_masuk' => $request->tahun_masuk
-                        ]);
-                    }
+                    MahasiswaModel::where('id_user', $request->id_user)->update([
+                        'id_user' => $request->id_user,
+                        'nama_mahasiswa' => $request->nama_mahasiswa,
+                        'nim' => $request->nim,
+                        'email' => $request->email,
+                        'program_studi' => $request->program_studi,
+                        'tahun_masuk' => $request->tahun_masuk
+                    ]);
                 }
-    
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil diupdate'
@@ -204,13 +215,13 @@ class ProfileController extends Controller
                 ]);
             }
         }
-    
+
         // Jika bukan request AJAX atau JSON, redirect ke halaman utama
         return redirect('/');
     }
-    
-    
-    
+
+
+
 
     public function edit_foto(string $id)
     {

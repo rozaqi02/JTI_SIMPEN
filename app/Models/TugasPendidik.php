@@ -9,13 +9,15 @@ class TugasPendidik extends Model
 {
     use HasFactory;
 
-    protected $table = 'm_detail_tugas'; // Nama tabel di database
-    protected $primaryKey = 'id_detail_tugas'; // Primary key tabel
-    public $incrementing = false; // Non-incrementing jika id_detail_tugas menggunakan UUID
-    public $timestamps = true; // Menggunakan kolom created_at dan updated_at
+    protected $table = 'm_detail_tugas'; // Table name in the database
+    protected $primaryKey = 'id_detail_tugas'; // Primary key of the table
+    public $incrementing = false; // If the id_detail_tugas uses UUID or a non-incrementing value
+    public $timestamps = true; // Use created_at and updated_at columns
 
     protected $fillable = [
         'id_detail_tugas',
+        'id_user',
+        'id_jenis_kompen',
         'nama_tugas',
         'deskripsi_tugas',
         'kuota',
@@ -23,9 +25,17 @@ class TugasPendidik extends Model
         'jumlah_jam',
     ];
 
-    // Relasi (jika ada)
-    public function tugasMahasiswa()
+    // Relationship with the 'm_user' model (assuming it's another model)
+    public function user()
     {
-        return $this->hasMany(TugasPendidik::class, 'id_detail_tugas', 'id_detail_tugas');
+        return $this->belongsTo(UserModel::class, 'id_user'); // Menggunakan relasi belongsTo
+    }
+
+    // Definisikan relasi dengan JenisKompenModel
+    public function jenisKompen()
+    {
+        return $this->belongsTo(JenisKompen::class, 'id_jenis_kompen'); // Menggunakan relasi belongsTo
     }
 }
+    
+

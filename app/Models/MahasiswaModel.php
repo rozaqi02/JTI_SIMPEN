@@ -30,11 +30,12 @@ class MahasiswaModel extends Model
     }
 
     // Relasi dengan Bidang Komunikasi (Many-to-One)
-    public function bidkom()
-    {
-        return $this->belongsTo(BidkomModel::class, 'id_bidkom', 'id_bidkom');
-    }
-    
+// Dalam MahasiswaModel
+public function detailBidkom()
+{
+    return $this->hasMany(DetailBidkomModel::class, 'id_mahasiswa', 'id_mahasiswa');
+}
+
 }
 
 

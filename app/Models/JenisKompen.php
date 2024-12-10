@@ -25,4 +25,10 @@ class JenisKompen extends Model
 
     // Jika Anda tidak menggunakan timestamp 'created_at' dan 'updated_at' dalam tabel, atur ke false
     public $timestamps = true;
+    
+    public function tugasPendidik()
+    {
+        return $this->hasMany(TugasPendidik::class, 'id_jenis_kompen'); // Menggunakan hasMany untuk satu jenis kompensasi memiliki banyak tugas
+    }
+
 }

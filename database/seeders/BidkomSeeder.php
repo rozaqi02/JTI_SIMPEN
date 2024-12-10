@@ -18,7 +18,7 @@ class BidkomSeeder extends Seeder
             [
                 'id_bidkom' => 1,
                 'kode_bidkom' => 'WEB',
-                'nama_bidkom' => 'WEB DEVELOPER',
+                'nama_bidkom' => 'WEB DVEELOPER',
             ],
             [
                 'id_bidkom' => 2,

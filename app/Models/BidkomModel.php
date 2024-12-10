@@ -26,4 +26,9 @@ class BidkomModel extends Model
 
     // Jika Anda tidak menggunakan timestamp 'created_at' dan 'updated_at' dalam tabel, atur ke false
     public $timestamps = true;
+
+    public function detailBidkom()
+    {
+        return $this->hasMany(DetailBidkomModel::class, 'id_bidkom', 'id_bidkom');
+    }
 }

@@ -1,4 +1,3 @@
-<!-- create_ajax.blade.php -->
 <form action="{{ url('/user/store_ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div class="modal-dialog modal-lg" role="document">
@@ -8,9 +7,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
+                <!-- Level Pengguna -->
                 <div class="form-group">
-                    <label>Level Pengguna</label>
-                    <select name="level_id" id="level_id" c lass="form-control" required>
+                    <label for="level_id">Level Pengguna</label>
+                    <select name="level_id" id="level_id" class="form-control" required>
                         <option value="">- Pilih Level -</option>
                         @foreach($level as $l)
                             <option value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
@@ -18,20 +18,24 @@
                     </select>
                     <small id="error-level_id" class="error-text form-text text-danger"></small>
                 </div>
+                
+                <!-- Username -->
                 <div class="form-group">
-                    <label>Username</label>
+                    <label for="username">Username</label>
                     <input type="text" name="username" id="username" class="form-control" required>
                     <small id="error-username" class="error-text form-text text-danger"></small>
                 </div>
+                
+                <!-- Password -->
                 <div class="form-group">
-                    <label>Password</label>
+                    <label for="password">Password</label>
                     <input type="password" name="password" id="password" class="form-control" required>
                     <small id="error-password" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" data-dismiss="modal" class="btn btn-secondary">Batal</button>
+                <button type="submit" class="btn btn-success">Simpan</button>
             </div>
         </div>
     </div>

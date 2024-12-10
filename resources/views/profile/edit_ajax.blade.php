@@ -29,6 +29,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Level Pengguna -->
+                   <input type="hidden" value="{{ $user->id_user }}" name="id_user" id="id_user"> 
                     <div class="form-group">
                         <label>Level Pengguna</label>
                         <select name="level_id" id="level_id" class="form-control" required>
@@ -81,6 +82,24 @@
                             <input value="{{ $mahasiswa->email ?? '' }}" type="email" name="email" id="email" class="form-control">
                         @endif
                         <small id="error-email" class="error-text form-text text-danger"></small>
+                    </div>
+
+                    <div class="form-group">
+                        @if ($user->level_id == 1 || $user->level_id == 2 || $user->level_id == 3)
+                            <label>NIP</label>
+                        @elseif ($user->level_id == 4)
+                            <label>NIM</label>
+                        @endif
+                    
+                        @if ($user->level_id == 1) <!-- Admin -->
+                            <input value="{{ $admin->nip ?? '' }}" type="text" name="nip" id="nip" class="form-control">
+                        @elseif ($user->level_id == 2) <!-- Dosen -->
+                            <input value="{{ $dosen->nip ?? '' }}" type="text" name="nip" id="nip" class="form-control">
+                        @elseif ($user->level_id == 3) <!-- Tendik -->
+                            <input value="{{ $tendik->nip ?? '' }}" type="text" name="nip" id="nip" class="form-control">
+                        @elseif ($user->level_id == 4) <!-- Mahasiswa -->
+                            <input value="{{ $mahasiswa->nim ?? '' }}" type="text" name="nim" id="nim" class="form-control">
+                        @endif
                     </div>
 
                     <!-- No Telepon -->
