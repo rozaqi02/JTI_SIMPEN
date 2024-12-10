@@ -149,6 +149,12 @@ class ProfileController extends Controller
 
     public function update_ajax(Request $request, $id)
     {
+        if (!$request->ajax() && !$request->wantsJson()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Metode request tidak valid'
+            ], 405);
+        }
         // Cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             // Validasi data input
@@ -241,7 +247,7 @@ class ProfileController extends Controller
                     // Jika mahasiswa memiliki Bidkom yang dipilih, update menggunakan sync
                     $mahasiswa = MahasiswaModel::where('id_user', $request->id_user)->first();
                     if ($mahasiswa && $request->has('bidkom')) {
-                        // Pastikan Bidkom disinkronisasi jika ada perubahan
+                        // Sync bidkom dengan menghapus yang lama dan menambahkan yang baru
                         $mahasiswa->detailBidkom()->sync($request->bidkom);
                     }
                 }

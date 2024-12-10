@@ -131,7 +131,7 @@ Route::group(['prefix' => 'user'], function () {
 Route::middleware(['authorize:ADM,MHS,TDK,DSN'])->group(function(){
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::get('/profile/{id}/edit_ajax', [ProfileController::class, 'edit_ajax']);
-    Route::put('/profile/{id}/update_ajax', [ProfileController::class, 'update_ajax']);
+    Route::put('profile/{id}/update_ajax', [ProfileController::class, 'update_ajax']);
     Route::get('/profile/{id}/edit_foto', [ProfileController::class, 'edit_foto']);
     Route::put('/profile/{id}/update_foto', [ProfileController::class, 'update_foto']);
 });

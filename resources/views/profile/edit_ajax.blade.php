@@ -135,6 +135,38 @@
                         </div>
                     @endif
 
+                    @if ($user->level_id == 4) <!-- Hanya untuk Mahasiswa -->
+                    <div class="form-group">
+                        <label><i class="fas fa-users mr-2"></i>Bidkom</label>
+                        <div id="bidkom-container">
+                            @foreach ($mahasiswa->detailBidkom ?? [] as $detail)
+                                <div class="row mb-2">
+                                    <div class="col-md-11">
+                                        <select name="bidkom[]" class="form-control bidkom-select" required>
+                                            <option value="">Pilih Bidkom</option>
+                                            @foreach ($bidkoms as $bidkom)
+                                                <option value="{{ $bidkom->id_bidkom }}"
+                                                    {{ $detail->id_bidkom == $bidkom->id_bidkom ? 'selected' : '' }}>
+                                                    {{ $bidkom->nama_bidkom }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-danger btn-sm remove-bidkom">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm mt-2" id="add-bidkom">
+                            <i class="fas fa-plus mr-2"></i>Tambah Bidkom
+                        </button>
+                        <small id="error-bidkom" class="error-text form-text text-danger"></small>
+                    </div>
+                @endif
+
                     <!-- Input Password -->
                     <div class="form-group">
                         <label>Password</label>
@@ -152,72 +184,106 @@
         </div>
     </form>
     <script>
-        $(document).ready(function() {
-            $("#form-edit").validate({
-                rules: {
-                    level_id: {
-                        required: true,
-                        number: true
-                    },
-                    username: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 20
-                    },
-                    nama: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 100
-                    },
-                    password: {
-                        minlength: 6,
-                        maxlength: 20
-                    },
-                },
-                submitHandler: function(form) {
-                    var formData = new FormData(form);
-                    $.ajax({
-                        url: form.action,
-                        type: form.method,
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            if (response.status) {
-                                $('#myModal').modal('hide');
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: response.message
-                                });
-                                profile.ajax.reload();
-                            } else {
-                                $('.error-text').text('');
-                                $.each(response.msgField, function(prefix, val) {
-                                    $('#error-' + prefix).text(val[0]);
-                                });
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Terjadi Kesalahan',
-                                    text: response.message
-                                });
-                            }
-                        }
-                    });
-                    return false;
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
+$(document).ready(function() {
+    // Validasi form
+    $("#form-edit").validate({
+        rules: {
+            level_id: {
+                required: true,
+                number: true
+            },
+            username: {
+                required: true,
+                minlength: 3,
+                maxlength: 20
+            },
+            nama: {
+                required: true,
+                minlength: 3,
+                maxlength: 100
+            },
+            password: {
+                minlength: 6,
+                maxlength: 20
+            },
+        },
+        submitHandler: function(form) {
+            var formData = new FormData(form);
+
+            // Mengambil data Bidkom
+            var bidkoms = [];
+            $(".bidkom-select").each(function() {
+                bidkoms.push($(this).val());
+            });
+            formData.append('bidkoms', JSON.stringify(bidkoms));
+
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status) {
+                        $('#myModal').modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: response.message
+                        });
+                        profile.ajax.reload();
+                    } else {
+                        $('.error-text').text('');
+                        $.each(response.msgField, function(prefix, val) {
+                            $('#error-' + prefix).text(val[0]);
+                        });
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan',
+                            text: response.message
+                        });
+                    }
                 }
             });
-        });
+            return false;
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+
+    // Menambahkan Bidkom baru
+    $("#add-bidkom").click(function() {
+        var newBidkom = `<div class="row mb-2">
+                            <div class="col-md-11">
+                                <select name="bidkom[]" class="form-control bidkom-select" required>
+                                    <option value="">Pilih Bidkom</option>
+                                    @foreach ($bidkoms as $bidkom)
+                                        <option value="{{ $bidkom->id_bidkom }}">{{ $bidkom->nama_bidkom }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-danger btn-sm remove-bidkom">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>`;
+        $("#bidkom-container").append(newBidkom);
+    });
+
+    // Menghapus Bidkom
+    $(document).on("click", ".remove-bidkom", function() {
+        $(this).closest(".row").remove();
+    });
+});
     </script>
 @endempty

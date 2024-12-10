@@ -1,12 +1,14 @@
 @extends('layouts.template')
+
 @section('content')
     <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
         data-keyboard="false" data-width="75%" aria-hidden="true"></div>
+
     <div class="container rounded bg-white border">
         <div class="row" id="profile">
             <div class="col-md-4 border-right">
                 <div class="p-3 py-5">
-                    <div class="d-flex flex-column align-items-center text-center p-3 ">
+                    <div class="d-flex flex-column align-items-center text-center p-3">
                         <img class="rounded mt-3 mb-2" width="250px" id="profile-image" src=" {{ asset($user->foto) }}">
                     </div>
                     <div onclick="modalAction('{{ url('/profile/' . session('id_user') . '/edit_foto') }}')" class="mt-4 text-center">
@@ -51,6 +53,10 @@
                                 <tr>
                                     <th>Tahun Masuk</th>
                                     <td>{{ $data['mahasiswa']->tahun_masuk }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Bidkom</th> <!-- Menambahkan field untuk bidkom -->
+                                    <td>{{ $data['mahasiswa']->bidkom ?? 'Tidak ada data' }}</td>
                                 </tr>
                             @elseif ($data['admin'])
                                 <tr>
@@ -141,6 +147,11 @@
                             $('#profile-level').text(response.data.level_nama);
                             $('#profile-id').text(response.data.id_user);
                             $('#profile-image').attr('src', response.data.foto);
+
+                            // Update bidkom
+                            if (response.data.bidkom) {
+                                $('#profile-bidkom').text(response.data.bidkom);
+                            }
 
                             $('#myModal').modal('hide');
                             Swal.fire({
