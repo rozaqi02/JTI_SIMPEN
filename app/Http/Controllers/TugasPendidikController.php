@@ -6,6 +6,7 @@ use App\Models\JenisKompen;
 use App\Models\TugasPendidik;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TugasPendidikController extends Controller
 {
@@ -39,7 +40,7 @@ class TugasPendidikController extends Controller
             // ->join('m_user', 'm_user.id_user', '=', 'm_detail_tugas.id_user')
             // ->join('m_jenis_kompen', 'm_jenis_kompen.id_jenis_kompen', '=', 'm_detail_tugas.id_jenis_kompen');
             ->get();
-            
+
         // Filter berdasarkan nama_tugas jika ada
         if ($request->has('nama_tugas') && $request->nama_tugas) {
             $tugasPendidiks->where('nama_tugas', 'like', '%' . $request->nama_tugas . '%');
@@ -67,6 +68,61 @@ class TugasPendidikController extends Controller
             ->rawColumns(['aksi'])
             ->make(true);
     }
+
+    public function create_ajax()
+    {
+    // Mengambil data level dan jenis kompensasi untuk dropdown
+    $jenisKompen = JenisKompen::all(); // Ambil data jenis kompensasi untuk dropdown
+    $users = UserModel::all(); // Ambil data user untuk dropdown
+    
+    // Mengembalikan view dengan data yang diperlukan
+    return view('admin.tugas-pendidik.create_ajax', compact('jenisKompen', 'users'));
+    }
+
+    public function store_ajax(Request $request)
+{
+    // Cek apakah request berupa AJAX
+    if ($request->ajax() || $request->wantsJson()) {
+        // Validasi data
+        $rules = [
+            'nama_tugas' => 'required|string|min:3',
+            'deskripsi_tugas' => 'required|string|min:5',
+            'kuota' => 'required|integer|min:1',
+            'nilai_kompen' => 'required|numeric|min:0',
+            'user_id' => 'required|exists:m_user,id_user',
+            'jenis_kompen_id' => 'required|exists:m_jenis_kompen,id_jenis_kompen',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false, // Response status, false: error/gagal, true: berhasil
+                'message' => 'Validasi Gagal',
+                'msgField' => $validator->errors(), // Pesan error validasi
+            ]);
+        }
+
+        // Menyimpan data tugas pendidik
+        TugasPendidik::create([
+            'nama_tugas' => $request->nama_tugas,
+            'deskripsi_tugas' => $request->deskripsi_tugas,
+            'kuota' => $request->kuota,
+            'nilai_kompen' => $request->nilai_kompen,
+            'user_id' => $request->user_id, // ID user yang terkait
+            'jenis_kompen_id' => $request->jenis_kompen_id, // ID jenis kompensasi
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Tugas Pendidik berhasil disimpan'
+        ]);
+    }
+
+    return redirect('/');
+}
+
+
         
 
 }
