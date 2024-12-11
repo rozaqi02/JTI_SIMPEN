@@ -35,4 +35,9 @@ class WelcomeController extends Controller
 
         return view('welcome', compact('breadcrumb', 'activeMenu', 'totalTugas', 'totalKompen', 'mahasiswa', 'chartData'));
     }
+
+    public function Landing()
+    {
+        return view('landing');
+}
 }
