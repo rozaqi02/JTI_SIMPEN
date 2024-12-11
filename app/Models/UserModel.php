@@ -9,8 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany; // Tambahkan HasMany
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class UserModel extends Authenticatable 
+class UserModel extends Authenticatable implements JWTSubject
 {
+    public function getJWTIdentifier(){
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims(){
+        return [];
+    }
     //use HasFactory;
 
     protected $table = 'm_user';        // mendefinisikan nama tabel yang digunakan UserModel
@@ -92,19 +98,6 @@ class UserModel extends Authenticatable
     {
         return $this->hasMany(TugasModel::class, 'id_user', 'id_user');
     }
-
-        // Relasi dengan TugasPendidik
-        public function tugasPendidik()
-        {
-            return $this->hasMany(TugasPendidik::class, 'id_user'); // Menggunakan hasMany untuk satu user memiliki banyak tugas
-        }
-
-        public function NgambilTugas()
-        {
-            return $this->hasMany(NgambilTugas::class, 'id_user'); // Menggunakan hasMany untuk satu user memiliki banyak tugas
-        }
-
-
 
     // Mendapatkan kode role
     public function getRole()
