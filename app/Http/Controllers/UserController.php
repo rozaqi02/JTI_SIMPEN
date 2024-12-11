@@ -10,6 +10,8 @@ use App\Models\TendikModel;
 use App\Models\MahasiswaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use PhpOffice\PhpSpreadsheet\IOFactory; // Import PhpSpreadsheet
+use PhpOffice\PhpSpreadsheet\Exception; //
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -270,7 +272,6 @@ public function import_ajax(Request $request)
                     $insert[] = [
                         'level_id' => $value['A'],
                         'username' => $value['B'],
-                        'nama' => $value['C'],
                         'created_at' => now(),
                     ];
                 }
