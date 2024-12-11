@@ -1,14 +1,11 @@
 <?php 
-
 namespace App\Http\Controllers;
-
 use App\Models\TugasPendidik;
 use App\Models\JenisKompen;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
 class PenugasankuController extends Controller
 {
     public function index()
@@ -30,7 +27,6 @@ class PenugasankuController extends Controller
         return view('Admin.Pendidik.index', compact('breadcrumb', 'page', 'activeMenu', 'jenisKompen'));
     }
     
-
     public function list(Request $request)
     {
         $userId = Auth::id(); // Mendapatkan ID user yang sedang login

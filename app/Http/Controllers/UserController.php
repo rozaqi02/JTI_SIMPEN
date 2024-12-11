@@ -69,8 +69,6 @@ class UserController extends Controller
 
 
 
-
-
     public function create_ajax()
 {
     $level = LevelModel::all();  // Ambil data level untuk dropdown

@@ -9,6 +9,7 @@ use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\NgambilTugasController;
+use App\Http\Controllers\PenugasankuController;
 use App\Http\Controllers\TugasPendidikController;
 use App\Http\Controllers\TugasMahasiswaController;
 use App\Http\Controllers\JenisKompenController;
@@ -116,7 +117,10 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
 });
 
-
+Route::group(['prefix' => 'Pendidik'], function () {
+    Route::get('/', [PenugasankuController::class, 'index']);
+    Route::post('/list', [PenugasankuController::class, 'list']);
+});
 
 
 
