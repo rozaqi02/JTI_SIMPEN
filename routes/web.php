@@ -65,6 +65,10 @@ Route::group(['prefix' => 'info-mahasiswa'], function () {
     Route::get('/', [MahasiswaController::class, 'index']);
 });
 
+Route::group(['prefix' => 'mahasiswa/alpa'], function () {
+    Route::get('/', [AlpakuController::class, 'index']); // Halaman data alpa mahasiswa
+    Route::post('/list', [AlpakuController::class, 'list']); // DataTables untuk alpa
+});
 
 // Group routes for tugas-pendidik
 Route::group(['prefix' => 'tugas-pendidik'], function () {
@@ -83,6 +87,11 @@ Route::group(['prefix' => 'tugas-pendidik'], function () {
     Route::get('/{id_detail_tugas}/show_ajax', [TugasPendidikController::class, 'show_ajax'])->name('show_ajax'); // Menampilkan detail data tugas pendidik
 });
 
+Route::group(['prefix' => 'list-tugas'], function () {
+    Route::get('/', [NgambilTugasController::class, 'index']); // Menampilkan halaman daftar tugas
+    Route::post('/mahasiswa/list', [NgambilTugasController::class, 'list']); // DataTable endpoint
+    Route::get('/{id_detail_tugas}/apply_ajax', [NgambilTugasController::class, 'show']); // Modal detail tugas
+});
 
 
 Route::group(['prefix' => 'alpaku'], function () {
@@ -90,9 +99,7 @@ Route::group(['prefix' => 'alpaku'], function () {
 });
 
 
-Route::post('/mahasiswa/daftar-tugas/list', [NgambilTugasController::class, 'list']);
-Route::get('/mahasiswa/daftar-tugas', [NgambilTugasController::class, 'index']);
-Route::get('/mahasiswa/daftar-tugas/{id}/show', [NgambilTugasController::class, 'show']);
+
 
 
 Route::group(['prefix' => 'user'], function () {

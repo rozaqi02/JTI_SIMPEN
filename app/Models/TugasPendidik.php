@@ -34,8 +34,7 @@ class TugasPendidik extends Model
     // Definisikan relasi dengan JenisKompenModel
     public function jenisKompen()
     {
-        return $this->belongsTo(JenisKompen::class, 'id_jenis_kompen'); // Menggunakan relasi belongsTo
+        return $this->belongsTo(JenisKompen::class, 'id_jenis_kompen', 'id_jenis_kompen');
     }
-}
     
-
+}

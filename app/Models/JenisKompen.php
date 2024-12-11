@@ -31,4 +31,9 @@ class JenisKompen extends Model
         return $this->hasMany(TugasPendidik::class, 'id_jenis_kompen'); // Menggunakan hasMany untuk satu jenis kompensasi memiliki banyak tugas
     }
 
+    public function NgambilTugas()
+    {
+           return $this->hasMany(NgambilTugas::class, 'id_jenis_kompen'); // Menggunakan hasMany untuk satu jenis kompensasi memiliki banyak tugas
+    }
+
 }

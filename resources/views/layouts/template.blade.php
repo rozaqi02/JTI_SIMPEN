@@ -26,67 +26,64 @@
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
 
     <style>
-        
-            .sidebar-dark-primary {
-        background-color: #2d2d2d;
-    }
+    /* Sidebar styling */
+.sidebar-dark-primary {
+    background-color: #2d2d2d;
+}
 
-    /* Ubah warna menu aktif menjadi oranye */
-    .sidebar-dark-primary .nav-link.active {
-        background-color: #e87817 !important;
-        color: #ffffff !important;
-        border-radius: 8px;
-    }
+/* Gaya menu aktif */
+.sidebar-dark-primary .nav-link.active {
+    background-color: #e87817 !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+}
 
-    /* Tambahkan hover warna oranye */
-    .sidebar-dark-primary .nav-link:hover {
-        background-color: #e87817;
-        color: white;
-        border-radius: 8px;
-    }
+/* Hover pada menu */
+.sidebar-dark-primary .nav-link:hover {
+    background-color: #e87817;
+    color: white;
+    border-radius: 8px;
+    transform: translateX(5px); /* Efek sedikit gerakan ke kanan */
+}
 
-    /* Gaya default untuk nav-link */
-    .sidebar-dark-primary .nav-link {
-        color: #c2c7d0;
-    }
+/* Gaya default untuk nav-link */
+.sidebar-dark-primary .nav-link {
+    color: #c2c7d0;
+}
 
-    /* Brand Logo */
-    .brand-link {
-        background-color: #2b2b2b;
-        text-align: center;
-    }
+/* Brand logo styling */
+.brand-link {
+    background-color: #2b2b2b;
+    text-align: center;
+    display: flex; /* Flexbox untuk mengatur logo dan teks */
+    align-items: center; /* Pusatkan secara vertikal */
+    padding: 10px;
+}
 
-    .brand-link .brand-text {
-        color: white;
-        font-weight: bold;
-    }
-        .sidebar-dark-primary {
-            background-color: #2d2d2d;
-        }
-        .sidebar-dark-primary .nav-link.active {
-            background-color: #e87817;
-            border-radius: 8px;
-        }
-        .sidebar-dark-primary .nav-link:hover {
-            background-color: #e87817;
-            color: white;
-            transform: translateX(5px);
-            border-radius: 8px;
-        }
-        .brand-link {
-            background-color: #2b2b2b;
-            text-align: center;
-        }
-        .brand-link .brand-text {
-            color: white;
-            font-weight: bold;
-        }
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+/* Logo styling */
+#logo-polinema {
+    width: auto; /* Lebar otomatis agar proporsional */
+    height: 60px; /* Tinggi tetap */
+    max-width: 100%; /* Tidak melebihi ukuran gambar asli */
+    margin-right: 10px; /* Spasi antara logo dan teks */
+    object-fit: contain; /* Pastikan logo tidak terdistorsi */
+}
 
-        .small-box {
+/* Teks branding */
+.brand-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Highlight teks "SIMPEN" */
+.brand-highlight {
+    color: #e87817;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Small-box styling */
+.small-box {
     border-radius: 10px;
     padding: 20px;
     color: #fff;
@@ -112,6 +109,66 @@
     border-radius: 0 0 10px 10px;
 }
 
+/* Navbar styling */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling table for consistency */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.table thead th {
+    background-color: #e87817;
+    color: white;
+    border: none;
+}
+
+/* Styling modal */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    background-color: #e87817;
+    color: white;
+    border-bottom: none;
+}
+
+.modal-footer .btn {
+    border-radius: 5px;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e87817;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #d56710;
+}
+
+
+
+
+
     </style>
 
     @stack('css')
@@ -129,10 +186,11 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url('/') }}" class="brand-link">
-                <img src="{{ asset('adminlte/dist/img/polinema.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">JTI-SIMPEN</span>
+                <img src="{{ asset('adminlte/dist/img/polinema.png') }}" alt="Polinema Logo"
+                    class="brand-image img-circle elevation-3" id="logo-polinema">
+                <span class="brand-text">JTI-<span class="brand-highlight">SIMPEN</span></span>
             </a>
+            
 
             <!-- Sidebar -->
             @include('layouts.sidebar')
@@ -185,7 +243,44 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            // Animasi Klik pada Sidebar
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', function (e) {
+        // Buat animasi lingkaran di sekitar klik
+        let ripple = document.createElement('span');
+        ripple.className = 'ripple-effect';
+        ripple.style.left = `${e.clientX - link.getBoundingClientRect().left}px`;
+        ripple.style.top = `${e.clientY - link.getBoundingClientRect().top}px`;
+        link.appendChild(ripple);
+
+        // Hapus animasi setelah selesai
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// Simpan Status Menu yang Dibuka
+document.querySelectorAll('.nav-item > a').forEach(link => {
+    link.addEventListener('click', function () {
+        localStorage.setItem('sidebarMenuOpen', link.parentElement.classList.contains('menu-open') ? '' : link.getAttribute('href'));
+    });
+});
+
+// Memuat Status Menu Setelah Refresh
+document.addEventListener('DOMContentLoaded', function () {
+    const menuOpen = localStorage.getItem('sidebarMenuOpen');
+    if (menuOpen) {
+        document.querySelectorAll('.nav-item').forEach(item => {
+            if (item.querySelector(`[href="${menuOpen}"]`)) {
+                item.classList.add('menu-open');
+                item.querySelector('.nav-link').classList.add('active');
+            }
+        });
+    }
+});
+
         </script>
+        
         @stack('js')
         <!-- Digunakan untuk memanggil custom js dari perintah push('js') pada masing-masing view-->
 </body>

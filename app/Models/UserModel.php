@@ -99,6 +99,11 @@ class UserModel extends Authenticatable
             return $this->hasMany(TugasPendidik::class, 'id_user'); // Menggunakan hasMany untuk satu user memiliki banyak tugas
         }
 
+        public function NgambilTugas()
+        {
+            return $this->hasMany(NgambilTugas::class, 'id_user'); // Menggunakan hasMany untuk satu user memiliki banyak tugas
+        }
+
 
 
     // Mendapatkan kode role
