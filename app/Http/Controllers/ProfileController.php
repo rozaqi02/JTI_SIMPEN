@@ -162,7 +162,7 @@ class ProfileController extends Controller
                 'id_user' => 'required',
                 'level_id' => 'nullable|integer',
                 'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
-                'password' => 'nullable|min:6|max:20',
+                'password' => 'nullable|min:5|max:20',
                 'nama_admin' => 'nullable|max:255',
                 'nip' => 'nullable|max:20',
                 'no_telepon' => 'nullable|max:20',
@@ -170,6 +170,7 @@ class ProfileController extends Controller
                 'nama_dosen' => 'nullable|max:255',
                 'nama_tendik' => 'nullable|max:255',
                 'nama_mahasiswa' => 'nullable|max:255',
+                'nim' => 'nullable|max:20',
                 'program_studi' => 'nullable|max:100',
                 'tahun_masuk' => 'nullable|integer',
                 'bidkom' => 'nullable|array',  // Mengizinkan array untuk multiple bidkom
@@ -234,23 +235,31 @@ class ProfileController extends Controller
                 }
     
                 if ($request->level_id == 4) { // Untuk mahasiswa
-                    // Perbarui data mahasiswa
-                    MahasiswaModel::where('id_user', $request->id_user)->update([
-                        'id_user' => $request->id_user,
-                        'nama_mahasiswa' => $request->nama_mahasiswa,
-                        'nim' => $request->nim,
-                        'email' => $request->email,
-                        'program_studi' => $request->program_studi,
-                        'tahun_masuk' => $request->tahun_masuk
-                    ]);
-    
-                    // Jika mahasiswa memiliki Bidkom yang dipilih, update menggunakan sync
                     $mahasiswa = MahasiswaModel::where('id_user', $request->id_user)->first();
-                    if ($mahasiswa && $request->has('bidkom')) {
-                        // Sync bidkom dengan menghapus yang lama dan menambahkan yang baru
-                        $mahasiswa->detailBidkom()->sync($request->bidkom);
+                    if ($mahasiswa) {
+                        // Perbarui data mahasiswa
+                        $mahasiswa->update([
+                            'id_user' => $request->id_user,
+                            'nama_mahasiswa' => $request->nama_mahasiswa,
+                            'nim' => $request->nim,
+                            'email' => $request->email,
+                            'program_studi' => $request->program_studi,
+                            'tahun_masuk' => $request->tahun_masuk
+                        ]);
+                
+                        // Jika mahasiswa memiliki Bidkom yang dipilih, sinkronkan dengan relasi
+                        if ($request->has('bidkom')) {
+                            $mahasiswa->detailBidkom()->sync($request->bidkom);
+                        }
+                    } else {
+                        \Log::error('Mahasiswa tidak ditemukan dengan id_user: ' . $request->id_user);
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Data mahasiswa tidak ditemukan.'
+                        ]);
                     }
                 }
+                
     
                 return response()->json([
                     'status' => true,

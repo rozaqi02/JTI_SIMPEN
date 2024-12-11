@@ -32,9 +32,6 @@
                 </div> 
             </div> 
             
- 
-Jobsheet 06  –   PWL 2023/2024  Hal. 13 / 21 
- 
 <div class="modal-footer"> 
     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button> 
     <button type="submit" class="btn btn-primary">Simpan</button> 
