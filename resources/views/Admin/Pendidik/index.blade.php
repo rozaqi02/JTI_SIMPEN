@@ -85,11 +85,13 @@
 @push('js')
 <script>
     // Function to load modal for show, edit, or delete actions
-    function modalAction(url = '') {
-        $('#myModal').load(url, function() {
-            $('#myModal').modal('show');
-        });
-    }
+// Function to load modal for show, edit, or delete actions
+function modalAction(url = '') {
+    $('#myModal').load(url, function() {
+        $('#myModal').modal('show');
+    });
+}
+
 
     // Initialize DataTable
     $(document).ready(function() {
