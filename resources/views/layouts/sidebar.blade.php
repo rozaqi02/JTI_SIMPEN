@@ -11,10 +11,9 @@
         </div>
     </div>
 
-    <!-- Sidebar Menu-->
+    <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            
             <!-- Dashboard Menu -->
             <li class="nav-item">
                 <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
@@ -24,7 +23,7 @@
             </li>
 
             <!-- Profile Menu -->
-            @if(auth()->check() && auth()->user()->level_id == '4' || auth()->check() && (auth()->user()->level_id == '2' || auth()->user()->level_id == '3' || auth()->user()->level_id == '1'))
+            @if(auth()->check() && (auth()->user()->level_id == '4' || in_array(auth()->user()->level_id, ['1', '2', '3'])))
                 <li class="nav-item">
                     <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                         <i class="nav-icon far fa-address-card"></i>
@@ -38,24 +37,32 @@
                 <li class="nav-item {{ $activeMenu == 'tugasku' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'tugasku' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tasks"></i>
-                        <p>Tugasku <i class="right fas fa-angle-left"></i></p>
+                        <p>
+                            Tugasku
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+<<<<<<< HEAD
                             <a href="{{ url('mahasiswa/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-list-alt"></i>
+=======
+                            <a href="{{ url('/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+>>>>>>> 0ef8e7bd8ae63b7223234828e7adde9eac0853b7
                                 <p>Daftar Tugas</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/progress-tugas') }}" class="nav-link {{ $activeMenu == 'progress-tugas' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-cogs"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Progress Tugas</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/riwayat-tugas') }}" class="nav-link {{ $activeMenu == 'riwayat-tugas' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-history"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Riwayat Tugas</p>
                             </a>
                         </li>
@@ -71,35 +78,36 @@
 
             <!-- Menu untuk Admin -->
             @if(auth()->check() && auth()->user()->level_id == '1')
-            
-                {{-- <li class="nav-header">Manajemen</li> --}}
                 <li class="nav-item {{ $activeMenu == 'manajemen' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'manajemen' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
-                        <p>Manajemen <i class="right fas fa-angle-left"></i></p>
+                        <p>
+                            Manajemen
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'data-pengguna' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-layer-group"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Data Pengguna</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/bidkom') }}" class="nav-link {{ $activeMenu == 'kompetensi' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-cogs"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Data Bidang Kompetensi</p>
-                            </a>                            
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/jenis-kompen') }}" class="nav-link {{ $activeMenu == 'jenis-kompen' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-cogs"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Data Jenis Kompen</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-tasks"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Data Tugas Pendidik</p>
                             </a>
                         </li>
@@ -108,23 +116,25 @@
             @endif
 
             <!-- Menu untuk Dosen dan Tendik dan Admin -->
-            @if(auth()->check() && (auth()->user()->level_id == '2' || auth()->user()->level_id == '3' || auth()->user()->level_id == '1'))
-                {{-- <li class="nav-header">Penugasanku</li> --}}
+            @if(auth()->check() && in_array(auth()->user()->level_id, ['2', '3', '1']))
                 <li class="nav-item {{ $activeMenu == 'penugasanku' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ $activeMenu == 'penugasanku' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tasks"></i>
-                        <p>Penugasanku <i class="right fas fa-angle-left"></i></p>
+                        <p>
+                            Penugasanku
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ url('/input-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-list-alt"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Daftar Tugas</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/riwayat-tugas') }}" class="nav-link {{ $activeMenu == 'riwayat-tugas' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-history"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Riwayat Tugas</p>
                             </a>
                         </li>
@@ -145,7 +155,9 @@
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                 </a>
-                <form id="logout-form" action="{{ url('logout') }}" method="GET" style="display: none;"></form>
+                <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </li>
         </ul>
     </nav>
