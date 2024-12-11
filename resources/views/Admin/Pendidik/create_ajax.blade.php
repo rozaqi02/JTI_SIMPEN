@@ -3,15 +3,18 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Tugas Baru</h5>
+                <h5 class="modal-title">
+                    <i class="fas fa-plus-circle"></i> Tambah Tugas Baru
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <!-- Jenis Kompen -->
                 <div class="form-group">
-                    <label for="id_jenis_kompen">Jenis Kompen</label>
-                    <select class="form-control" id="id_jenis_kompen" name="id_jenis_kompen" required>
+                    <label for="id_jenis_kompen" class="form-label">Jenis Kompen</label>
+                    <select class="form-control form-select" id="id_jenis_kompen" name="id_jenis_kompen" required>
                         <option value="" selected disabled>Pilih Jenis Kompen</option>
                         @foreach ($jenisKompen as $kompen)
                             <option value="{{ $kompen->id_jenis_kompen }}">{{ $kompen->nama_jenis_kompen }}</option>
@@ -19,35 +22,46 @@
                     </select>
                     <small id="error-id_jenis_kompen" class="error-text form-text text-danger"></small>
                 </div>
+
+                <!-- Nama Tugas -->
                 <div class="form-group">
-                    <label for="nama_tugas">Nama Tugas</label>
-                    <input type="text" name="nama_tugas" id="nama_tugas" class="form-control" required>
+                    <label for="nama_tugas" class="form-label">Nama Tugas</label>
+                    <input type="text" name="nama_tugas" id="nama_tugas" class="form-control" placeholder="Masukkan nama tugas" required>
                     <small id="error-nama_tugas" class="error-text form-text text-danger"></small>
                 </div>
+
+                <!-- Deskripsi Tugas -->
                 <div class="form-group">
-                    <label for="deskripsi_tugas">Deskripsi Tugas</label>
-                    <textarea name="deskripsi_tugas" id="deskripsi_tugas" class="form-control" rows="3" required></textarea>
+                    <label for="deskripsi_tugas" class="form-label">Deskripsi Tugas</label>
+                    <textarea name="deskripsi_tugas" id="deskripsi_tugas" class="form-control" rows="3" placeholder="Masukkan deskripsi tugas" required></textarea>
                     <small id="error-deskripsi_tugas" class="error-text form-text text-danger"></small>
                 </div>
+
+                <!-- Kuota -->
                 <div class="form-group">
-                    <label for="kuota">Kuota</label>
-                    <input type="number" name="kuota" id="kuota" class="form-control" min="1" required>
+                    <label for="kuota" class="form-label">Kuota</label>
+                    <input type="number" name="kuota" id="kuota" class="form-control" min="1" placeholder="Masukkan kuota" required>
                     <small id="error-kuota" class="error-text form-text text-danger"></small>
                 </div>
+
+                <!-- Nilai Kompen -->
                 <div class="form-group">
-                    <label for="nilai_kompen">Nilai Kompen</label>
-                    <input type="number" name="nilai_kompen" id="nilai_kompen" class="form-control" min="0" required>
+                    <label for="nilai_kompen" class="form-label">Nilai Kompen</label>
+                    <input type="number" name="nilai_kompen" id="nilai_kompen" class="form-control" min="0" placeholder="Masukkan nilai kompen" required>
                     <small id="error-nilai_kompen" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" data-dismiss="modal" class="btn btn-warning">
+                    <i class="fas fa-times"></i> Batal
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
             </div>
         </div>
     </div>
 </form>
-
 
 <script>
     $(document).ready(function() {
@@ -73,8 +87,8 @@
                                 title: 'Berhasil',
                                 text: response.message
                             });
-                            // Refresh tabel (misalnya menggunakan dataTugas) 
-                            dataTugas.ajax.reload();
+                            // Refresh tabel (misalnya menggunakan dataTugasPendidik)
+                            $('#table_tugas_pendidik').DataTable().ajax.reload();
                         } else {
                             // Menampilkan pesan error
                             $('.error-text').text('');
@@ -87,6 +101,13 @@
                                 text: response.message
                             });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat menghubungi server.'
+                        });
                     }
                 });
                 return false;  // Mencegah form di-submit secara tradisional

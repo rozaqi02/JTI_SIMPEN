@@ -1,5 +1,4 @@
 <?php 
-
 namespace App\Http\Controllers;
 
 use App\Models\TugasPendidik;
@@ -8,6 +7,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class PenugasankuController extends Controller
@@ -59,7 +59,8 @@ class PenugasankuController extends Controller
                 return $tugas->jenisKompen ? $tugas->jenisKompen->nama_jenis_kompen : 'Tidak Ada';
             })
             ->editColumn('created_at', function ($tugas) {
-                Carbon::setLocale('id'); // Set bahasa Indonesia
+                // Format tanggal dengan Carbon
+                Carbon::setLocale('id'); // Mengatur locale Indonesia
                 return $tugas->created_at ? Carbon::parse($tugas->created_at)->translatedFormat('l, d F Y h:i A') : '-';
             })
             ->addColumn('aksi', function ($tugas) {
@@ -71,7 +72,7 @@ class PenugasankuController extends Controller
             ->rawColumns(['aksi'])
             ->make(true);
     }
-
+    
     public function create_ajax()
     {
         $jenisKompen = JenisKompen::all(); // Mengambil data JenisKompen untuk dropdown
@@ -79,51 +80,49 @@ class PenugasankuController extends Controller
     }
     
 
-public function store_ajax(Request $request)
-{
-    if ($request->ajax() || $request->wantsJson()) {
-        $rules = [
-            'id_jenis_kompen' => 'required|exists:t_jenis_kompen,id_jenis_kompen',
+    public function store_ajax(Request $request)
+    {
+        // Debugging log input request (untuk memeriksa input)
+        Log::info('Input Request: ', $request->all());
+    
+        $validator = Validator::make($request->all(), [
+            'id_jenis_kompen' => 'required|exists:m_jenis_kompen,id_jenis_kompen',
             'nama_tugas' => 'required|string|max:255',
             'deskripsi_tugas' => 'required|string|max:1000',
             'kuota' => 'required|integer|min:1',
-            'nilai_kompen' => 'required|numeric|min:0',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
+            'nilai_kompen' => 'required|integer|min:0',
+        ]);
+    
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validasi Gagal',
+                'message' => 'Validasi gagal!',
                 'msgField' => $validator->errors(),
             ]);
         }
-
+    
         try {
+            // Simpan tugas
             TugasPendidik::create([
-                'id_user' => Auth::id(),
+                'id_user' => Auth::id(), // Mendapatkan ID pengguna login
                 'id_jenis_kompen' => $request->id_jenis_kompen,
                 'nama_tugas' => $request->nama_tugas,
                 'deskripsi_tugas' => $request->deskripsi_tugas,
                 'kuota' => $request->kuota,
                 'nilai_kompen' => $request->nilai_kompen,
+                'created_at' => Carbon::now(), // Pastikan menggunakan waktu sekarang
             ]);
-
+    
             return response()->json([
                 'status' => true,
-                'message' => 'Data Tugas berhasil disimpan',
+                'message' => 'Tugas berhasil ditambahkan!',
             ]);
         } catch (\Exception $e) {
+            Log::error('Error Store Ajax: ', ['error' => $e->getMessage()]);
             return response()->json([
                 'status' => false,
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
             ]);
         }
     }
-
-    return redirect('/');
-}
-
-
-}
+}    

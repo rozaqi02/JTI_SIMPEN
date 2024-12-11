@@ -11,8 +11,6 @@ class TugasPendidik extends Model
 
     protected $table = 'm_detail_tugas'; // Table name in the database
     protected $primaryKey = 'id_detail_tugas'; // Primary key of the table
-    public $incrementing = false; // If the id_detail_tugas uses UUID or a non-incrementing value
-    public $timestamps = true; // Use created_at and updated_at columns
 
     protected $fillable = [
         'id_detail_tugas',
@@ -23,7 +21,12 @@ class TugasPendidik extends Model
         'kuota',
         'nilai_kompen',
         'jumlah_jam',
+         'created_at'
     ];
+
+    
+    public $incrementing = false; // If the id_detail_tugas uses UUID or a non-incrementing value
+    public $timestamps = true; // Use created_at and updated_at columns
 
     // Relationship with the 'm_user' model (assuming it's another model)
     public function user()

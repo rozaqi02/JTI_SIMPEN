@@ -129,6 +129,7 @@ Route::group(['prefix' => 'Pendidik'], function () {
 
 
 
+
     Route::group(['prefix' => 'bidkom'], function () {
         Route::get('/', [BidkomController::class, 'index']); // Menampilkan laman awal Bidkom
         Route::post('/list', [BidkomController::class, 'list']); // Menampilkan data Bidkom dalam bentuk JSON untuk DataTable
