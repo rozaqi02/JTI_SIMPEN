@@ -44,13 +44,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-<<<<<<< HEAD
                             <a href="{{ url('mahasiswa/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-list-alt"></i>
-=======
-                            <a href="{{ url('/daftar-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
->>>>>>> 0ef8e7bd8ae63b7223234828e7adde9eac0853b7
                                 <p>Daftar Tugas</p>
                             </a>
                         </li>
