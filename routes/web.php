@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\NgambilTugasController;
 use App\Http\Controllers\TugasPendidikController;
 use App\Http\Controllers\TugasMahasiswaController;
 use App\Http\Controllers\JenisKompenController;
@@ -88,6 +89,10 @@ Route::group(['prefix' => 'alpaku'], function () {
     Route::get('/', [AlpakuController::class, 'index']);
 });
 
+
+Route::post('/mahasiswa/daftar-tugas/list', [NgambilTugasController::class, 'list']);
+Route::get('/mahasiswa/daftar-tugas', [NgambilTugasController::class, 'index']);
+Route::get('/mahasiswa/daftar-tugas/{id}/show', [NgambilTugasController::class, 'show']);
 
 
 Route::group(['prefix' => 'user'], function () {

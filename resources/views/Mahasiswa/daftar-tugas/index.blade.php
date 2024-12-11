@@ -3,37 +3,15 @@
 @section('content')
 <div class="card card-outline card-primary">
     <div class="card-header">
-        <h3 class="card-title">{{ $page->title }}</h3>
-        <div class="card-tools">
-            <button onclick="modalAction('{{ url('/tugas-pendidik/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Tugas</button>
-        </div>
+        <h3 class="card-title">Daftar Tugas</h3>
     </div>
     <div class="card-body">
         @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-
-        <!-- Filter Form -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Filter: </label>
-                    <div class="col-3">
-                        <input type="text" class="form-control" id="nama_tugas_filter" placeholder="Cari Nama Tugas">
-                    </div>
-                    <div class="col-3">
-                        <input type="number" class="form-control" id="kuota_filter" placeholder="Min. Kuota">
-                    </div>
-                    <div class="col-3">
-                        <button onclick="filterTable()" class="btn btn-primary">Filter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
         <!-- Table -->
         <table class="table table-bordered table-striped table-hover table-sm" id="table_tugas_pendidik">
             <thead>
