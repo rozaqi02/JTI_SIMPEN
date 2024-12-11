@@ -95,6 +95,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/list', [UserController::class, 'list'])->name('user.list');
     Route::get('/create_ajax', [UserController::class, 'create_ajax'])->name('user.create');
     Route::post('/store_ajax', [UserController::class, 'store_ajax'])->name('user.store');
+    Route::get('/import', [UserController::class, 'import'])->name('user.import');
+    Route::post('/import_ajax', [UserController::class, 'import_ajax'])->name('user.import_ajax');
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax'])->name('user.edit');
     Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
     Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
