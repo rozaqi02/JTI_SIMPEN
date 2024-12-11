@@ -16,6 +16,7 @@ use App\Http\Controllers\RiwayatPenugasanMahasiswaController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProgressTugasController;
 use App\Http\Controllers\AlpakuController;
+use App\Http\Controllers\PenugasankuController;
 use Illuminate\Support\Facades\Route;
 
 use function Laravel\Prompts\confirm;
@@ -51,6 +52,13 @@ Route::group(['prefix' => 'jenis-kompen'], function () {
     Route::get('/', [JenisKompenController::class, 'index']);
     Route::post('/list', [JenisKompenController::class, 'list']);
 });
+
+
+Route::group(['prefix' => 'Pendidik'], function () {
+    Route::get('/', [PenugasankuController::class, 'index']);
+    Route::post('/list', [PenugasankuController::class, 'list']);
+});
+
 
 
  Route::group(['prefix' => 'daftar-tugas'], function () {

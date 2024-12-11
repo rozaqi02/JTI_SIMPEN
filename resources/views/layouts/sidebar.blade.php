@@ -122,7 +122,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/input-tugas') }}" class="nav-link {{ $activeMenu == 'daftar-tugas' ? 'active' : '' }}">
+                            <a href="{{ url('/Pendidik') }}" class="nav-link {{ $activeMenu == 'pendidik' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Daftar Tugas</p>
                             </a>
