@@ -135,7 +135,7 @@
                         </div>
                     @endif
 
-                    @if ($user->level_id == 4) <!-- Hanya untuk Mahasiswa -->
+                    {{-- @if ($user->level_id == 4) <!-- Hanya untuk Mahasiswa -->
                     <div class="form-group">
                         <label><i class="fas fa-users mr-2"></i>Bidkom</label>
                         <div id="bidkom-container">
@@ -165,7 +165,7 @@
                         </button>
                         <small id="error-bidkom" class="error-text form-text text-danger"></small>
                     </div>
-                @endif
+                @endif --}}
 
                     <!-- Input Password -->
                     <div class="form-group">
@@ -211,11 +211,11 @@ $(document).ready(function() {
             var formData = new FormData(form);
 
             // Mengambil data Bidkom
-            var bidkoms = [];
-            $(".bidkom-select").each(function() {
-                bidkoms.push($(this).val());
-            });
-            formData.append('bidkoms', JSON.stringify(bidkoms));
+            // var bidkoms = [];
+            // $(".bidkom-select").each(function() {
+            //     bidkoms.push($(this).val());
+            // });
+            // formData.append('bidkoms', JSON.stringify(bidkoms));
 
             $.ajax({
                 url: form.action,
@@ -260,30 +260,30 @@ $(document).ready(function() {
         }
     });
 
-    // Menambahkan Bidkom baru
-    $("#add-bidkom").click(function() {
-        var newBidkom = `<div class="row mb-2">
-                            <div class="col-md-11">
-                                <select name="bidkom[]" class="form-control bidkom-select" required>
-                                    <option value="">Pilih Bidkom</option>
-                                    @foreach ($bidkoms as $bidkom)
-                                        <option value="{{ $bidkom->id_bidkom }}">{{ $bidkom->nama_bidkom }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="btn btn-danger btn-sm remove-bidkom">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>`;
-        $("#bidkom-container").append(newBidkom);
-    });
+    // // Menambahkan Bidkom baru
+    // $("#add-bidkom").click(function() {
+    //     var newBidkom = `<div class="row mb-2">
+    //                         <div class="col-md-11">
+    //                             <select name="bidkom[]" class="form-control bidkom-select" required>
+    //                                 <option value="">Pilih Bidkom</option>
+    //                                 @foreach ($bidkoms as $bidkom)
+    //                                     <option value="{{ $bidkom->id_bidkom }}">{{ $bidkom->nama_bidkom }}</option>
+    //                                 @endforeach
+    //                             </select>
+    //                         </div>
+    //                         <div class="col-md-1">
+    //                             <button type="button" class="btn btn-danger btn-sm remove-bidkom">
+    //                                 <i class="fas fa-times"></i>
+    //                             </button>
+    //                         </div>
+    //                     </div>`;
+    //     $("#bidkom-container").append(newBidkom);
+    // });
 
-    // Menghapus Bidkom
-    $(document).on("click", ".remove-bidkom", function() {
-        $(this).closest(".row").remove();
-    });
+    // // Menghapus Bidkom
+    // $(document).on("click", ".remove-bidkom", function() {
+    //     $(this).closest(".row").remove();
+    // });
 });
     </script>
 @endempty
