@@ -16,7 +16,7 @@
         <!-- Filter Periode -->
         <div class="row mb-4">
             <div class="col-lg-4">
-                <h4>Filter Data Berdasarkan Periode</h4>
+                <h5>Filter</h5>
                 <form>
                     <div class="input-group">
                         <select id="periode_filter" name="periode" class="form-control">
