@@ -31,9 +31,6 @@
                     <small id="error-password" class="error-text form-text text-danger"></small> 
                 </div> 
             </div> 
-            
- 
-Jobsheet 06  –   PWL 2023/2024  Hal. 13 / 21 
  
 <div class="modal-footer"> 
     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button> 
@@ -49,7 +46,7 @@ $("#form-tambah").validate({
         level_id: {required: true, number: true}, 
         username: {required: true, minlength: 3, maxlength: 20}, 
         nama: {required: true, minlength: 3, maxlength: 100}, 
-        password: {required: true, minlength: 6, maxlength: 20} 
+        password: {required: true, minlength: 5, maxlength: 20} 
     }, 
     submitHandler: function(form) { 
         $.ajax({ 
