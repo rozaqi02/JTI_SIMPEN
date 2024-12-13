@@ -58,7 +58,7 @@
                                     </tr>
                                     <tr>
                                         <th>Bidkom</th>
-                                        <td>{{ $data['mahasiswa']->bidkom ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $data['mahasiswa']->bidkom }}</td>
                                     </tr>
                                 @elseif ($data['admin'])
                                     <tr>
