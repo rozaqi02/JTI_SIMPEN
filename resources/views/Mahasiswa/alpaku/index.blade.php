@@ -38,9 +38,6 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    {{-- <th>Nama Mahasiswa</th>
-                    <th>NIM</th>
-                    <th>Program Studi</th> --}}
                     <th>Periode</th>
                     <th>Jam Alpa</th>
                 </tr>
@@ -79,9 +76,6 @@
             },
             columns: [
                 { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                // { data: "nama_mahasiswa", name: "nama_mahasiswa" },
-                // { data: "nim", name: "nim" },
-                // { data: "program_studi", name: "program_studi" },
                 { data: "periode", name: "periode" },
                 { data: "jam_alpa", name: "jam_alpa", className: "text-center" }
             ]
