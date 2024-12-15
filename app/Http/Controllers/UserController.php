@@ -21,12 +21,12 @@ class UserController extends Controller
     public function index()
     {
         $breadcrumb = (object) [
-            'title' => 'Daftar Pengguna Kompen',
-            'list' => ['JTI SIMPEN  ', 'Pengguna']
+            'title' => 'Data Pengguna JTI-SIMPEN',
+            'list' => ['JTI-SIMPEN  ', 'Manajemen', 'Data Pengguna']
         ];
 
         $page = (object) [
-            'title' => 'Daftar Pengguna yang Terdaftar dalam Sistem Kompen'
+            'title' => 'Daftar Pengguna yang Terdaftar Dalam Sistem Kompen'
         ];
 
         $activeMenu = 'user';

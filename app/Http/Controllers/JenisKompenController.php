@@ -12,11 +12,11 @@ class JenisKompenController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Manajemen Data Jenis Kompen',
-            'list' => ['Home', 'Manajemen', 'Data Jenis Kompen']
+            'list' => ['JTI-SIMPEN', 'Manajemen', 'Data Jenis Kompen']
         ];
 
         $page = (object) [
-            'title' => 'Data Jenis Kompen'
+            'title' => 'Daftar Jenis Kompen yang Terdaftar Dalam Sistem'
         ];
 
         $activeMenu = 'jenis-kompen'; // Menu aktif untuk halaman ini

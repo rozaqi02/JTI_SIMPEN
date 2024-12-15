@@ -21,7 +21,7 @@
             height: 100%;
             margin: 0;
             font-family: 'Source Sans Pro', sans-serif;
-            background-image: url('{{ asset('adminlte/dist/img/landingpages.png') }}');
+            background-image: url('{{ asset('image/landingpages.png') }}');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -88,7 +88,7 @@
     
 <body>
     <div class="login-box">
-        <img src="{{ asset('adminlte/dist/img/LOGO-JTI.png') }}" alt="Logo JTI">
+        <img src="{{ asset('image/LOGO-JTI.png') }}" alt="Logo JTI">
         <h2>Silakan masuk untuk memulai sesi Anda</h2>
         <form action="{{ url('login') }}" method="POST" id="form-login">
             @csrf

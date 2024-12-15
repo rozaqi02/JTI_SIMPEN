@@ -21,10 +21,10 @@ class ProfileController extends Controller
         $id = session('id_user'); // ambil id_user dari session
         $breadcrumb = (object) [
             'title' => 'Profil',
-            'list' => ['JTI SIMPEN', 'profile']
+            'list' => ['JTI-SIMPEN', 'profil']
         ];
         $page = (object) [
-            'title' => 'Profile Anda'
+            'title' => 'Profil Anda'
         ];
         $activeMenu = 'profile'; // set menu yang sedang aktif
 

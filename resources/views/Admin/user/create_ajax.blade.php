@@ -63,7 +63,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nip_dosen">NIP Dosen</label>
-                        <input type="text" name="nip_dosen" id="nip_dosen" class="form-control">
+                        <input type="text" name="nip_dosen" id="nip" class="form-control">
                         <small id="error-nip_dosen" class="error-text form-text text-danger"></small>
                     </div>
                 </div>

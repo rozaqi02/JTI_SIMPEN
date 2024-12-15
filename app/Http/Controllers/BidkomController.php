@@ -13,7 +13,7 @@ class BidkomController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Daftar Bidang Kompetensi',
-            'list' => ['Home', 'Bidkom']
+            'list' => ['JTI-SIMPEN', 'Manajemen', 'Data Bidang Kompetensi']
         ];
 
         $page = (object) [

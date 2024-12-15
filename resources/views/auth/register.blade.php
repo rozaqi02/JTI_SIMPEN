@@ -102,7 +102,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Email Admin</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email_admin" name="email">
                     </div>
                     <div class="form-group">
                         <label for="nama_admin">Nama Admin</label>
@@ -112,12 +112,12 @@
 
                 <div id="dosen-fields" style="display: none;">
                     <div class="form-group">
-                        <label for="nip_dosen">NIP Dosen</label>
-                        <input type="text" class="form-control" id="nip_dosen" name="nip_dosen">
+                        <label for="nip_dosen">NIP</label>
+                        <input type="text" class="form-control" id="nip_dosen" name="nip">
                     </div>
                     <div class="form-group">
-                        <label for="email_dosen">Email Dosen</label>
-                        <input type="email" class="form-control" id="email_dosen" name="email_dosen">
+                        <label for="email_dosen">Email</label>
+                        <input type="email" class="form-control" id="email_dosen" name="email">
                     </div>
                     <div class="form-group">
                         <label for="nama_dosen">Nama Dosen</label>
@@ -125,14 +125,29 @@
                     </div>
                 </div>
 
+                <div id="tendik-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nip_dosen">NIP</label>
+                        <input type="text" class="form-control" id="nip_dosen" name="nip">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_dosen">Email</label>
+                        <input type="email" class="form-control" id="email_tendik" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_dosen">Nama Tendik</label>
+                        <input type="text" class="form-control" id="nama_tendik" name="nama_tendik">
+                    </div>
+                </div>
+
                 <div id="mahasiswa-fields" style="display: none;">
                     <div class="form-group">
-                        <label for="nim">NIM Mahasiswa</label>
+                        <label for="nim">NIM</label>
                         <input type="text" class="form-control" id="nim" name="nim">
                     </div>
                     <div class="form-group">
-                        <label for="email_mahasiswa">Email Mahasiswa</label>
-                        <input type="email" class="form-control" id="email_mahasiswa" name="email_mahasiswa">
+                        <label for="email_mahasiswa">Email</label>
+                        <input type="email" class="form-control" id="email_mahasiswa" name="email">
                     </div>
                     <div class="form-group">
                         <label for="nama_mahasiswa">Nama Mahasiswa</label>
@@ -158,6 +173,7 @@
         document.getElementById('user-details').style.display = 'block';
         document.getElementById('admin-fields').style.display = 'none';
         document.getElementById('dosen-fields').style.display = 'none';
+        document.getElementById('tendik-fields').style.display = 'none';
         document.getElementById('mahasiswa-fields').style.display = 'none';
 
         // Menampilkan field yang sesuai dengan kategori
@@ -165,6 +181,8 @@
             document.getElementById('admin-fields').style.display = 'block';
         } else if (selectedLevel == 2) {  // Dosen
             document.getElementById('dosen-fields').style.display = 'block';
+        } else if (selectedLevel == 3) {  // Mahasiswa
+            document.getElementById('tendik-fields').style.display = 'block';
         } else if (selectedLevel == 4) {  // Mahasiswa
             document.getElementById('mahasiswa-fields').style.display = 'block';
         }

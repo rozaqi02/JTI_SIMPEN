@@ -15,7 +15,7 @@ class NgambilTugasController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'List Tugas',
-            'list' => ['Home', 'Tugasku', 'List Tugas']
+            'list' => ['JTI-SIMPEN', 'Tugasku', 'List Tugas']
         ];
     
         $page = (object) [
@@ -75,4 +75,46 @@ public function list(Request $request)
         ->rawColumns(['aksi'])
         ->make(true);
 }
+
+public function applyAjax($id)
+{
+    $tugas = NgambilTugas::with(['user', 'jenisKompen'])->findOrFail($id);
+
+    $html = view('mahasiswa.list-tugas.apply', [
+        'tugas' => $tugas
+    ])->render();
+
+    return response()->json([
+        'html' => $html
+    ]);
+}
+
+public function submitTugas($id, Request $request)
+{
+    try {
+        // Cari tugas berdasarkan ID
+        $tugas = NgambilTugas::findOrFail($id);
+
+        // Tambahkan logika untuk menandai bahwa tugas telah diambil
+        // Misalnya, simpan ke tabel progress_tugas atau tabel pengambilan
+        // Sesuaikan dengan kebutuhan Anda
+        // Contoh:
+        // ProgressTugas::create([
+        //     'id_user' => auth()->id(),
+        //     'id_detail_tugas' => $tugas->id_detail_tugas,
+        //     'status' => 'diambil'
+        // ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Tugas berhasil diambil!'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
 }

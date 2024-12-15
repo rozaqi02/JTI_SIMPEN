@@ -4,9 +4,6 @@
 <div class="card card-outline card-primary">
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
-        <div class="card-tools">
-            <button onclick="modalAction('{{ url('/riwayat-penugasan/create') }}')" class="btn btn-sm btn-success mt-1">Tambah Riwayat</button>
-        </div>
     </div>
     <div class="card-body">
         @if (session('success'))

@@ -91,9 +91,15 @@ Route::group(['prefix' => 'tugas-pendidik'], function () {
 Route::group(['prefix' => 'list-tugas'], function () {
     Route::get('/', [NgambilTugasController::class, 'index']); // Menampilkan halaman daftar tugas
     Route::post('/mahasiswa/list', [NgambilTugasController::class, 'list']); // DataTable endpoint
-    Route::get('/{id_detail_tugas}/apply_ajax', [NgambilTugasController::class, 'show']); // Modal detail tugas
+    Route::get('/{id_detail_tugas}/apply_ajax', [NgambilTugasController::class, 'applyAjax']); // Modal detail tugas
+    Route::post('/list-tugas/{id}/submit', [NgambilTugasController::class, 'submitTugas']);
+
 });
 
+
+Route::group(['prefix' => 'progress-tugas'], function () {
+    Route::get('/', [ProgressTugasController::class, 'index']);
+});
 
 Route::group(['prefix' => 'alpaku'], function () {
     Route::get('/', [AlpakuController::class, 'index']);
