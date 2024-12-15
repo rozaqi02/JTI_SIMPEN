@@ -24,7 +24,7 @@ class DashboardController extends Controller
         // Data breadcrumb umum
         $breadcrumb = (object) [
             'title' => 'Dashboard',
-            'list' => ['Home', 'Dashboard']
+            'list' => ['JTI-SIMPEN', 'Dashboard']
         ];
 
         // Data untuk Chart

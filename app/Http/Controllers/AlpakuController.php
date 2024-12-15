@@ -17,7 +17,7 @@ class AlpakuController extends Controller
 
         $breadcrumb = (object) [
             'title' => 'Data Alpa Mahasiswa',
-            'list' => ['Home', 'Absensi', 'Data Alpa Mahasiswa']
+            'list' => ['JTI-SIMPEN', 'Alpaku']
         ];
 
         $page = (object) [
