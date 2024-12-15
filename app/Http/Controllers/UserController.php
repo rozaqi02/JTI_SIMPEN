@@ -210,11 +210,36 @@ public function edit_ajax($id)
 
 
  // Menampilkan konfirmasi penghapusan di modal
- public function confirm_ajax(string $id){
-    $user = UserModel::find($id);
-
-    return view('admin.user.confirm_ajax', ['user' => $user]);
-}
+ public function confirm_ajax(string $id)
+ {
+     $user = UserModel::find($id);
+ 
+     if (!$user) {
+         return response()->json([
+             'status' => false,
+             'message' => 'Data tidak ditemukan'
+         ]);
+     }
+ 
+     // Ambil data tambahan berdasarkan level_id
+     $admin = null;
+     $dosen = null;
+     $tendik = null;
+     $mahasiswa = null;
+ 
+     if ($user->level_id == 1) {
+         $admin = AdminModel::where('id_user', $user->id_user)->first();
+     } elseif ($user->level_id == 2) {
+         $dosen = DosenModel::where('id_user', $user->id_user)->first();
+     } elseif ($user->level_id == 3) {
+         $tendik = TendikModel::where('id_user', $user->id_user)->first();
+     } elseif ($user->level_id == 4) {
+         $mahasiswa = MahasiswaModel::where('id_user', $user->id_user)->first();
+     }
+ 
+     return view('admin.user.confirm_ajax', compact('user', 'admin', 'dosen', 'tendik', 'mahasiswa'));
+ }
+ 
 
 //Menghapus data user AJAX
 public function delete_ajax(Request $request, $id)

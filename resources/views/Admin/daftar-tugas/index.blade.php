@@ -25,6 +25,7 @@
                     <th>Kuota</th>
                     <th>Nilai Kompen</th>
                     <th>Jumlah Jam</th>
+                    <th>Tanggal</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                     <td>{{ $item->deskripsi_tugas }}</td>
                     <td>{{ $item->kuota }}</td>
                     <td>{{ $item->nilai_kompen }}</td>
+                    <td>{{ $item->jumlah_jam }}</td>
                     <td>{{ $item->jumlah_jam }}</td>
                     <td>
                         <button class="btn btn-sm btn-warning">Edit</button>

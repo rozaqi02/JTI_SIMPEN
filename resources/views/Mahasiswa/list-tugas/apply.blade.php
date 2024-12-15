@@ -6,24 +6,23 @@
         <table class="table table-bordered">
             <tr>
                 <th>Pemberi Tugas:</th>
-                <td>{{ $tugas->user->username ?? 'Tidak Ada' }}</td>
+                <td>{{ $tugas->user->username ?? '-' }}</td>
                 <th>Kuota:</th>
                 <td>{{ $tugas->kuota ?? '-' }}</td>
             </tr>
             <tr>
                 <th>Judul Tugas:</th>
-                <td>{{ $tugas->nama_tugas ?? 'Tidak Ada' }}</td>
+                <td>{{ $tugas->nama_tugas ?? '-' }}</td>
                 <th>Kuota Terisi:</th>
                 <td>{{ $tugas->nilai_kompen ?? '-' }}</td>
             </tr>
             <tr>
                 <th>Jenis Tugas:</th>
-                <td>{{ $tugas->jenisKompen->nama_jenis_kompen ?? 'Tidak Ada' }}</td>
+                <td>{{ $tugas->jenisKompen->nama_jenis_kompen ?? '-' }}</td>
                 <th>Tanggal Upload:</th>
                 <td>{{ $tugas->created_at ?? '-' }}</td>
             </tr>
         </table>
-
         <hr>
         <h5>Deskripsi Tugas</h5>
         <ul>
@@ -31,10 +30,9 @@
                 <li>{{ $line }}</li>
             @endforeach
         </ul>
-
         <div class="text-center mt-4">
-            <button class="btn btn-danger" id="batalBtn" data-dismiss="modal">Batal</button>
-            <button class="btn btn-success" id="ambilBtn" onclick="submitTugas({{ $tugas->id_detail_tugas }})">Ambil Tugas</button>
+            <button class="btn btn-danger" data-dismiss="modal">Batal</button>
+            <button class="btn btn-success" onclick="submitTugas({{ $tugas->id_detail_tugas }})">Ambil Tugas</button>
         </div>
     </div>
 </div>

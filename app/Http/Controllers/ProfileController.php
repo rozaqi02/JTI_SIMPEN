@@ -21,7 +21,7 @@ class ProfileController extends Controller
         $id = session('id_user'); // ambil id_user dari session
         $breadcrumb = (object) [
             'title' => 'Profil',
-            'list' => ['JTI-SIMPEN', 'profil']
+            'list' => ['JTI-SIMPEN', 'Profil']
         ];
         $page = (object) [
             'title' => 'Profil Anda'
@@ -106,10 +106,6 @@ class ProfileController extends Controller
             'bidkoms' => $bidkoms,  // Pastikan data bidkoms dikirim ke view
         ]);
     }
-    
-    
-    
-
 
     public function update_ajax(Request $request, $id)
     {
@@ -190,25 +186,13 @@ class ProfileController extends Controller
     
                 if ($request->level_id == 3) {
                     // Perbarui data mahasiswa
-                    MahasiswaModel::where('id_user', $request->id_user)->update([
+                    TendikModel::where('id_user', $request->id_user)->update([
                         'id_user' => $request->id_user,
-                        'nama_mahasiswa' => $request->nama_mahasiswa,
-                        'nim' => $request->nim,
-                        'program_studi' => $request->program_studi,
-                        'tahun_masuk' => $request->tahun_masuk
+                        'nama_tendik' => $request->nama_tendik,
+                        'nip' => $request->nip,
+                        'email' => $request->email,
+                        'no_telepon' => $request->no_telepon
                     ]);
-    
-                    // Handling Bidkom relationship for Mahasiswa
-                    $mahasiswa = MahasiswaModel::where('id_user', $request->id_user)->first();
-                    
-                    // Syncing bidkom data (assuming you have a many-to-many relationship)
-                    if ($request->has('bidkom')) {
-                        // Update bidkom relationship (sync will add or remove relationships)
-                        $mahasiswa->bidkom()->sync($request->bidkom);
-                    } else {
-                        // If no bidkom selected, detach all
-                        $mahasiswa->bidkom()->detach();
-                    }
                 }
     
                 if ($request->level_id == 4) { // Untuk mahasiswa
@@ -221,7 +205,9 @@ class ProfileController extends Controller
                             'nim' => $request->nim,
                             'email' => $request->email,
                             'program_studi' => $request->program_studi,
-                            'tahun_masuk' => $request->tahun_masuk
+                            'tahun_masuk' => $request->tahun_masuk,
+                            'bidkom' => $request->detail_bidkom
+                            
                         ]);
                 
                         // Jika mahasiswa memiliki Bidkom yang dipilih, sinkronkan dengan relasi

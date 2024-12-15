@@ -64,7 +64,8 @@ Route::group(['prefix' => 'user', 'middleware'=> 'authorize:ADM'], function () {
     Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
     Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
     Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
-    Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
+    Route::delete('/user/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
+
 });
 
 
@@ -116,12 +117,13 @@ Route::group(['prefix' => 'tugas-pendidik'], function () {
 });
 
 Route::group(['prefix' => 'list-tugas'], function () {
-    Route::get('/', [NgambilTugasController::class, 'index']); // Menampilkan halaman daftar tugas
-    Route::post('/mahasiswa/list', [NgambilTugasController::class, 'list']); // DataTable endpoint
-    Route::get('/{id_detail_tugas}/apply_ajax', [NgambilTugasController::class, 'applyAjax']); // Modal detail tugas
-    Route::post('/list-tugas/{id}/submit', [NgambilTugasController::class, 'submitTugas']);
-
+    Route::get('/', [NgambilTugasController::class, 'index']);
+    Route::post('/mahasiswa/list', [NgambilTugasController::class, 'list']);
+    Route::get('/{id}/apply_ajax', [NgambilTugasController::class, 'applyAjax']);
+    Route::post('/{id}/submit', [NgambilTugasController::class, 'submitTugas']);
 });
+
+
 
 
 Route::group(['prefix' => 'progress-tugas'], function () {
