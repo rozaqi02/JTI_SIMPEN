@@ -5,6 +5,8 @@ use App\Http\Controllers\BidkomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardMController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\RegistrationController;
@@ -36,7 +38,7 @@ Route::pattern('id', '[0-9]+');
 
 Route::get('/', [WelcomeController::class, 'landing']);
 
-Route::get('register', [RegistrationController::class, 'registration'])->name('signup');
+Route::get('register', [RegistrationController::class, 'registration'])->name('register');
 Route::post('register', [RegistrationController::class, 'store']);
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -46,7 +48,32 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::middleware(['auth'])->group(function () {
 });
 
-Route::get('/dashboard', [WelcomeController::class, 'index']);
+
+route::group(['middleware'=> 'authorize:ADM,DSN,TDK,MHS'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+});
+
+Route::group(['prefix' => 'user', 'middleware'=> 'authorize:ADM'], function () {
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::post('/list', [UserController::class, 'list'])->name('user.list');
+    Route::get('/create_ajax', [UserController::class, 'create_ajax']);
+    Route::post('/store_ajax', [UserController::class, 'store_ajax'])->name('user.store');
+    Route::get('/import', [UserController::class, 'import'])->name('user.import');
+    Route::post('/import_ajax', [UserController::class, 'import_ajax'])->name('user.import_ajax');
+    Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax'])->name('user.edit');
+    Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
+    Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
+    Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
+});
+
+
+
+
+
+
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::group(['prefix' => 'jenis-kompen'], function () {
     Route::get('/', [JenisKompenController::class, 'index']);
@@ -109,19 +136,6 @@ Route::group(['prefix' => 'alpaku'], function () {
 
 
 
-Route::group(['prefix' => 'user'], function () {
-    Route::get('/', [UserController::class, 'index'])->name('user.index');
-    Route::post('/list', [UserController::class, 'list'])->name('user.list');
-    Route::get('/create_ajax', [UserController::class, 'create_ajax']);
-    Route::post('/store_ajax', [UserController::class, 'store_ajax'])->name('user.store');
-    Route::get('/import', [UserController::class, 'import'])->name('user.import');
-    Route::post('/import_ajax', [UserController::class, 'import_ajax'])->name('user.import_ajax');
-    Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax'])->name('user.edit');
-    Route::put('/update_ajax/{id}', [UserController::class, 'update_ajax'])->name('user.update');
-    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
-    Route::get('/{id}/confirm_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
-    Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
-});
 
 
 Route::group(['prefix' => 'Pendidik'], function () {
