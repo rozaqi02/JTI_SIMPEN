@@ -62,17 +62,20 @@
     <table class="border-bottom-header">
         <tr>
             <td width="15%" class="text-center"><img src="{{ public_path('/image/polinema-bw.png') }}" width="130%"></td>
-            <td width="85%">
-                <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</span>
-                <span class="text-center d-block font-13 font-bold mb-1">POLITEKNIK NEGERI MALANG</span>
-                <span class="text-center d-block font-13 font-bold mb-1">JURUSAN TEKNOLOGI INFORMASI</span>
-                <span class="text-center d-block font-10">Jl. Soekarno-Hatta No. 9 Malang 65141</span>
-                <span class="text-center d-block font-10">Telp. (0341) 404424 Fax. 0341-404420, Fax. (0341) 404420</span>
-                <span class="text-center d-block font-10">Website: www.polinema.ac.id</span>
+            <td width="85%" class="text-center">
+                <div style="font-size: 14px; font-weight: bold;">KEMENTERIAN PENDIDIKAN TINGGI, SAINS, DAN TEKNOLOGI</div>
+                <div style="font-size: 16px; font-weight: bold;">POLITEKNIK NEGERI MALANG</div>
+                <div style="font-size: 14px; font-weight: bold;">JURUSAN TEKNOLOGI INFORMASI</div>
+                <div style="font-size: 12px;">Jalan Soekarno Hatta Nomor 9 Jatimulyo, Lowokwaru, Malang 6514</div>
+                <div style="font-size: 12px;">Telepon (0341) 404424, 404425, Faksimile (0341) 404420</div>
+                <div style="font-size: 12px;">Laman www.polinema.ac.id</div>
+            </td>
+            <td width="15%" class="text-center">
             </td>
         </tr>
     </table>
     <h3 style="text-align: center; text-decoration: underline;">BERITA ACARA KOMPENSASI PRESENSI</h4>
+        <br><br>
         <table style="width: 100%; margin-bottom: 20px;">
             <tr>
                 <td style="width: 50%; top;">Nama Pemberi Rekomendasi:</td>
@@ -104,28 +107,30 @@
             </tr>
         </table>
 
-        <div style="margin-top: 50px;">
-            <p style="text-align: right;">Malang, <input type="text" name="tanggal" style="border: none; border-bottom: 1px solid black;"></p>
-            <div style="width: 100%; display: flex; justify-content: space-between;">
-                <div>
-                    <p>Mengetahui,<br>
-                    Ka. Program Studi</p>
-                    <br><br><br>
-                    <p><strong>Hendra Pradipta, S.E., M.Sc.</strong><br>
-                    NIP: 198305212006041003</p>
+        <div style="margin-top: 60px;  margin-bottom: 60px" class="ttd" id="ttd">
+            <div style="text-align: left;">
+                <div style="float: left; width: 50%;">
+                    <p>Mengetahui</p>
+                    <p>Ka. Program Studi</p>
+                    <br><br><br><br><br><br><br><br>
+                    <p><strong>Hendra Pradibta, S.E., M.Sc.</strong>
+                    <p>NIP. 198305212006041003</p>
                 </div>
-                <div style="text-align: center;">
-                    <p>Yang memberikan rekomendasi,<br><br><br></p>
+                <div style="float: right; width: 50%; text-align:right;">
+                    <p>Malang, {{ date('d F Y') }}</p>
+                    <p>Yang memberikan rekomendasi,</p>
+                    <br><br><br><br><br><br><br><br>
                     <p><input type="text" name="penandatangan" style="border: none; border-bottom: 1px solid black; width: 150px;"><br>
-                    NIP: <input type="text" name="nip_penandatangan" style="border: none; border-bottom: 1px solid black; width: 150px;"></p>
+                    <p>NIP.</p>
                 </div>
             </div>
         </div>
 
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <p style="margin-top: 30px;"><strong>NB: Form ini wajib disimpan untuk keperluan bebas tanggungan. </strong></p>
     </form>
 </div>
-<footer style="margin-top: 100px; text-align: left; font-size: 14px; color: black;">
+<footer style="margin-top: 170px; text-align: left; font-size: 14px; color: black;">
     <hr style="border: 1px solid black;">
     <p><strong>FRM.RIF.01.07.03</strong></p>
 </footer>
