@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 16, 2024 at 05:08 PM
+-- Generation Time: Dec 16, 2024 at 07:01 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -201,8 +201,9 @@ CREATE TABLE `m_mahasiswa` (
 --
 
 INSERT INTO `m_mahasiswa` (`id_mahasiswa`, `id_user`, `nama_mahasiswa`, `nim`, `email`, `no_telepon`, `program_studi`, `tahun_masuk`, `created_at`, `updated_at`) VALUES
-(1, 4, 'Amanda Jasmyne', '2241760123', 'amandajbp04@gmail.com', '081237621316', 'Sistem Informasi Bisnis', '2024', '2024-12-16 07:58:57', '2024-12-16 07:58:57'),
-(3, 9, 'sadimin', '123123123', 'sad@123', NULL, 'Sistem Informasi Bisniss', '2022', '2024-12-16 10:03:58', '2024-12-16 10:05:05');
+(1, 4, 'Amanda Jasmyne', '2241760123', 'amandajbp04@gmail.com', '081237621316', 'Sistem Informasi Bisnis', '2024', '2024-12-16 07:58:57', '2024-12-16 11:48:35'),
+(3, 9, 'sadimin', '123123123', 'sad@123', '232323232323', 'Sistem Informasi Bisniss', '2022', '2024-12-16 10:03:58', '2024-12-16 11:25:17'),
+(4, 10, 'Joyo Sugito', '12345678', 'joyo@mhs', '9999999', 'Sistem Informasi Bisniss', '2022', '2024-12-16 11:04:01', '2024-12-16 11:05:36');
 
 -- --------------------------------------------------------
 
@@ -264,7 +265,7 @@ CREATE TABLE `m_user` (
   `level_id` bigint UNSIGNED NOT NULL,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'image/profile/avatar.png',
+  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -274,15 +275,16 @@ CREATE TABLE `m_user` (
 --
 
 INSERT INTO `m_user` (`id_user`, `level_id`, `username`, `password`, `foto`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Ahmad Abror', '$2y$12$/gGAdtVLlti.Fu6IfwAYC.iFZes1flFMCTcm6Og2DmqKmy3SsV.si', 'image/profile/avatar.png\r\n', '2024-12-16 07:58:47', '2024-12-16 07:58:47'),
+(1, 1, 'Ahmad Abror', '$2y$12$/gGAdtVLlti.Fu6IfwAYC.iFZes1flFMCTcm6Og2DmqKmy3SsV.si', 'image/profile/1734375369.jpg', '2024-12-16 07:58:47', '2024-12-16 11:56:09'),
 (2, 2, 'Afifah Rahma', '$2y$12$kU/HK1sItQ/SCs.zJ/8dVeh/GcOZ2OaZ6nHIXWTR2YWzuR.5l/9Yq', 'image/profile/avatar.png', '2024-12-16 07:58:47', '2024-12-16 07:58:47'),
 (3, 3, 'Anas Nur Hidayat', '$2y$12$A4vhUiLM92czypGRMLJLY.lIB/dH70RsTGlaK7r9D7b5UMA432wZu', 'image/profile/avatar.png', '2024-12-16 07:58:47', '2024-12-16 07:58:47'),
-(4, 4, 'Amanda Jasmyne', '$2y$12$WDK8.kDaKd5lkK4GAbGrdOw8DkoUEpxC3/EWDpkYWcku.yLusyhg.', 'image/profile/avatar.png', '2024-12-16 07:58:47', '2024-12-16 07:58:47'),
+(4, 4, 'Amanda Jasmyne', '$2y$12$WDK8.kDaKd5lkK4GAbGrdOw8DkoUEpxC3/EWDpkYWcku.yLusyhg.', 'image/profile/avatar.png', '2024-12-16 07:58:47', '2024-12-16 11:48:43'),
 (5, 2, 'Ahmad Dosen', '$2y$12$5xnFVEi9rm/0LGvlhDSO5eLjW8F0ybaGVVqo0OgpRneomeomosUWW', NULL, '2024-12-16 08:23:21', '2024-12-16 08:23:21'),
 (6, 2, 'Joyo', '$2y$12$McufKOx.RNzgU3HbP1omF.OlZpN18BvDDp6cBZZp.6VUPzUlE7Vn.', 'image/profile/1734363005.png', '2024-12-16 08:29:49', '2024-12-16 08:30:05'),
 (7, 3, 'Ahmad Tendik', '$2y$12$d7EAL10uKOcZ/lXvCVtTkeHjqnl6hdF8LxIi9nnSxLZ6.x80dNUVy', 'image/profile/avatar.png', '2024-12-16 08:42:00', '2024-12-16 08:42:00'),
 (8, 4, 'nala', '$2y$12$6BSkATPwB1GrWSDe/mclm.k.mKAljyTwasvc/DxcaV1sDBUsuDiJG', 'image/profile/avatar.png', '2024-12-16 09:27:20', '2024-12-16 09:27:20'),
-(9, 4, 'sadimin', '$2y$12$Pt9Sf5yl1BpYohdsmQVZaO4Q/uQ0x/cKNdimd2ALKL5iNb7DXw9QC', 'image/profile/avatar.png', '2024-12-16 10:03:58', '2024-12-16 10:03:58');
+(9, 4, 'sadimin', '$2y$12$Pt9Sf5yl1BpYohdsmQVZaO4Q/uQ0x/cKNdimd2ALKL5iNb7DXw9QC', 'image/profile/avatar.png', '2024-12-16 10:03:58', '2024-12-16 10:03:58'),
+(10, 4, 'Joyo Sugito', '$2y$12$tOZxPE3dhiBWcqdmCHEPVOS.c/FQJbwccULURhyidQEYsGS3TjzAa', 'image/profile/avatar.png', '2024-12-16 11:04:01', '2024-12-16 11:04:01');
 
 -- --------------------------------------------------------
 
@@ -345,7 +347,7 @@ CREATE TABLE `t_bidkom` (
 --
 
 INSERT INTO `t_bidkom` (`id_bidkom`, `kode_bidkom`, `nama_bidkom`, `created_at`, `updated_at`) VALUES
-(1, 'WEB', 'WEB DVEELOPER', NULL, NULL),
+(1, 'WEB', 'WEB DEVELOPER', NULL, NULL),
 (2, 'MOBILE', 'MOBILE DEVELOPER', NULL, NULL),
 (3, 'VISUAL', 'VISUALISASI DESAIN', NULL, NULL),
 (4, 'UI', 'DESIGN', NULL, NULL),
@@ -370,8 +372,9 @@ CREATE TABLE `t_detail_bidkom` (
 --
 
 INSERT INTO `t_detail_bidkom` (`id_detail_bidkom`, `id_bidkom`, `id_mahasiswa`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2024-12-16 08:01:40', '2024-12-16 08:01:40'),
-(2, 2, 1, '2024-12-16 08:01:40', '2024-12-16 08:01:40');
+(12, 3, 4, '2024-12-16 11:20:52', '2024-12-16 11:20:52'),
+(13, 3, 3, '2024-12-16 11:25:17', '2024-12-16 11:25:17'),
+(18, 1, 1, '2024-12-16 11:48:43', '2024-12-16 11:48:43');
 
 -- --------------------------------------------------------
 
@@ -431,6 +434,13 @@ CREATE TABLE `t_riwayat_tugas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `t_riwayat_tugas`
+--
+
+INSERT INTO `t_riwayat_tugas` (`id_riwayat_tugas`, `id_QRCode`, `id_tugas`, `tanggal_dilaksanakan`, `tanggal_selesai`, `status`, `created_at`, `updated_at`) VALUES
+(1, NULL, 13, '2024-12-16 17:42:26', '2024-12-16 17:42:26', 2, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -577,7 +587,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `m_admin`
 --
 ALTER TABLE `m_admin`
-  MODIFY `id_admin` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_admin` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `m_detail_tugas`
@@ -607,7 +617,7 @@ ALTER TABLE `m_level`
 -- AUTO_INCREMENT for table `m_mahasiswa`
 --
 ALTER TABLE `m_mahasiswa`
-  MODIFY `id_mahasiswa` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_mahasiswa` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `m_tendik`
@@ -619,13 +629,13 @@ ALTER TABLE `m_tendik`
 -- AUTO_INCREMENT for table `m_tugas`
 --
 ALTER TABLE `m_tugas`
-  MODIFY `id_tugas` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_tugas` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `m_user`
 --
 ALTER TABLE `m_user`
-  MODIFY `id_user` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -649,7 +659,7 @@ ALTER TABLE `t_bidkom`
 -- AUTO_INCREMENT for table `t_detail_bidkom`
 --
 ALTER TABLE `t_detail_bidkom`
-  MODIFY `id_detail_bidkom` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_detail_bidkom` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `t_periode`
@@ -661,7 +671,7 @@ ALTER TABLE `t_periode`
 -- AUTO_INCREMENT for table `t_riwayat_tugas`
 --
 ALTER TABLE `t_riwayat_tugas`
-  MODIFY `id_riwayat_tugas` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_riwayat_tugas` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
