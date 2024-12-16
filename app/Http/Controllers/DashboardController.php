@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\AdminModel;
 use App\Models\TugasPendidik; // Untuk tabel m_detail_tugas
 use App\Models\MahasiswaModel; // Untuk tabel m_mahasiswa
+use App\Models\DetailTugasModel; // Untuk tabel m_detail_tugas
 use App\Models\AlpakuModel; // Untuk tabel m_mahasiswa
 use App\Models\DosenModel;
 use App\Models\PeriodeModel; // Untuk tabel m_mahasiswa
@@ -81,14 +82,17 @@ class DashboardController extends Controller
                 $namaAdmin = $admin->nama_admin;
             return view('admin.dashboard', compact('breadcrumb', 'pieChartData','namaAdmin','totalTugas', 'totalTugasUser', 'mahasiswa', 'chartData', 'activeMenu'));
             case 2:
-            return view('dosen.dashboard', compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
+                $dosen = DosenModel::where('id_user', $user->id_user)->first();
+                $namaDosen = $dosen->nama_dosen;
+            return view('dosen.dashboard', compact('breadcrumb', 'chartData','namaDosen', 'totalTugasUser', 'activeMenu'));
             case 3:
-            return view('tendik.dashboard',  compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
+                $tendik = TendikModel::where('id_user', $user->id_user)->first();
+                $namaTendik = $tendik->nama_tendik;
+            return view('tendik.dashboard',  compact('breadcrumb', 'chartData','namaTendik', 'totalTugasUser', 'activeMenu'));
             case 4:
                 $mahasiswa = MahasiswaModel::where('id_user', $user->id_user)->first();
                 $namaMahasiswa = $mahasiswa->nama_mahasiswa;
                 $totalJamAlpa = AlpakuModel::where('id_mahasiswa', $mahasiswa->id_mahasiswa)
-                
                 ->sum(column: 'jam_alpa'); // Menghitung total jam alpa
             return view('mahasiswa.dashboard', compact('breadcrumb','namaMahasiswa', 'totalJamAlpa','totalTugas', 'activeMenu'));
         }

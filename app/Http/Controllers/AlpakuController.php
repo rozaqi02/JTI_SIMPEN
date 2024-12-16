@@ -7,13 +7,23 @@ use App\Models\AlpakuModel;
 use App\Models\MahasiswaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class AlpakuController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data periode
+        // Ambil data mahasiswa yang sedang login
+        $user = Auth::user();
+        $mahasiswa = MahasiswaModel::where('id_user', $user->id_user)->first();
+
+        // Ambil data periode
         $periode = PeriodeModel::all();
+
+        // Ambil data alpa mahasiswa berdasarkan id_mahasiswa
+        $alpaku = AlpakuModel::where('id_mahasiswa', $mahasiswa->id_mahasiswa)
+                             ->with('periode') // Pastikan relasi dengan periode
+                             ->get(); 
 
         $breadcrumb = (object) [
             'title' => 'Data Alpa Mahasiswa',
@@ -26,45 +36,35 @@ class AlpakuController extends Controller
 
         $activeMenu = 'data-alpa';
 
-        return view('mahasiswa.alpaku.index', compact('breadcrumb', 'page', 'activeMenu', 'periode'));
+        // Pass data ke view
+        return view('mahasiswa.alpaku.index', compact('breadcrumb', 'page', 'activeMenu', 'periode', 'alpaku'));
     }
 
     public function list(Request $request)
     {
-        // Pastikan tabel dan kolom yang digunakan benar
-        $alpaku = AlpakuModel::with(['mahasiswa', 'periode'])
-            ->select('t_alpa.id_alpa', 't_alpa.id_mahasiswa', 't_alpa.id_periode', 't_alpa.jam_alpa');
+        // Mengambil data mahasiswa yang sedang login
+        $mahasiswa = MahasiswaModel::where('id_user', Auth::id())->first();
 
-        // Filter berdasarkan nama mahasiswa
-        if ($request->filled('nama_mahasiswa')) {
-            $alpaku->whereHas('mahasiswa', function ($query) use ($request) {
-                $query->where('nama_mahasiswa', 'like', '%' . $request->nama_mahasiswa . '%');
-            });
+        // Pastikan mahasiswa ditemukan
+        if (!$mahasiswa) {
+            return response()->json(['error' => 'Mahasiswa tidak ditemukan'], 404);
         }
+
+        // Mengambil data alpa berdasarkan id_mahasiswa dan periode yang dipilih
+        $alpaku = AlpakuModel::where('id_mahasiswa', $mahasiswa->id_mahasiswa);
 
         // Filter berdasarkan periode
         if ($request->filled('periode')) {
-            $alpaku->where('id_periode', $request->periode); // Filter berdasarkan ID periode
+            $alpaku->where('id_periode', $request->periode);
         }
 
-        return DataTables::of($alpaku)
+        // Ambil data dan format menjadi JSON untuk DataTable
+        return DataTables::eloquent($alpaku->with('periode'))
+            ->addColumn('periode', function($row) {
+                return $row->periode ? $row->periode->nama_periode : 'N/A';
+            })
             ->addIndexColumn()
-            // ->addColumn('nama_mahasiswa', function ($alpa) {
-            //     return $alpa->mahasiswa ? $alpa->mahasiswa->nama_mahasiswa : 'Tidak Ada';
-            // })
-            // ->addColumn('nim', function ($alpa) {
-            //     return $alpa->mahasiswa ? $alpa->mahasiswa->nim : 'Tidak Ada';
-            // })
-            // ->addColumn('program_studi', function ($alpa) {
-            //     return $alpa->mahasiswa ? $alpa->mahasiswa->program_studi : 'Tidak Ada';
-            // })
-            ->addColumn('periode', function ($alpa) {
-                return $alpa->periode ? $alpa->periode->nama_periode : 'Tidak Ada';
-            })
-            ->addColumn('jam_alpa', function ($alpa) {
-                return $alpa->jam_alpa ?? '-';
-            })
-            ->rawColumns(['nama_mahasiswa', 'nim', 'program_studi', 'periode', 'jam_alpa'])
             ->make(true);
     }
 }
+
