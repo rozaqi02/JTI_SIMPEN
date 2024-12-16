@@ -29,6 +29,12 @@ class DetailTugasModel extends Model
     // Jika Anda menggunakan auto-increment dan tidak ingin memasukkan 'id_bidkom', tidak perlu mendeklarasikan 'id_bidkom' di sini.
     public $incrementing = true;
 
+
     // Jika Anda tidak menggunakan timestamp 'created_at' dan 'updated_at' dalam tabel, atur ke false
     public $timestamps = true;
+
+    public function dosen()
+    {
+        return $this->belongsTo(DosenModel::class, 'id_user', 'id_user');
+    }
 }
