@@ -28,15 +28,31 @@ class DashboardController extends Controller
             'list' => ['JTI-SIMPEN', 'Dashboard']
         ];
 
-        // Data untuk Chart
-        $chartData = TugasPendidik::join('m_jenis_kompen', 'm_detail_tugas.id_jenis_kompen', '=', 'm_jenis_kompen.id_jenis_kompen')
-            ->selectRaw('m_jenis_kompen.nama_jenis_kompen as jenis, COUNT(*) as jumlah')
-            ->groupBy('m_jenis_kompen.nama_jenis_kompen')
-            ->pluck('jumlah', 'jenis');
+    // Ambil data jumlah tugas per jenis_kompen
+    $chartData = TugasPendidik::join('m_jenis_kompen', 'm_detail_tugas.id_jenis_kompen', '=', 'm_jenis_kompen.id_jenis_kompen')
+        ->selectRaw('m_jenis_kompen.nama_jenis_kompen as jenis_kompen, COUNT(*) as jumlah')
+        ->groupBy('m_jenis_kompen.nama_jenis_kompen')
+        ->get(); // Mengambil data dalam bentuk koleksi objek
+
+    // Mengatur warna berdasarkan jenis kompen
+    $colors = [
+        'Penelitian' => '#FF0000', // Merah
+        'Pengabdian' => '#FFA500', // Orange
+        'Teknis' => '#FFFF00'      // Kuning
+    ];
+
+    // Menyiapkan data untuk pie chart
+    $pieChartData = $chartData->map(function ($item) use ($colors) {
+        return [
+            'label' => $item->jenis_kompen,
+            'value' => $item->jumlah,
+            'color' => $colors[$item->jenis_kompen] ?? '#000000' // Default color jika tidak ada
+        ];
+    });
 
         // Inisialisasi variabel
-        $totalTugas = TugasPendidik::count();  // Hitung total tugas
-        // $totalTugasDosen = TugasPendidik::where('id_user',)->count();
+        $totalTugas = TugasPendidik::count();  
+        // Hitung total tugas
         $totalTugasUser = DB::table('m_detail_tugas')
         ->where('id_user', $user->id_user)
         ->count();
@@ -56,7 +72,7 @@ class DashboardController extends Controller
         // Admin Dashboard
         // if ($levelId == 1) {
             case 1:
-            return view('admin.dashboard', compact('breadcrumb', 'chartData','totalTugas', 'totalTugasUser', 'totalKompen', 'mahasiswa', 'activeMenu'));
+            return view('admin.dashboard', compact('breadcrumb', 'pieChartData','totalTugas', 'totalTugasUser', 'totalKompen', 'mahasiswa', 'chartData', 'activeMenu'));
         // }
 
         // Dosen Dashboard

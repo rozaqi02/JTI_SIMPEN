@@ -74,35 +74,56 @@
         </div>
 
         <!-- Grafik -->
-        <div class="row mt-4">
-            <div class="col-lg-12">
-                <canvas id="tugasChart"></canvas>
+        <!-- Pie Chart -->
+        <!-- Pie Chart Section -->
+        <div class="row mt-">
+            <div class="col-lg-8 offset-lg-2">
+                <h4>Distribusi Tugas Berdasarkan Jenis Kompen</h4>
+                <div class="chart-container">
+                    <!-- Menyesuaikan ukuran canvas agar lebih proporsional dan responsif -->
+                    <canvas id="pieChart" style="max-width: 80%; height: 200px;"></canvas>
+                </div>
             </div>
         </div>
-    </div>
-@endsection
 
-@section('scripts')
+
+    <!-- Chart.js Script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Menampilkan chart tugas
-        var ctx = document.getElementById('tugasChart').getContext('2d');
-        var tugasChart = new Chart(ctx, {
-            type: 'bar',
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var pieChartData = {!! json_encode($pieChartData) !!}; // Data dari controller
+
+        var labels = pieChartData.map(function(item) {
+            return item.label;
+        });
+        var data = pieChartData.map(function(item) {
+            return item.value;
+        });
+        var colors = pieChartData.map(function(item) {
+            return item.color;
+        });
+
+        var chart = new Chart(ctx, {
+            type: 'pie',
             data: {
-                labels: {!! json_encode($chartData->keys()) !!},
+                labels: labels,
                 datasets: [{
-                    label: 'Jumlah Tugas',
-                    data: {!! json_encode($chartData->values()) !!},
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    data: data,
+                    backgroundColor: colors,
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
                     }
                 }
             }
