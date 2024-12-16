@@ -11,7 +11,8 @@ use App\Models\MahasiswaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use PhpOffice\PhpSpreadsheet\IOFactory; // Import PhpSpreadsheet
-use PhpOffice\PhpSpreadsheet\Exception; //
+use PhpOffice\PhpSpreadsheet\Exception;
+use Barryvdh\DomPDF\Facade\Pdf; // Import DomPDF
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -292,5 +293,23 @@ public function import_ajax(Request $request)
         }
     }
     return redirect('/');
+}
+
+public function export_pdf() {
+    set_time_limit(600);
+    $user = UserModel::select('level_id', 'username')
+        ->orderBy('level_id')
+        ->orderBy('username')
+        ->with('level')
+        ->get();
+
+    // use Barryvdh\DomPDF\Facade\Pdf;
+    $pdf = Pdf::loadView('admin.user.export_pdf', ['user' => $user]);
+
+    $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+    $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari uri
+    $pdf->render();
+
+    return $pdf->stream('Data user '.date('Y-m-d H:i:s').'.pdf');
 }
 }
