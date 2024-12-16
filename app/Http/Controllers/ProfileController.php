@@ -206,7 +206,8 @@ class ProfileController extends Controller
                             'email' => $request->email,
                             'program_studi' => $request->program_studi,
                             'tahun_masuk' => $request->tahun_masuk,
-                            'bidkom' => $request->detail_bidkom
+                            'bidkom' => $request->detail_bidkom,
+                            'no_telepon' => $request->no_telepon
                             
                         ]);
                 

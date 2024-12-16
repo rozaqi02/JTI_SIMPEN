@@ -6,9 +6,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DashboardMController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
+use App\Http\Controllers\ProgressPenugasankuController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\NgambilTugasController;
 use App\Http\Controllers\PenugasankuController;
@@ -134,6 +134,10 @@ Route::group(['prefix' => 'alpaku'], function () {
     Route::get('/', [AlpakuController::class, 'index']);
 });
 
+Route::prefix('progress-penugasanku')->group(function () {
+    Route::get('/', [ProgressPenugasankuController::class, 'index'])->name('progress.index');
+    Route::post('/list', [ProgressPenugasankuController::class, 'list'])->name('progress.list'); // Pastikan POST method
+});
 
 
 Route::group(['prefix' => 'user'], function () {

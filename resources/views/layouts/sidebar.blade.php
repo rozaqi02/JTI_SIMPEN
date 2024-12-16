@@ -124,13 +124,19 @@
                         <li class="nav-item">
                             <a href="{{ url('/Pendidik') }}" class="nav-link {{ $activeMenu == 'pendidik' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Daftar Tugas</p>
+                                <p>Daftar Penugasanku</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/progress-penugasanku') }}" class="nav-link {{ $activeMenu == 'progress-penugasanku' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Progress Penugasanku</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/riwayat-tugas') }}" class="nav-link {{ $activeMenu == 'riwayat-tugas' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Riwayat Tugas</p>
+                                <p>Riwayat Penugasanku</p>
                             </a>
                         </li>
                     </ul>

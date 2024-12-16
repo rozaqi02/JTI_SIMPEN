@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('deskripsi_tugas'); // Task description
             $table->integer('kuota'); // Task quota
             $table->integer('nilai_kompen'); // Task quota
-            $table->integer('jumlah_jam'); // Hours spent on task
             $table->timestamps();
         });
     }

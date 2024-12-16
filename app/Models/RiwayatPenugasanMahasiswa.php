@@ -15,5 +15,18 @@ class RiwayatPenugasanMahasiswa extends Model
     public $incrementing = true;
     public $timestamps = true;
 
-    protected $fillable = ['id_riwayat_tugas', 'nama_penugasan', 'tanggal_mulai', 'tanggal_selesai']; // Kolom yang dapat diisi
+    protected $fillable = [
+        'id_riwayat_tugas',
+        'nama_penugasan',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'id_QRCode' // Tambahkan ini
+    ];
+    
+
+    public function qrCode()
+{
+    return $this->belongsTo(QrCodeModel::class, 'id_QRCode', 'id_QRCode');
+}
+
 }
