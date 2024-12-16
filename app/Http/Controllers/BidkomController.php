@@ -13,7 +13,7 @@ class BidkomController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Daftar Bidang Kompetensi',
-            'list' => ['Home', 'Bidkom']
+            'list' => ['JTI-SIMPEN', 'Manajemen', 'Data Bidang Kompetensi']
         ];
 
         $page = (object) [
@@ -42,7 +42,7 @@ class BidkomController extends Controller
             ->addColumn('aksi', function ($bidkom) {
                 $btn = '<button onclick="modalAction(\''.url('/bidkom/' . $bidkom->id_bidkom . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\''.url('/bidkom/' . $bidkom->id_bidkom . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/bidkom/' . $bidkom->id_bidkom . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button>';
+                $btn .= '<button onclick="modalAction(\''.url('/bidkom/' . $bidkom->id_bidkom . '/confirm_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button>';
                 return $btn;
             })
             ->rawColumns(['aksi'])
@@ -178,33 +178,47 @@ public function show_ajax($id)
 }
 
 
-public function confirm_ajax(string $id)
+public function confirm_ajax($id)
 {
     $bidkom = BidkomModel::find($id);
 
-    return view('admin.bidkom.confirm_ajax', ['bidkom' => $bidkom]);
+    if ($bidkom) {
+        return view('admin.bidkom.confirm_ajax', ['bidkom' => $bidkom]);
+    }
+
+    return response()->json([
+        'status' => false,
+        'message' => 'Bidkom tidak ditemukan'
+    ]);
 }
 
-// Fungsi untuk menghapus data Bidkom
-public function delete_ajax(Request $request, $id)
-{
-    if ($request->ajax() || $request->wantsJson()) {
-        $bidkom = BidkomModel::find($id);
-        if ($bidkom) {
-            $bidkom->delete();
-            return response()->json([
-                'status'    => true,
-                'message'   => 'Data berhasil dihapus!'
-            ]);
-        } else {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Data tidak ditemukan!'
-            ]);
+    public function delete_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $bidkom = BidkomModel::find($id);
+
+            if ($bidkom) {
+                // Menghapus data
+                $bidkom->delete();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data Bidkom berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data Bidkom tidak ditemukan'
+                ]);
+            }
         }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Request tidak valid'
+        ]);
     }
-    return redirect('/');
-}
+
 
 
 }

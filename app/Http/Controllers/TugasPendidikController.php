@@ -14,11 +14,11 @@ class TugasPendidikController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Manajemen Daftar Tugas',
-            'list' => ['Home', 'Manajemen', 'Daftar Tugas Pendidik']
+            'list' => ['JTI-SIMPEN', 'Manajemen', 'Data Daftar Tugas Pendidik']
         ];
 
         $page = (object) [
-            'title' => 'Daftar Tugas'
+            'title' => 'Daftar Tugas yang Terdaftar Dalam Sistem'
         ];
 
         $activeMenu = 'daftar-tugas';

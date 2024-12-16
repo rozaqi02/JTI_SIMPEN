@@ -15,7 +15,7 @@
             height: 100%;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('{{ asset('adminlte/dist/img/landingpages.png') }}');
+            background-image: url('{{ asset('image/landingpages.png') }}');
             background-size: cover;
             background-position: center;
             position: relative;
@@ -92,7 +92,7 @@
 <body>
     <div class="container">
         <div class="card">
-            <img src="{{ asset('adminlte/dist/img/LOGO-JTI.png') }}" alt="Logo JTI" class="logo">
+            <img src="{{ asset('image/LOGO-JTI.png') }}" alt="Logo JTI" class="logo">
             <h1>SISTEM INFORMASI KOMPENSASI JTI</h1>
             <a href="{{ url('/login') }}" class="btn">MASUK</a>
             <p class="mt-3 footer-text">&copy; 2024 <a href="#" class="footer-link">Coding Koala</a> - Politeknik Negeri Malang. All rights reserved.</p>

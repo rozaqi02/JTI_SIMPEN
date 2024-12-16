@@ -78,106 +78,157 @@
                     </select>
                     <small id="error-level_id" class="error-text form-text text-danger"></small>
                 </div>
-                <div class="form-group">
-                    <label for="username">Nama Pengguna</label>
-                    <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
-                    <small id="error-username" class="error-text form-text text-danger"></small>
+
+                <!-- Input for Username and Password, visible after selecting category -->
+                <div id="user-details" style="display: none;">
+                    <div class="form-group">
+                        <label for="username">Nama Pengguna</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                        <small id="error-username" class="error-text form-text text-danger"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Kata Sandi</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <small id="error-password" class="error-text form-text text-danger"></small>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="password">Kata Sandi</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                    <small id="error-password" class="error-text form-text text-danger"></small>
+
+                <!-- Dynamic input fields based on user category -->
+                <div id="admin-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nip">NIP</label>
+                        <input type="text" class="form-control" id="nip" name="nip">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Admin</label>
+                        <input type="email" class="form-control" id="email_admin" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_admin">Nama Admin</label>
+                        <input type="text" class="form-control" id="nama_admin" name="nama_admin">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">DAFTAR</button>
+
+                <div id="dosen-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nip_dosen">NIP</label>
+                        <input type="text" class="form-control" id="nip_dosen" name="nip">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_dosen">Email</label>
+                        <input type="email" class="form-control" id="email_dosen" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_dosen">Nama Dosen</label>
+                        <input type="text" class="form-control" id="nama_dosen" name="nama_dosen">
+                    </div>
                 </div>
-                <div class="form-group text-center">
-                    <a href="#">Butuh Bantuan?</a>
+
+                <div id="tendik-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nip_dosen">NIP</label>
+                        <input type="text" class="form-control" id="nip_dosen" name="nip">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_dosen">Email</label>
+                        <input type="email" class="form-control" id="email_tendik" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_dosen">Nama Tendik</label>
+                        <input type="text" class="form-control" id="nama_tendik" name="nama_tendik">
+                    </div>
                 </div>
+
+                <div id="mahasiswa-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nim">NIM</label>
+                        <input type="text" class="form-control" id="nim" name="nim">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_mahasiswa">Email</label>
+                        <input type="email" class="form-control" id="email_mahasiswa" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_mahasiswa">Nama Mahasiswa</label>
+                        <input type="text" class="form-control" id="nama_mahasiswa" name="nama_mahasiswa">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Registrasi</button>
             </form>
-            <div class="footer-text">
-                &copy; 2024 Coding Koala - Politeknik Negeri Malang. All rights reserved.
-            </div>
         </div>
     </div>
 </div>
 
-<!-- jQuery -->
-<script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- jquery-validation -->
-<script src="{{ asset('adminlte/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 <!-- SweetAlert2 -->
-<script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    // JavaScript untuk menangani perubahan kategori user
+    document.getElementById('level_id').addEventListener('change', function () {
+        var selectedLevel = this.value;
+        
+        // Menyembunyikan semua field
+        document.getElementById('user-details').style.display = 'block';
+        document.getElementById('admin-fields').style.display = 'none';
+        document.getElementById('dosen-fields').style.display = 'none';
+        document.getElementById('tendik-fields').style.display = 'none';
+        document.getElementById('mahasiswa-fields').style.display = 'none';
+
+        // Menampilkan field yang sesuai dengan kategori
+        if (selectedLevel == 1) {  // Admin
+            document.getElementById('admin-fields').style.display = 'block';
+        } else if (selectedLevel == 2) {  // Dosen
+            document.getElementById('dosen-fields').style.display = 'block';
+        } else if (selectedLevel == 3) {  // Mahasiswa
+            document.getElementById('tendik-fields').style.display = 'block';
+        } else if (selectedLevel == 4) {  // Mahasiswa
+            document.getElementById('mahasiswa-fields').style.display = 'block';
         }
     });
 
-    $(document).ready(function() {
-        $("#form-tambah").validate({
-            rules: {
-                level_id: {
-                    required: true,
-                    number: true
-                },
-                username: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 20
-                },
-                password: {
-                    required: true,
-                    minlength: 5,
-                    maxlength: 20
-                }
-            },
-            submitHandler: function(form) {
-                $.ajax({
-                    url: form.action,
-                    type: form.method,
-                    data: $(form).serialize(),
-                    success: function(response) {
-                        if (response.status) { // jika sukses
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message,
-                            }).then(function() {
-                                window.location = response.redirect;
-                            });
-                        } else { // jika error
-                            $('.error-text').text('');
-                            $.each(response.msgField, function(prefix, val) {
-                                $('#error-' + prefix).text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: response.message
-                            });
-                        }
-                    }
-                });
-                return false;
-            },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
+    // Meng-handle submit form dengan AJAX
+    document.getElementById('form-tambah').addEventListener('submit', function (e) {
+        e.preventDefault(); // Mencegah reload halaman
+
+        var formData = new FormData(this);
+
+        // AJAX request
+        fetch('{{ url("register") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                Swal.fire({
+                    title: 'Registrasi Berhasil!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'Ok',
+                }).then(() => {
+                    window.location.href = data.redirect; // Redirect ke halaman login
+                });
+            } else {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'Coba Lagi'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Terjadi kesalahan, coba lagi nanti.',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
         });
     });
 </script>

@@ -203,7 +203,7 @@ $(document).ready(function() {
                 maxlength: 100
             },
             password: {
-                minlength: 6,
+                minlength: 5,
                 maxlength: 20
             },
         },
@@ -211,11 +211,11 @@ $(document).ready(function() {
             var formData = new FormData(form);
 
             // Mengambil data Bidkom
-            var bidkoms = [];
-            $(".bidkom-select").each(function() {
-                bidkoms.push($(this).val());
-            });
-            formData.append('bidkoms', JSON.stringify(bidkoms));
+            // var bidkoms = [];
+            // $(".bidkom-select").each(function() {
+            //     bidkoms.push($(this).val());
+            // });
+            // formData.append('bidkoms', JSON.stringify(bidkoms));
 
             $.ajax({
                 url: form.action,

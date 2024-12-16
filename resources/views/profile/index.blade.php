@@ -20,7 +20,7 @@
             <div class="col-md-8">
                 <div class="p-3 py-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="font-weight-bold">Profile Settings</h4>
+                        <h4 class="font-weight-bold">Profil Anda</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover table-sm">
@@ -58,7 +58,7 @@
                                     </tr>
                                     <tr>
                                         <th>Bidkom</th>
-                                        <td>{{ $data['mahasiswa']->bidkom ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $data['mahasiswa']->bidkom }}</td>
                                     </tr>
                                 @elseif ($data['admin'])
                                     <tr>

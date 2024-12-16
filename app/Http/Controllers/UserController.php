@@ -22,12 +22,12 @@ class UserController extends Controller
     public function index()
     {
         $breadcrumb = (object) [
-            'title' => 'Daftar Pengguna Kompen',
-            'list' => ['JTI SIMPEN  ', 'Pengguna']
+            'title' => 'Data Pengguna JTI-SIMPEN',
+            'list' => ['JTI-SIMPEN  ', 'Manajemen', 'Data Pengguna']
         ];
 
         $page = (object) [
-            'title' => 'Daftar Pengguna yang Terdaftar dalam Sistem Kompen'
+            'title' => 'Daftar Pengguna yang Terdaftar Dalam Sistem Kompen'
         ];
 
         $activeMenu = 'user';
@@ -67,7 +67,6 @@ class UserController extends Controller
             ->rawColumns(['aksi'])  // Menandai kolom aksi untuk diproses sebagai HTML
             ->make(true);
     }
-
 
 
 
@@ -151,7 +150,7 @@ public function edit_ajax($id)
             $rules = [
                 'level_id' => 'required|integer',
                 'username' => 'required|string|min:3|unique:m_user,username',
-                'password' => 'required|min:6'
+                'password' => 'required|min:5'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -212,11 +211,36 @@ public function edit_ajax($id)
 
 
  // Menampilkan konfirmasi penghapusan di modal
- public function confirm_ajax(string $id){
-    $user = UserModel::find($id);
+ public function confirm_ajax(string $id)
+ {
+     $user = UserModel::find($id);
 
-    return view('admin.user.confirm_ajax', ['user' => $user]);
-}
+     if (!$user) {
+         return response()->json([
+             'status' => false,
+             'message' => 'Data tidak ditemukan'
+         ]);
+     }
+
+     // Ambil data tambahan berdasarkan level_id
+     $admin = null;
+     $dosen = null;
+     $tendik = null;
+     $mahasiswa = null;
+
+     if ($user->level_id == 1) {
+         $admin = AdminModel::where('id_user', $user->id_user)->first();
+     } elseif ($user->level_id == 2) {
+         $dosen = DosenModel::where('id_user', $user->id_user)->first();
+     } elseif ($user->level_id == 3) {
+         $tendik = TendikModel::where('id_user', $user->id_user)->first();
+     } elseif ($user->level_id == 4) {
+         $mahasiswa = MahasiswaModel::where('id_user', $user->id_user)->first();
+     }
+
+     return view('admin.user.confirm_ajax', compact('user', 'admin', 'dosen', 'tendik', 'mahasiswa'));
+ }
+
 
 //Menghapus data user AJAX
 public function delete_ajax(Request $request, $id)
@@ -295,6 +319,7 @@ public function import_ajax(Request $request)
     return redirect('/');
 }
 
+
 public function export_pdf() {
     set_time_limit(600);
     $user = UserModel::select('level_id', 'username')
@@ -313,3 +338,4 @@ public function export_pdf() {
     return $pdf->stream('Data user '.date('Y-m-d H:i:s').'.pdf');
 }
 }
+

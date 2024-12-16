@@ -1,34 +1,90 @@
-@extends('layouts.app')
+@extends('layouts.template')
 
 @section('content')
-<div class="container">
-    <h2>{{ $page->title }}</h2>
+<div class="card card-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Data Alpa Mahasiswa</h3>
+    </div>
+    <div class="card-body">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-    <!-- Tampilkan Breadcrumb -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            @foreach ($breadcrumb->list as $item)
-                <li class="breadcrumb-item">{{ $item }}</li>
-            @endforeach
-        </ol>
-    </nav>
+        <!-- Filter Periode -->
+        <div class="row mb-4">
+            <div class="col-lg-4">
+                <h5>Filter</h5>
+                <form>
+                    <div class="input-group">
+                        <select id="periode_filter" name="periode" class="form-control">
+                            <option value="">-- Semua Periode --</option>
+                            @foreach ($periode as $p)
+                                <option value="{{ $p->id_periode }}">{{ $p->nama_periode }}</option>
+                            @endforeach
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="filter_button">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    <!-- Tabel Data Alpa -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Periode</th>
-                <th scope="col">Jumlah Alpa</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($alpaData as $data)
+        <!-- Table -->
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_alpa">
+            <thead>
                 <tr>
-                    <td>{{ $data->periode->periode_name }}</td>  <!-- Mengambil nama periode -->
-                    <td>{{ $data->jumlah_alpa }}</td>  <!-- Menampilkan jumlah alpa -->
+                    <th>No</th>
+                    <th>Periode</th>
+                    <th>Jam Alpa</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+        </table>
+    </div>
 </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true"></div>
+
 @endsection
+
+@push('css')
+<!-- Add any custom CSS if necessary -->
+@endpush
+
+@push('js')
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable
+        var dataAlpa = $('#table_alpa').DataTable({
+            serverSide: true,
+            processing: true,
+            ajax: {
+                url: "{{ url('mahasiswa/alpa/list') }}", // Pastikan URL sesuai rute controller
+                dataType: "json",
+                type: "POST",
+                data: function(d) {
+                    d._token = "{{ csrf_token() }}"; // CSRF Token
+                    d.periode = $('#periode_filter').val(); // Filter periode
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            },
+            columns: [
+                { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
+                { data: "periode", name: "periode" },
+                { data: "jam_alpa", name: "jam_alpa", className: "text-center" }
+            ]
+        });
+
+        // Event for filter
+        $('#periode_filter, #filter_button').on('change click', function() {
+            dataAlpa.ajax.reload();
+        });
+    });
+</script>
+@endpush

@@ -21,10 +21,10 @@ class ProfileController extends Controller
         $id = session('id_user'); // ambil id_user dari session
         $breadcrumb = (object) [
             'title' => 'Profil',
-            'list' => ['JTI SIMPEN', 'profile']
+            'list' => ['JTI-SIMPEN', 'Profil']
         ];
         $page = (object) [
-            'title' => 'Profile Anda'
+            'title' => 'Profil Anda'
         ];
         $activeMenu = 'profile'; // set menu yang sedang aktif
 
@@ -72,46 +72,6 @@ class ProfileController extends Controller
     // }
 
 
-    // public function edit_ajax(string $id)
-    // {
-    //     $user = UserModel::findOrFail($id); // Gunakan findOrFail untuk menangani kasus tidak ditemukan
-        
-    //     // Ambil data sesuai tipe user
-    //     $mahasiswa = MahasiswaModel::where('id_user', $id)->first();
-    //     $admin = AdminModel::where('id_user', $id)->first();
-    //     $dosen = DosenModel::where('id_user', $id)->first();
-    //     $tendik = TendikModel::where('id_user', $id)->first();
-    
-    //     // Muat relasi yang diperlukan hanya jika mahasiswa tidak null
-    //     if ($mahasiswa) {
-    //         $mahasiswa->load('detailBidkom.bidkom');  // Memuat relasi bidkom
-    //     } else {
-    //         // Inisialisasi mahasiswa sebagai objek kosong jika null
-    //         $mahasiswa = new MahasiswaModel();
-    //     }
-    
-    //     // Ambil semua bidkom untuk dropdown
-    //     $bidkoms = BidkomModel::all(); 
-    
-    //     // Mengambil data level untuk dropdown
-    //     $levels = LevelModel::select('level_id', 'level_nama')->get();
-    
-    //     return view('profile.edit_ajax', [
-    //         'user' => $user,
-    //         'mahasiswa' => $mahasiswa,
-    //         'admin' => $admin,
-    //         'dosen' => $dosen,
-    //         'tendik' => $tendik,
-    //         'levels' => $levels,
-    //         'bidkoms' => $bidkoms,  // Pastikan data bidkoms dikirim ke view
-    //     ]);
-    // }
-    
-    
-
-
-
-
     public function edit_ajax(string $id)
     {
         $user = UserModel::findOrFail($id); // Gunakan findOrFail untuk menangani kasus tidak ditemukan
@@ -121,7 +81,7 @@ class ProfileController extends Controller
         $admin = AdminModel::where('id_user', $id)->first();
         $dosen = DosenModel::where('id_user', $id)->first();
         $tendik = TendikModel::where('id_user', $id)->first();
-    
+        
         // Muat relasi yang diperlukan hanya jika mahasiswa tidak null
         if ($mahasiswa) {
             $mahasiswa->load('detailBidkom.bidkom');  // Memuat relasi bidkom
@@ -132,7 +92,7 @@ class ProfileController extends Controller
     
         // Ambil semua bidkom untuk dropdown
         $bidkoms = BidkomModel::all(); 
-    
+        
         // Mengambil data level untuk dropdown
         $levels = LevelModel::select('level_id', 'level_nama')->get();
     
@@ -155,6 +115,7 @@ class ProfileController extends Controller
                 'message' => 'Metode request tidak valid'
             ], 405);
         }
+        
         // Cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             // Validasi data input
@@ -162,7 +123,7 @@ class ProfileController extends Controller
                 'id_user' => 'required',
                 'level_id' => 'nullable|integer',
                 'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
-                'password' => 'nullable|min:6|max:20',
+                'password' => 'nullable|min:5|max:20',
                 'nama_admin' => 'nullable|max:255',
                 'nip' => 'nullable|max:20',
                 'no_telepon' => 'nullable|max:20',
@@ -170,6 +131,7 @@ class ProfileController extends Controller
                 'nama_dosen' => 'nullable|max:255',
                 'nama_tendik' => 'nullable|max:255',
                 'nama_mahasiswa' => 'nullable|max:255',
+                'nim' => 'nullable|max:20',
                 'program_studi' => 'nullable|max:100',
                 'tahun_masuk' => 'nullable|integer',
                 'bidkom' => 'nullable|array',  // Mengizinkan array untuk multiple bidkom
@@ -223,7 +185,7 @@ class ProfileController extends Controller
                 }
     
                 if ($request->level_id == 3) {
-                    // Perbarui data tendik
+                    // Perbarui data mahasiswa
                     TendikModel::where('id_user', $request->id_user)->update([
                         'id_user' => $request->id_user,
                         'nama_tendik' => $request->nama_tendik,
@@ -234,36 +196,46 @@ class ProfileController extends Controller
                 }
     
                 if ($request->level_id == 4) { // Untuk mahasiswa
-                    // Perbarui data mahasiswa
-                    MahasiswaModel::where('id_user', $request->id_user)->update([
-                        'id_user' => $request->id_user,
-                        'nama_mahasiswa' => $request->nama_mahasiswa,
-                        'nim' => $request->nim,
-                        'email' => $request->email,
-                        'program_studi' => $request->program_studi,
-                        'tahun_masuk' => $request->tahun_masuk
-                    ]);
-    
-                    // Jika mahasiswa memiliki Bidkom yang dipilih, update menggunakan sync
                     $mahasiswa = MahasiswaModel::where('id_user', $request->id_user)->first();
-                    if ($mahasiswa && $request->has('bidkom')) {
-                        // Sync bidkom dengan menghapus yang lama dan menambahkan yang baru
-                        $mahasiswa->detailBidkom()->sync($request->bidkom);
+                    if ($mahasiswa) {
+                        // Perbarui data mahasiswa
+                        $mahasiswa->update([
+                            'id_user' => $request->id_user,
+                            'nama_mahasiswa' => $request->nama_mahasiswa,
+                            'nim' => $request->nim,
+                            'email' => $request->email,
+                            'program_studi' => $request->program_studi,
+                            'tahun_masuk' => $request->tahun_masuk,
+                            'bidkom' => $request->detail_bidkom
+                            
+                        ]);
+                
+                        // Jika mahasiswa memiliki Bidkom yang dipilih, sinkronkan dengan relasi
+                        if ($request->has('bidkom')) {
+                            $mahasiswa->detailBidkom()->sync($request->bidkom);
+                        }
+                    } else {
+                       
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Data mahasiswa tidak ditemukan.'
+                        ]);
                     }
                 }
     
                 return response()->json([
                     'status' => true,
-                    'message' => 'Data berhasil diupdate'
+                    'message' => 'Data berhasil diperbarui.'
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Data tidak ditemukan'
+                    'message' => 'User tidak ditemukan.'
                 ]);
             }
         }
     }
+    
     
 
 

@@ -27,4 +27,9 @@ class NgambilTugas extends Model
     {
         return $this->belongsTo(JenisKompen::class, 'id_jenis_kompen');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class, 'id_user'); // Menggunakan relasi belongsTo
+    }
 }

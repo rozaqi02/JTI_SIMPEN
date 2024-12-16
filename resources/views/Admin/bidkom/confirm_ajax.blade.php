@@ -3,26 +3,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
-                    Data yang Anda cari tidak ditemukan
+                    Data yang anda cari tidak ditemukan
                 </div>
                 <a href="{{ url('/bidkom') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/bidkom/' . $bidkom->id_bidkom.'/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/bidkom/' . $bidkom->id_bidkom . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Bidkom</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Bidang Kompetensi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
@@ -41,7 +45,6 @@
             </div>
         </div>
     </form>
-
     <script>
         $(document).ready(function() {
             $("#form-delete").validate({
@@ -60,7 +63,7 @@
                                     text: response.message
                                 });
                                 dataBidkom.ajax.reload();
-                            } else {
+                            }else{
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {
                                     $('#error-'+prefix).text(val[0]);

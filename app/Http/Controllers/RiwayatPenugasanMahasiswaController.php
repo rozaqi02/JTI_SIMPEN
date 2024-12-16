@@ -10,12 +10,12 @@ class RiwayatPenugasanMahasiswaController extends Controller
     public function index()
     {
         $breadcrumb = (object) [
-            'title' => 'Manajemen Riwayat Penugasan Mahasiswa',
-            'list' => ['Home', 'Manajemen', 'Riwayat Penugasan']
+            'title' => 'Riwayat Tugas Mahasiswa',
+            'list' => ['JTI-SIMPEN', 'Penugasanku', 'Riwayat Tugas']
         ];
 
         $page = (object) [
-            'title' => 'Riwayat Penugasan Mahasiswa'
+            'title' => 'Riwayat Tugasku '
         ];
 
         $activeMenu = 'riwayat-penugasan'; // Menu aktif untuk halaman ini

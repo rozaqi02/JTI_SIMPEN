@@ -9,10 +9,19 @@ class MahasiswaModel extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika tidak mengikuti konvensi penamaan
+    // Nama tabel dalam database
     protected $table = 'm_mahasiswa';
 
-    // Tentukan kolom yang bisa diisi
+    // Primary key tabel
+    protected $primaryKey = 'id_mahasiswa';
+
+    // Jika primary key bukan auto increment
+    public $incrementing = false;
+
+    // Tipe data primary key
+    protected $keyType = 'bigint';
+
+    // Kolom yang bisa diisi
     protected $fillable = [
         'id_user',
         'id_bidkom',
@@ -29,13 +38,15 @@ class MahasiswaModel extends Model
         return $this->belongsTo(UserModel::class, 'id_user', 'id_user');
     }
 
-    // Relasi dengan Bidang Komunikasi (Many-to-One)
-// Dalam MahasiswaModel
-public function detailBidkom()
-{
-    return $this->hasMany(DetailBidkomModel::class, 'id_mahasiswa', 'id_mahasiswa');
+    // Relasi dengan Detail Bidkom (One-to-Many)
+    public function detailBidkom()
+    {
+        return $this->hasMany(DetailBidkomModel::class, 'id_mahasiswa', 'id_mahasiswa');
+    }
+
+    // Relasi dengan Alpaku (One-to-Many)
+    public function alpaku()
+    {
+        return $this->hasMany(AlpakuModel::class, 'id_mahasiswa', 'id_mahasiswa');
+    }
 }
-
-}
-
-

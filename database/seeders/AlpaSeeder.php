@@ -20,6 +20,13 @@ class AlpaSeeder extends Seeder
                 'jam_alpa' => '3 Jam', // Jam alpa
                 'created_at' => now(),
                 'updated_at' => now(),
+            ],
+            [
+                'id_mahasiswa' => 1, // Refers to an existing mahasiswa in m_mahasiswa
+                'id_periode' => 3, // Refers to an existing periode in t_periode
+                'jam_alpa' => '80 Jam', // Jam alpa
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         ]);
     }

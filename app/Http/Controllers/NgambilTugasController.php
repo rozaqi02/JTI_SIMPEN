@@ -1,126 +1,123 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\UserModel;
 use App\Models\JenisKompen;
 use App\Models\NgambilTugas;
-use Yajra\DataTables\Facades\DataTables;
+use App\Models\ProgressTugas; // Model untuk tabel m_tugas
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth; // Untuk user yang sedang login
+use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class NgambilTugasController extends Controller
 {
     public function index()
     {
         $breadcrumb = (object) [
-            'title' => 'Daftar Tugas',
-            'list' => ['Home', 'Tugasku', 'Daftar Tugas']
+            'title' => 'List Tugas',
+            'list' => ['JTI-SIMPEN', 'Tugasku', 'List Tugas']
         ];
-    
-        $page = (object) [
-            'title' => 'Daftar Tugas'
-        ];
-    
-        $activeMenu = 'daftar-tugas';
-    
-        return view('mahasiswa.daftar-tugas.index', [
+
+        $page = (object) ['title' => 'List Tugas'];
+        $activeMenu = 'list-tugas';
+
+        return view('mahasiswa.list-tugas.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu
         ]);
     }
-    
 
-    public function show($id)
-{
-    $tugas = NgambilTugas::with(['user', 'jenisKompen'])->findOrFail($id);
-    return response()->json([
-        'pemberi_tugas' => $tugas->user->username,
-        'judul_tugas' => $tugas->nama_tugas,
-        'jenis_tugas' => $tugas->jenisKompen->nama_jenis_kompen,
-        'jumlah_jam' => $tugas->nilai_kompen,
-        'deskripsi_tugas' => explode("\n", $tugas->deskripsi_tugas),
-    ]);
-}
-
-public function list(Request $request)
-{
-    $tugasMahasiswa = NgambilTugas::with(['jenisKompen'])
-        ->select(
-            'id_detail_tugas',
-            'nama_tugas',
-            'id_jenis_kompen',
-            'kuota',
-            'nilai_kompen'
-        );
-
-    return DataTables::of($tugasMahasiswa)
-        ->addIndexColumn()
-        ->addColumn('jenis_kompen', function ($tugas) {
-            return $tugas->jenisKompen ? $tugas->jenisKompen->nama_jenis_kompen : 'Tidak Ada';
-        })
-        ->addColumn('aksi', function ($tugas) {
-            return '<button onclick="ambilTugas(' . $tugas->id_detail_tugas . ')" class="btn btn-primary btn-sm">Ambil</button>';
-        })
-        ->rawColumns(['aksi'])
-        ->make(true);
-}
-
-
-    public function create_ajax()
+    public function list(Request $request)
     {
-    // Mengambil data level dan jenis kompensasi untuk dropdown
-    $jenisKompen = JenisKompen::all(); // Ambil data jenis kompensasi untuk dropdown
-    $users = UserModel::all(); // Ambil data user untuk dropdown
-    
-    // Mengembalikan view dengan data yang diperlukan
-    return view('admin.tugas-pendidik.create_ajax', compact('jenisKompen', 'users'));
-    }
+        $tugas = NgambilTugas::with(['user', 'jenisKompen'])
+            ->select('id_detail_tugas', 'id_user', 'id_jenis_kompen', 'nama_tugas', 'deskripsi_tugas', 'kuota', 'nilai_kompen');
 
-    public function store_ajax(Request $request)
-{
-    // Cek apakah request berupa AJAX
-    if ($request->ajax() || $request->wantsJson()) {
-        // Validasi data
-        $rules = [
-            'nama_tugas' => 'required|string|min:3',
-            'deskripsi_tugas' => 'required|string|min:5',
-            'kuota' => 'required|integer|min:1',
-            'nilai_kompen' => 'required|numeric|min:0',
-            'user_id' => 'required|exists:m_user,id_user',
-            'jenis_kompen_id' => 'required|exists:m_jenis_kompen,id_jenis_kompen',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false, // Response status, false: error/gagal, true: berhasil
-                'message' => 'Validasi Gagal',
-                'msgField' => $validator->errors(), // Pesan error validasi
-            ]);
+        // Filter jika ada
+        if ($request->filled('nama_tugas')) {
+            $tugas->where('nama_tugas', 'like', '%' . $request->nama_tugas . '%');
         }
 
-        // Menyimpan data tugas pendidik
-        TugasPendidik::create([
-            'nama_tugas' => $request->nama_tugas,
-            'deskripsi_tugas' => $request->deskripsi_tugas,
-            'kuota' => $request->kuota,
-            'nilai_kompen' => $request->nilai_kompen,
-            'user_id' => $request->user_id, // ID user yang terkait
-            'jenis_kompen_id' => $request->jenis_kompen_id, // ID jenis kompensasi
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Tugas Pendidik berhasil disimpan'
-        ]);
+        return DataTables::of($tugas)
+            ->addIndexColumn()
+            ->addColumn('jenis_kompen', function ($tugas) {
+                return $tugas->jenisKompen ? $tugas->jenisKompen->nama_jenis_kompen : '-';
+            })
+            ->addColumn('pemberi_tugas', function ($tugas) {
+                return $tugas->user ? $tugas->user->username : '-';
+            })
+            ->addColumn('aksi', function ($tugas) {
+                $url = url('list-tugas/' . $tugas->id_detail_tugas . '/apply_ajax');
+                return '<button onclick="modalAction(\'' . $url . '\')" class="btn btn-primary btn-sm">Ambil</button>';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
-    return redirect('/');
-}
+    public function applyAjax($id)
+    {
+        try {
+            $tugas = NgambilTugas::with(['user', 'jenisKompen'])->findOrFail($id);
 
+            $html = view('mahasiswa.list-tugas.apply', [
+                'tugas' => $tugas
+            ])->render();
 
-        
+            return response()->json(['html' => $html]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'html' => '<p>Terjadi kesalahan, data tidak ditemukan.</p>',
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
 
+    public function submitTugas($id, Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $mahasiswa = $user->mahasiswa; // Relasi mahasiswa di model UserModel
+
+            if (!$mahasiswa) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data mahasiswa tidak ditemukan.'
+                ]);
+            }
+
+            $tugas = NgambilTugas::findOrFail($id);
+
+            // Cek apakah mahasiswa sudah mengambil tugas ini
+            $existing = ProgressTugas::where('id_detail_tugas', $id)
+                ->where('id_alpa', $mahasiswa->id_mahasiswa)
+                ->first();
+
+            if ($existing) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tugas ini sudah Anda ambil sebelumnya.'
+                ]);
+            }
+
+            // Simpan ke tabel m_tugas
+            ProgressTugas::create([
+                'id_detail_tugas' => $tugas->id_detail_tugas,
+                'id_alpa' => $mahasiswa->id_mahasiswa,
+                'progress_tugas' => 'Dalam Proses'
+            ]); 
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Tugas berhasil diambil!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan di server. Silakan coba lagi.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

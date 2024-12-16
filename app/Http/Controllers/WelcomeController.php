@@ -1,20 +1,17 @@
 <?php
 namespace App\Http\Controllers;
 
-class WelcomeController extends Controller{
-    public function index() {
-        
-        $breadcrumb = (object) [
-            'title' => 'Selamat Datang ',
-            'list' => ['JTI SIMPEN', 'Dashboard']
-        ];
+use Illuminate\Http\Request;
+use App\Models\TugasPendidik; // Untuk tabel m_detail_tugas
+use App\Models\MahasiswaModel; // Untuk tabel m_mahasiswa
+use App\Models\JenisKompen; // Untuk tabel m_jenis_kompen
 
-        $activeMenu = 'dashboard';
+class WelcomeController extends Controller
+{
+    
 
-        return view('welcome', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
-    }
-
-    public function landing() {
+    public function Landing()
+    {
         return view('landing');
-    }
+}
 }
