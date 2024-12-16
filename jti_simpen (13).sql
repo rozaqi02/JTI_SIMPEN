@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 16, 2024 at 03:46 PM
+-- Generation Time: Dec 16, 2024 at 05:08 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -127,7 +127,7 @@ CREATE TABLE `m_dosen` (
 --
 
 INSERT INTO `m_dosen` (`id_dosen`, `id_user`, `nip`, `email`, `nama_dosen`, `no_telepon`, `created_at`, `updated_at`) VALUES
-(1, 2, '1986543210', 'afifah.rahma@example.com', 'Afifah Rahma', '081234567891', '2024-12-16 07:59:10', '2024-12-16 07:59:10'),
+(1, 2, '1986543210', 'afifah.rahma@example.com', 'Afifah Rahma', '22222222', '2024-12-16 07:59:10', '2024-12-16 10:07:46'),
 (2, 5, NULL, NULL, 'dosen namaaaa', NULL, '2024-12-16 08:23:21', '2024-12-16 08:23:21'),
 (3, 6, NULL, NULL, 'joyo sugito', NULL, '2024-12-16 08:29:49', '2024-12-16 08:29:49');
 
@@ -201,7 +201,8 @@ CREATE TABLE `m_mahasiswa` (
 --
 
 INSERT INTO `m_mahasiswa` (`id_mahasiswa`, `id_user`, `nama_mahasiswa`, `nim`, `email`, `no_telepon`, `program_studi`, `tahun_masuk`, `created_at`, `updated_at`) VALUES
-(1, 4, 'Amanda Jasmyne', '2241760123', 'amandajbp04@gmail.com', '081237621316', 'Sistem Informasi Bisnis', '2024', '2024-12-16 07:58:57', '2024-12-16 07:58:57');
+(1, 4, 'Amanda Jasmyne', '2241760123', 'amandajbp04@gmail.com', '081237621316', 'Sistem Informasi Bisnis', '2024', '2024-12-16 07:58:57', '2024-12-16 07:58:57'),
+(3, 9, 'sadimin', '123123123', 'sad@123', NULL, 'Sistem Informasi Bisniss', '2022', '2024-12-16 10:03:58', '2024-12-16 10:05:05');
 
 -- --------------------------------------------------------
 
@@ -249,7 +250,8 @@ CREATE TABLE `m_tugas` (
 
 INSERT INTO `m_tugas` (`id_tugas`, `id_detail_tugas`, `id_alpa`, `progress_tugas`, `created_at`, `updated_at`) VALUES
 (12, 3, 1, 'Belum Mulai', '2024-12-16 08:02:59', '2024-12-16 08:02:59'),
-(13, 4, 2, 'Dalam Progres', '2024-12-16 08:02:59', '2024-12-16 08:02:59');
+(13, 4, 2, 'Dalam Progres', '2024-12-16 08:02:59', '2024-12-16 08:02:59'),
+(14, 4, 1, 'Dalam Proses', '2024-12-16 09:26:23', '2024-12-16 09:26:23');
 
 -- --------------------------------------------------------
 
@@ -278,7 +280,9 @@ INSERT INTO `m_user` (`id_user`, `level_id`, `username`, `password`, `foto`, `cr
 (4, 4, 'Amanda Jasmyne', '$2y$12$WDK8.kDaKd5lkK4GAbGrdOw8DkoUEpxC3/EWDpkYWcku.yLusyhg.', 'image/profile/avatar.png', '2024-12-16 07:58:47', '2024-12-16 07:58:47'),
 (5, 2, 'Ahmad Dosen', '$2y$12$5xnFVEi9rm/0LGvlhDSO5eLjW8F0ybaGVVqo0OgpRneomeomosUWW', NULL, '2024-12-16 08:23:21', '2024-12-16 08:23:21'),
 (6, 2, 'Joyo', '$2y$12$McufKOx.RNzgU3HbP1omF.OlZpN18BvDDp6cBZZp.6VUPzUlE7Vn.', 'image/profile/1734363005.png', '2024-12-16 08:29:49', '2024-12-16 08:30:05'),
-(7, 3, 'Ahmad Tendik', '$2y$12$d7EAL10uKOcZ/lXvCVtTkeHjqnl6hdF8LxIi9nnSxLZ6.x80dNUVy', 'image/profile/avatar.png', '2024-12-16 08:42:00', '2024-12-16 08:42:00');
+(7, 3, 'Ahmad Tendik', '$2y$12$d7EAL10uKOcZ/lXvCVtTkeHjqnl6hdF8LxIi9nnSxLZ6.x80dNUVy', 'image/profile/avatar.png', '2024-12-16 08:42:00', '2024-12-16 08:42:00'),
+(8, 4, 'nala', '$2y$12$6BSkATPwB1GrWSDe/mclm.k.mKAljyTwasvc/DxcaV1sDBUsuDiJG', 'image/profile/avatar.png', '2024-12-16 09:27:20', '2024-12-16 09:27:20'),
+(9, 4, 'sadimin', '$2y$12$Pt9Sf5yl1BpYohdsmQVZaO4Q/uQ0x/cKNdimd2ALKL5iNb7DXw9QC', 'image/profile/avatar.png', '2024-12-16 10:03:58', '2024-12-16 10:03:58');
 
 -- --------------------------------------------------------
 
@@ -603,7 +607,7 @@ ALTER TABLE `m_level`
 -- AUTO_INCREMENT for table `m_mahasiswa`
 --
 ALTER TABLE `m_mahasiswa`
-  MODIFY `id_mahasiswa` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_mahasiswa` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `m_tendik`
@@ -615,13 +619,13 @@ ALTER TABLE `m_tendik`
 -- AUTO_INCREMENT for table `m_tugas`
 --
 ALTER TABLE `m_tugas`
-  MODIFY `id_tugas` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_tugas` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `m_user`
 --
 ALTER TABLE `m_user`
-  MODIFY `id_user` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
