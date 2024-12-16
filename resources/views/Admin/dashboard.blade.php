@@ -7,7 +7,7 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>{{ $totalTugas }}</h3>
+                        <h3>{{ $totalTugasUser }}</h3>
                         <p>Total Tugas</p>
                     </div>
                     <div class="icon">
@@ -23,8 +23,8 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>{{ $totalKompen }}</h3>
-                        <p>Total Kompen</p>
+                        <h3>{{ $totalTugas }}</h3>
+                        <p>Total Seluruh Tugas</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-clipboard-check"></i>

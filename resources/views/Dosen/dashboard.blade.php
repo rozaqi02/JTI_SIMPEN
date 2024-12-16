@@ -8,7 +8,7 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $totalTugasUser }}</h3>
-                        <p>Total Tugas</p>
+                        <p>Total Tugas Saya</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-tasks"></i>

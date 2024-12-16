@@ -12,6 +12,7 @@ use App\Models\PeriodeModel; // Untuk tabel m_mahasiswa
 use App\Models\JenisKompen; // Untuk tabel m_jenis_kompen
 use App\Models\TendikModel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -20,7 +21,6 @@ class DashboardController extends Controller
     {
         // Ambil data user yang sedang login
         $user = Auth::user();
-        $levelId = $user->level_id;
 
         // Data breadcrumb umum
         $breadcrumb = (object) [
@@ -36,7 +36,12 @@ class DashboardController extends Controller
 
         // Inisialisasi variabel
         $totalTugas = TugasPendidik::count();  // Hitung total tugas
-       
+        // $totalTugasDosen = TugasPendidik::where('id_user',)->count();
+        $totalTugasUser = DB::table('m_detail_tugas')
+        ->where('id_user', $user->id_user)
+        ->count();
+
+
         $totalKompen = TugasPendidik::where('id_jenis_kompen', 1)->count();  // Hitung total kompen berdasarkan id_jenis_kompen
 
         // Ambil data mahasiswa
@@ -46,26 +51,32 @@ class DashboardController extends Controller
         // Set active menu
         $activeMenu = 'dashboard';  // Set menu aktif untuk dashboard
 
+        switch($user->level_id) {
+
         // Admin Dashboard
-        if ($levelId == 1) {
-            return view('admin.dashboard', compact('breadcrumb', 'chartData', 'totalTugas', 'totalKompen', 'mahasiswa', 'activeMenu'));
-        }
+        // if ($levelId == 1) {
+            case 1:
+            return view('admin.dashboard', compact('breadcrumb', 'chartData','totalTugas', 'totalTugasUser', 'totalKompen', 'mahasiswa', 'activeMenu'));
+        // }
 
         // Dosen Dashboard
-        if ($levelId == 2){
-            $totalTugasUser = TugasPendidik::where('id_user',2)->count();
+        // if ($levelId == 2){
+
+            case 2:
             return view('dosen.dashboard', compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
-        }
+        // }
 
         // Tendik Dashboard
-        if ($levelId == 3) {
+        // if ($levelId == 3) {
+        case 3:
 
             return view('tendik.dashboard',  compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
-        }
+        // }
 
         // Mahasiswa Dashboard
         // baru bisa ini
-        if ($levelId == 4) {
+        // if ($levelId == 4) {
+        case 4:
             // Ambil data mahasiswa berdasarkan ID user yang sedang login
             $mahasiswa = MahasiswaModel::where('nim', $user->nim)->first();
 
