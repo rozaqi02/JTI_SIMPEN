@@ -10,7 +10,7 @@
             <div class="col-md-4 border-right text-center">
                 <div class="p-3 py-5">
                     <div class="d-flex flex-column align-items-center">
-                        <img class="rounded-circle mb-4 shadow" width="200px" id="profile-image" src="{{ asset($user->foto) }}" alt="Profile Picture">
+                        <img class="rounded-circle mb-4 shadow" width="200px" id="profile-image" src="{{ asset($user->foto ?? 'image/default.png') }}" alt="Profile Picture">
                         <button onclick="modalAction('{{ url('/profile/' . session('id_user') . '/edit_foto') }}')" class="btn btn-outline-primary btn-sm">Edit Foto</button>
                     </div>
                 </div>
@@ -58,7 +58,17 @@
                                     </tr>
                                     <tr>
                                         <th>Bidkom</th>
-                                        <td>{{ $data['mahasiswa']->bidkom }}</td>
+                                        <td>
+                                            @if ($data['mahasiswa']->detailBidkom->count() > 0)
+                                                <ul class="mb-0">
+                                                    @foreach ($data['mahasiswa']->detailBidkom as $bidkomDetail)
+                                                        <li>{{ $bidkomDetail->bidkom->nama_bidkom ?? 'Bidang Kompetensi Belum Dipilih   ' }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <span class="text-muted">Belum memiliki Bidkom</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @elseif ($data['admin'])
                                     <tr>
@@ -137,54 +147,5 @@
                 $('#myModal').modal('show');
             });
         }
-
-        $(document).ready(function() {
-            $('#profile').on('change', function() {
-                profile.ajax.reload();
-            });
-
-            // AJAX for updating profile
-            $('#form-edit').submit(function(e) {
-                e.preventDefault(); // prevent form from normal submit
-                var form = $(this);
-                var url = form.attr('action'); // get form action
-                var formData = new FormData(form[0]); // get form data
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: formData,
-                    processData: false, // disable jQuery's automatic data processing
-                    contentType: false, // disable jQuery's automatic content type
-                    success: function(response) {
-                        if (response.status) {
-                            // Update profile data
-                            $('#profile-username').text(response.data.username);
-                            $('#profile-nama').text(response.data.nama);
-                            $('#profile-level').text(response.data.level_nama);
-                            $('#profile-id').text(response.data.id_user);
-                            $('#profile-image').attr('src', response.data.foto);
-
-                            // Update bidkom
-                            if (response.data.bidkom) {
-                                $('#profile-bidkom').text(response.data.bidkom);
-                            }
-
-                            $('#myModal').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: response.message
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message
-                            });
-                        }
-                    }
-                });
-            });
-        });
     </script>
 @endpush
