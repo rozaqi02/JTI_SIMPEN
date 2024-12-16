@@ -13,7 +13,7 @@
                     <div class="icon">
                         <i class="fas fa-tasks"></i>
                     </div>
-                    <a href="/daftar-tugas" class="small-box-footer">
+                    <a href="/Pendidik" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="icon">
                         <i class="fas fa-clipboard-check"></i>
                     </div>
-                    <a href="/info-mahasiswa" class="small-box-footer">
+                    <a href="/daftar-tugas" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
