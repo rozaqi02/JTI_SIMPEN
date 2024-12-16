@@ -6,8 +6,7 @@
         <h3 class="card-title"><i class="fas fa-tasks"></i> Progress Penugasanku</h3>
     </div>
 
-    <div class="card-body">
-        <!-- Tabel Data Progress Penugasanku -->
+    <div class="table-responsive">
         <table id="table_progress" class="table table-bordered table-striped">
             <thead class="table-primary">
                 <tr>
@@ -21,10 +20,22 @@
             </thead>
             <tbody></tbody>
         </table>
-        
-        
-    </div>
+    </div>   
 </div>
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap; /* Cegah teks memanjang */
+    }
+
+    th.no, td.no { width: 5%; }
+    th.nama_mahasiswa, td.nama_mahasiswa { width: 20%; }
+    th.nama_tugas, td.nama_tugas { width: 25%; }
+    th.jenis_kompen, td.jenis_kompen { width: 15%; }
+    th.progress, td.progress { width: 15%; }
+    th.aksi, td.aksi { width: 20%; }
+</style>
 
 <!-- Modal Konfirmasi -->
 <div id="modalProgress" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -71,20 +82,22 @@
 
         // Initialize DataTables
         var table = $('#table_progress').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('progress.list') }}",
-                type: "POST"
-            },
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'nama_mahasiswa', name: 'nama_mahasiswa' },
-                { data: 'nama_tugas', name: 'nama_tugas' },
-                { data: 'progress_tugas', name: 'progress_tugas' },
-                { data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center' }
-            ]
-        });
+    processing: true,
+    serverSide: true,
+    ajax: {
+        url: "{{ route('progress.list') }}",
+        type: "POST"
+    },
+    columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+        { data: 'nama_mahasiswa', name: 'nama_mahasiswa' },
+        { data: 'nama_tugas', name: 'nama_tugas' },
+        { data: 'jenis_kompen', name: 'jenis_kompen' },
+        { data: 'progress', name: 'progress' },
+        { data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center' }
+    ]
+});
+
 
         // Event Konfirmasi Progress
         var selectedUrl = '';

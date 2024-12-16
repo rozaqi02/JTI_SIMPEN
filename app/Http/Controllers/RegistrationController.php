@@ -67,7 +67,7 @@ class RegistrationController extends Controller
                 'nip' => $request->nip,
                 'email' => $request->email,
                 'nama_admin' => $request->nama_admin,
-
+                'no_telepon' => $request->no_telepon,
             ]);
         } elseif ($request->level_id == 2) {  // Dosen
             DosenModel::create([
@@ -75,7 +75,7 @@ class RegistrationController extends Controller
                 'nip' => $request->nip,
                 'email' => $request->email,
                 'nama_dosen' => $request->nama_dosen,
-                // 'no_telepon' => $request->no_telepon ?? null,
+                'no_telepon' => $request->no_telepon,
             ]);
         } elseif ($request->level_id == 3) {  // Tendik
             TendikModel::create([
@@ -83,7 +83,7 @@ class RegistrationController extends Controller
                 'nip' => $request->nip,
                 'email' => $request->email,
                 'nama_tendik' => $request->nama_tendik,
-                // 'no_telepon' => $request->no_telepon ?? null,
+                'no_telepon' => $request->no_telepon,
             ]);
         } elseif ($request->level_id == 4) {  // Mahasiswa
             MahasiswaModel::create([
@@ -91,7 +91,7 @@ class RegistrationController extends Controller
                 'nim' => $request->nim,
                 'email' => $request->email,
                 'nama_mahasiswa' => $request->nama_mahasiswa,
-
+                'no_telepon' => $request->no_telepon,
             ]);
         }
     

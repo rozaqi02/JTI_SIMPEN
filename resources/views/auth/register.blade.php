@@ -108,6 +108,10 @@
                         <label for="nama_admin">Nama Admin</label>
                         <input type="text" class="form-control" id="nama_admin" name="nama_admin">
                     </div>
+                    <div class="form-group">
+                        <label for="no_telepon">Nomor Telepon</label>
+                        <input type="text" class="form-control" id="no_telepon" name="no_telepon">
+                    </div>
                 </div>
 
                 <div id="dosen-fields" style="display: none;">
@@ -122,6 +126,10 @@
                     <div class="form-group">
                         <label for="nama_dosen">Nama Dosen</label>
                         <input type="text" class="form-control" id="nama_dosen" name="nama_dosen">
+                    </div>
+                    <div class="form-group">
+                        <label for="no_telepon">Nomor Telepon</label>
+                        <input type="text" class="form-control" id="no_telepon" name="no_telepon">
                     </div>
                 </div>
 
@@ -138,6 +146,10 @@
                         <label for="nama_dosen">Nama Tendik</label>
                         <input type="text" class="form-control" id="nama_tendik" name="nama_tendik">
                     </div>
+                    <div class="form-group">
+                        <label for="no_telepon">Nomor Telepon</label>
+                        <input type="text" class="form-control" id="no_telepon" name="no_telepon">
+                    </div>
                 </div>
 
                 <div id="mahasiswa-fields" style="display: none;">
@@ -146,6 +158,7 @@
                         <input type="text" class="form-control" id="nim" name="nim">
                     </div>
                     <div class="form-group">
+                    <div class="form-group">
                         <label for="email_mahasiswa">Email</label>
                         <input type="email" class="form-control" id="email_mahasiswa" name="email">
                     </div>
@@ -153,6 +166,10 @@
                         <label for="nama_mahasiswa">Nama Mahasiswa</label>
                         <input type="text" class="form-control" id="nama_mahasiswa" name="nama_mahasiswa">
                     </div>
+                    <div class="form-group">
+                    <label for="no_telepon">Nomor Telepon</label>
+                    <input type="text" class="form-control" id="no_telepon" name="no_telepon">
+                </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">Registrasi</button>
