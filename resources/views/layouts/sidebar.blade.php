@@ -134,7 +134,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/riwayat-tugas') }}" class="nav-link {{ $activeMenu == 'riwayat-tugas' ? 'active' : '' }}">
+                            <a href="{{ url('/riwayat-penugasanku') }}" class="nav-link {{ $activeMenu == 'riwayat-tugas' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Riwayat Penugasanku</p>
                             </a>

@@ -28,6 +28,7 @@ class MahasiswaModel extends Model
         'nama_mahasiswa',
         'nim',
         'email',
+        'no_telepon',
         'program_studi',
         'tahun_masuk',
     ];

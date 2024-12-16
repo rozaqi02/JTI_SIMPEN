@@ -25,21 +25,21 @@ public function detailTugas()
 {
     return $this->belongsTo(DetailTugasModel::class, 'id_detail_tugas', 'id_detail_tugas');
 }
- // Relasi ke tabel m_jenis_kompen melalui m_detail_tugas
- public function jenisKompen()
- {
-     return $this->hasOneThrough(
-         JenisKompen::class,      // Model tujuan (m_jenis_kompen)
-         DetailTugasModel::class,      // Model perantara (m_detail_tugas)
-         'id_detail_tugas',       // FK di tabel perantara (m_detail_tugas)
-         'id_jenis_kompen',       // FK di tabel tujuan (m_jenis_kompen)
-         'id_detail_tugas',       // PK di tabel asal (m_tugas)
-         'id_jenis_kompen'        // PK di tabel tujuan (m_jenis_kompen)
-     );
- }
-    // Relasi ke tabel mahasiswa melalui t_alpa
-    public function mahasiswa()
-    {
-        return $this->belongsTo(MahasiswaModel::class, 'id_alpa', 'id_mahasiswa');
-    }
+
+public function jenisKompen()
+{
+    return $this->hasOneThrough(
+        JenisKompen::class,
+        DetailTugasModel::class,
+        'id_detail_tugas',
+        'id_jenis_kompen',
+        'id_detail_tugas',
+        'id_jenis_kompen'
+    );
 }
+
+public function mahasiswa()
+{
+    return $this->belongsTo(MahasiswaModel::class, 'id_alpa', 'id_mahasiswa');
+}
+    }

@@ -5,6 +5,7 @@ use App\Http\Controllers\BidkomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RiwayatPenugasankuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TugasController;
@@ -69,11 +70,6 @@ Route::group(['prefix' => 'user', 'middleware'=> 'authorize:ADM'], function () {
 });
 
 
-
-
-
-
-
 // Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::group(['prefix' => 'jenis-kompen'], function () {
@@ -86,9 +82,11 @@ Route::group(['prefix' => 'jenis-kompen'], function () {
      Route::get('/', [TugasPendidikController::class, 'index']);
  });
 
-Route::group(['prefix' => 'riwayat-tugas'], function () {
-    Route::get('/', [RiwayatPenugasanMahasiswaController::class, 'index']);
+ Route::group(['prefix' => 'riwayat-tugas'], function () {
+    Route::get('/', [RiwayatPenugasanMahasiswaController::class, 'index'])->name('riwayat-tugas.index');
+    Route::post('/list', [RiwayatPenugasanMahasiswaController::class, 'list'])->name('riwayat-tugas.list');
 });
+
 
 Route::group(['prefix' => 'info-mahasiswa'], function () {
     Route::get('/', [MahasiswaController::class, 'index']);
@@ -124,6 +122,10 @@ Route::group(['prefix' => 'list-tugas'], function () {
 });
 
 
+Route::prefix('riwayat-penugasanku')->group(function () {
+    Route::get('/', [RiwayatPenugasankuController::class, 'index'])->name('riwayat.index');
+    Route::post('/list', [RiwayatPenugasankuController::class, 'list'])->name('riwayat.list');
+});
 
 
 Route::group(['prefix' => 'progress-tugas'], function () {

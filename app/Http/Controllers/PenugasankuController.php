@@ -16,7 +16,7 @@ class PenugasankuController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Penugasanku',
-            'list' => ['Home', 'Penugasanku']
+            'list' => ['JTI-SIMPEN', 'Penugasanku', 'Daftar Penugasanku']
         ];
     
         $page = (object) [

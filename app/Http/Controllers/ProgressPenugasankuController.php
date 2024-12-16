@@ -15,7 +15,7 @@ class ProgressPenugasankuController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Progress Penugasanku',
-            'list' => ['Home', 'Penugasanku', 'Progress Penugasanku']
+            'list' => ['JTI-SIMPEN', 'Penugasanku', 'Progress Penugasanku']
         ];
 
         $page = (object) ['title' => 'Progress Penugasanku'];
@@ -35,7 +35,7 @@ class ProgressPenugasankuController extends Controller
                 $query->where('id_user', $userId);
             });
     
-        return DataTables::of($progressTugas)
+            return DataTables::of($progressTugas)
             ->addIndexColumn()
             ->addColumn('nama_mahasiswa', function ($row) {
                 return $row->mahasiswa ? $row->mahasiswa->nama_mahasiswa : '-';
@@ -47,7 +47,7 @@ class ProgressPenugasankuController extends Controller
                 return $row->jenisKompen ? $row->jenisKompen->nama_jenis_kompen : '-';
             })
             ->addColumn('progress', function ($row) {
-                return $row->progress_tugas; 
+                return $row->progress_tugas;
             })
             ->addColumn('aksi', function ($row) {
                 return '
@@ -57,7 +57,7 @@ class ProgressPenugasankuController extends Controller
             })
             ->rawColumns(['aksi'])
             ->make(true);
-    }
+        }        
     
             
     // Konfirmasi progress tugas mahasiswa
