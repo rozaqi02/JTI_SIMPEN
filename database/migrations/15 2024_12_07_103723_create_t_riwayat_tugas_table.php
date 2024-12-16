@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_riwayat_tugas', function (Blueprint $table) {
             $table->id('id_riwayat_tugas'); // Primary key
+            $table->string('id_QRCode')->nullable(); // Foreign key ke t_qr_code
             $table->unsignedBigInteger('id_tugas'); // Foreign key ke tabel tugas
             $table->dateTime('tanggal_dilaksanakan'); // Tanggal pelaksanaan tugas
             $table->dateTime('tanggal_selesai'); // Tanggal selesai tugas
@@ -21,6 +22,7 @@ return new class extends Migration
             // Menambahkan foreign key constraint
             $table->foreign('id_tugas')->references('id_tugas')->on('m_tugas')->onDelete('cascade');
             $table->timestamps();
+            $table->foreign('id_QRCode')->references('id_QRCode')->on('t_qr_code')->onDelete('set null');
         });
     }
 
