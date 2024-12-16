@@ -26,26 +26,22 @@
                         <table class="table table-bordered table-striped table-hover table-sm">
                             <tbody>
                                 <tr>
-                                    <th>ID</th>
-                                    <td id="profile-id">{{ $user->id_user }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Level</th>
+                                    <th>Level Pengguna</th>
                                     <td id="profile-level">{{ $user->level->level_nama }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Username</th>
+                                    <th>Nama Pengguna</th>
                                     <td id="profile-username">{{ $user->username }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Password</th>
+                                    <th>Kata Sandi</th>
                                     <td>********</td>
                                 </tr>
 
                                 <!-- Displaying role-specific data -->
                                 @if ($data['mahasiswa'])
                                     <tr>
-                                        <th>NIM</th>
+                                        <th>Nomor Induk Mahasiswa</th>
                                         <td>{{ $data['mahasiswa']->nim }}</td>
                                     </tr>
                                     <tr>
@@ -57,7 +53,7 @@
                                         <td>{{ $data['mahasiswa']->tahun_masuk }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Bidkom</th>
+                                        <th>Bidang Kompetensi</th>
                                         <td>
                                             @if ($data['mahasiswa']->detailBidkom->count() > 0)
                                                 <ul class="mb-0">
@@ -66,7 +62,7 @@
                                                     @endforeach
                                                 </ul>
                                             @else
-                                                <span class="text-muted">Belum memiliki Bidkom</span>
+                                                <span class="text-muted">Belum memiliki Bidang Kompetensi</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -76,11 +72,11 @@
                                         <td>{{ $data['admin']->email }}</td>
                                     </tr>
                                     <tr>
-                                        <th>No Telepon</th>
+                                        <th>Nomor Telepon</th>
                                         <td>{{ $data['admin']->no_telepon }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Nama Admin</th>
+                                        <th>Nama Lengkap Admin</th>
                                         <td>{{ $data['admin']->nama_admin }}</td>
                                     </tr>
                                 @elseif ($data['dosen'])
@@ -89,11 +85,11 @@
                                         <td>{{ $data['dosen']->email }}</td>
                                     </tr>
                                     <tr>
-                                        <th>No Telepon</th>
+                                        <th>Nomor Telepon</th>
                                         <td>{{ $data['dosen']->no_telepon }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Nama Dosen</th>
+                                        <th>Nama Lengkap Dosen</th>
                                         <td>{{ $data['dosen']->nama_dosen }}</td>
                                     </tr>
                                 @elseif ($data['tendik'])
@@ -102,11 +98,11 @@
                                         <td>{{ $data['tendik']->email }}</td>
                                     </tr>
                                     <tr>
-                                        <th>No Telepon</th>
+                                        <th>Nomor Telepon</th>
                                         <td>{{ $data['tendik']->no_telepon }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Nama Tendik</th>
+                                        <th>Nama Lengkap Tendik</th>
                                         <td>{{ $data['tendik']->nama_tendik }}</td>
                                     </tr>
                                 @endif

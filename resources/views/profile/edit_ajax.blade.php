@@ -30,7 +30,7 @@
                 <div class="modal-body">
                     <!-- Level Pengguna -->
                    <input type="hidden" value="{{ $user->id_user }}" name="id_user" id="id_user"> 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none;">
                         <label>Level Pengguna</label>
                         <select name="level_id" id="level_id" class="form-control" required>
                             <option value="">- Pilih Level -</option>
@@ -44,7 +44,7 @@
 
                     <!-- Username -->
                     <div class="form-group">
-                        <label>Username</label>
+                        <label>Nama Pengguna</label>
                         <input value="{{ $user->username }}" type="text" name="username" id="username"
                             class="form-control" required>
                         <small id="error-username" class="error-text form-text text-danger"></small>
@@ -52,7 +52,7 @@
 
                     <!-- Nama Berdasarkan Role -->
                     <div class="form-group">
-                        <label>Nama</label>
+                        <label>Nama Lengkap</label>
                         @if ($user->level_id == 1) <!-- Admin -->
                             <input value="{{ $admin->nama_admin ?? '' }}" type="text" name="nama_admin" id="nama_admin"
                                 class="form-control" required>
@@ -86,9 +86,9 @@
 
                     <div class="form-group">
                         @if ($user->level_id == 1 || $user->level_id == 2 || $user->level_id == 3)
-                            <label>NIP</label>
+                            <label>Nomor Induk Pegawai</label>
                         @elseif ($user->level_id == 4)
-                            <label>NIM</label>
+                            <label>Nomor Induk Mahasiswa</label>
                         @endif
                     
                         @if ($user->level_id == 1) <!-- Admin -->
@@ -104,7 +104,7 @@
 
                     <!-- No Telepon -->
                     <div class="form-group">
-                        <label>No Telepon</label>
+                        <label>Nomor Telepon</label>
                         @if ($user->level_id == 1) <!-- Admin -->
                             <input value="{{ $admin->no_telepon ?? '' }}" type="text" name="no_telepon" id="no_telepon" class="form-control">
                         @elseif ($user->level_id == 2) <!-- Dosen -->
@@ -169,7 +169,7 @@
 
                     <!-- Input Password -->
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Kata Sandi</label>
                         <input value="" type="password" name="password" id="password" class="form-control">
                         <small class="form-text text-muted">Abaikan jika tidak ingin ubah
                             password</small>
