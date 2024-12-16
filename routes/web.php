@@ -74,7 +74,7 @@ Route::group(['prefix' => 'user', 'middleware'=> 'authorize:ADM'], function () {
 
 
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+// Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::group(['prefix' => 'jenis-kompen'], function () {
     Route::get('/', [JenisKompenController::class, 'index']);
@@ -82,7 +82,7 @@ Route::group(['prefix' => 'jenis-kompen'], function () {
 });
 
 
- Route::group(['prefix' => 'daftar-tugas'], function () {
+ Route::group(['prefix' => 'daftar-tugas', 'middleware'=> 'authorize:ADM,DSN,TDK'], function () {
      Route::get('/', [TugasPendidikController::class, 'index']);
  });
 

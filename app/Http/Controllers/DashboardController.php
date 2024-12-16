@@ -7,9 +7,10 @@ namespace App\Http\Controllers;
 use App\Models\TugasPendidik; // Untuk tabel m_detail_tugas
 use App\Models\MahasiswaModel; // Untuk tabel m_mahasiswa
 use App\Models\AlpakuModel; // Untuk tabel m_mahasiswa
+use App\Models\DosenModel;
 use App\Models\PeriodeModel; // Untuk tabel m_mahasiswa
 use App\Models\JenisKompen; // Untuk tabel m_jenis_kompen
-
+use App\Models\TendikModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,7 @@ class DashboardController extends Controller
 
         // Inisialisasi variabel
         $totalTugas = TugasPendidik::count();  // Hitung total tugas
+       
         $totalKompen = TugasPendidik::where('id_jenis_kompen', 1)->count();  // Hitung total kompen berdasarkan id_jenis_kompen
 
         // Ambil data mahasiswa
@@ -50,21 +52,15 @@ class DashboardController extends Controller
         }
 
         // Dosen Dashboard
-        if ($levelId == 2) {
-            $dosenData = TugasPendidik::where('dosen_id', $user->id) // Mengambil tugas dosen berdasarkan ID dosen
-                ->select('nama_tugas', 'deadline')
-                ->get();
-
-            return view('dosen.dashboard', compact('breadcrumb', 'chartData', 'dosenData', 'activeMenu'));
+        if ($levelId == 2){
+            $totalTugasUser = TugasPendidik::where('id_user',2)->count();
+            return view('dosen.dashboard', compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
         }
 
         // Tendik Dashboard
         if ($levelId == 3) {
-            $tendikData = MahasiswaModel::where('tendik_id', $user->id) // Misalnya ada relasi tendik
-                ->select('nama_mahasiswa', 'nim')
-                ->get();
 
-            return view('tendik.dashboard', compact('breadcrumb', 'chartData', 'tendikData', 'activeMenu'));
+            return view('tendik.dashboard',  compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
         }
 
         // Mahasiswa Dashboard
