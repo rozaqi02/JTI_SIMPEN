@@ -1,10 +1,19 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
 
+<<<<<<< HEAD
+<div class="container-fluid">
+    <!-- Menampilkan pesan selamat datang -->
+    <div class="row mb-3">
+        <div class="col-12 text-center">
+            <div class="card shadow-sm rounded-lg border-light">
+                <div class="card-body">
+                    <h4 class="font-weight-bold text-dark">
+                        Selamat datang, <span class="text-capitalize text-primary">{{ $namaMahasiswa }}</span>!
+                    </h4>
+                    <p class="text-muted">Semoga Anda sukses dalam menyelesaikan tugas dan kegiatan yang ada.</p>
+=======
             
             <!-- Statistik Alpa Mahasiswa berdasarkan Periode -->
             <div class="row mt-4">
@@ -66,85 +75,49 @@
                             </div>
                         </div>
                     </div>
+>>>>>>> 63c1ec1e85600b5210a4f6bbca73b9a6fddc0a4e
                 </div>
             </div>
-
         </div>
     </div>
+
+    <!-- Info Cards -->
+    <div class="row">
+        <!-- Total Jam Alpa Card -->
+        <div class="col-lg-3 col-6 mb-3">
+            <div class="small-box bg-info text-white rounded shadow-sm">
+                <div class="inner">
+                    <h3 class="font-weight-bold">{{ $totalJamAlpa }} Jam</h3>
+                    <p>Total Jam Alpa Mahasiswa</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <a href="/alpaku" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Total Tugas Card -->
+        <div class="col-lg-3 col-6 mb-3">
+            <div class="small-box bg-success text-white rounded shadow-sm">
+                <div class="inner">
+                    <h3 class="font-weight-bold">{{ $totalTugas }}</h3>
+                    <p>Total Seluruh Tugas</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <a href="/list-tugas" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Additional Cards if needed -->
+    </div>
+
 </div>
 
-@endsection
-
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Contoh data untuk grafik line
-    var ctx = document.getElementById('lineChart').getContext('2d');
-    var lineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5'], // Label mingguan
-            datasets: [{
-                label: 'Tugas yang Diselesaikan',
-                data: [5, 7, 8, 4, 6], // Jumlah tugas yang diselesaikan setiap minggu
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Filter Periode
-    $('#periode').change(function() {
-        var periodeId = $(this).val();
-        // Lakukan ajax untuk mendapatkan data alpa berdasarkan periode yang dipilih
-        $.ajax({
-            url: "{{ url('mahasiswa/alpa/list') }}", // Sesuaikan URL dengan rute di controller
-            method: 'POST',
-            data: {
-                _token: "{{ csrf_token() }}",
-                periode: periodeId
-            },
-            success: function(response) {
-                var tbody = '';
-                if(response.data.length > 0) {
-                    $.each(response.data, function(index, alpa) {
-                        tbody += `<tr>
-                            <td>${index + 1}</td>
-                            <td>${alpa.mahasiswa.nama}</td>
-                            <td>${alpa.mahasiswa.program_studi}</td>
-                            <td>${alpa.total_alpa} jam</td>
-                        </tr>`;
-                    });
-                } else {
-                    tbody = `<tr><td colspan="4" class="text-center">Data Alpa Tidak Tersedia</td></tr>`;
-                }
-                $('#alpaData').html(tbody);
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-            }
-        });
-    });
-</script>
 @endsection

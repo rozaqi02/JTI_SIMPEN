@@ -4,12 +4,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminModel;
 use App\Models\TugasPendidik; // Untuk tabel m_detail_tugas
 use App\Models\MahasiswaModel; // Untuk tabel m_mahasiswa
 use App\Models\AlpakuModel; // Untuk tabel m_mahasiswa
 use App\Models\DosenModel;
 use App\Models\PeriodeModel; // Untuk tabel m_mahasiswa
 use App\Models\JenisKompen; // Untuk tabel m_jenis_kompen
+use App\Models\ProgressTugas;
 use App\Models\TendikModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,12 +23,15 @@ class DashboardController extends Controller
     {
         // Ambil data user yang sedang login
         $user = Auth::user();
+        
 
+     
         // Data breadcrumb umum
         $breadcrumb = (object) [
             'title' => 'Dashboard',
             'list' => ['JTI-SIMPEN', 'Dashboard']
         ];
+        
 
     // Ambil data jumlah tugas per jenis_kompen
     $chartData = TugasPendidik::join('m_jenis_kompen', 'm_detail_tugas.id_jenis_kompen', '=', 'm_jenis_kompen.id_jenis_kompen')
@@ -57,12 +62,12 @@ class DashboardController extends Controller
         ->where('id_user', $user->id_user)
         ->count();
 
-
-        $totalKompen = TugasPendidik::where('id_jenis_kompen', 1)->count();  // Hitung total kompen berdasarkan id_jenis_kompen
-
-        // Ambil data mahasiswa
         $mahasiswa = MahasiswaModel::select('nama_mahasiswa as nama', 'nim', 'program_studi as prodi', 'tahun_masuk as semester')
-            ->get();
+        ->get();
+
+
+
+
 
         // Set active menu
         $activeMenu = 'dashboard';  // Set menu aktif untuk dashboard
@@ -72,38 +77,20 @@ class DashboardController extends Controller
         // Admin Dashboard
         // if ($levelId == 1) {
             case 1:
-            return view('admin.dashboard', compact('breadcrumb', 'pieChartData','totalTugas', 'totalTugasUser', 'totalKompen', 'mahasiswa', 'chartData', 'activeMenu'));
-        // }
-
-        // Dosen Dashboard
-        // if ($levelId == 2){
-
+                $admin = AdminModel::where('id_user', $user->id_user)->first();
+                $namaAdmin = $admin->nama_admin;
+            return view('admin.dashboard', compact('breadcrumb', 'pieChartData','namaAdmin','totalTugas', 'totalTugasUser', 'mahasiswa', 'chartData', 'activeMenu'));
             case 2:
             return view('dosen.dashboard', compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
-        // }
-
-        // Tendik Dashboard
-        // if ($levelId == 3) {
-        case 3:
-
+            case 3:
             return view('tendik.dashboard',  compact('breadcrumb', 'chartData', 'totalTugasUser', 'activeMenu'));
-        // }
-
-        // Mahasiswa Dashboard
-        // baru bisa ini
-        // if ($levelId == 4) {
-        case 4:
-            // Ambil data mahasiswa berdasarkan ID user yang sedang login
-            $mahasiswa = MahasiswaModel::where('nim', $user->nim)->first();
-
-            // Ambil data alpa mahasiswa berdasarkan periode
-            $periode = PeriodeModel::all();  // Mengambil semua data periode
-            $alpaMahasiswa = AlpakuModel::where('id_mahasiswa', $user->id)
-                ->selectRaw('id_periode, SUM(jam_alpa) as total_alpa')
-                ->groupBy('id_periode')
-                ->get();
-
-            return view('mahasiswa.dashboard', compact('breadcrumb', 'chartData', 'mahasiswa', 'periode', 'alpaMahasiswa', 'activeMenu'));
+            case 4:
+                $mahasiswa = MahasiswaModel::where('id_user', $user->id_user)->first();
+                $namaMahasiswa = $mahasiswa->nama_mahasiswa;
+                $totalJamAlpa = AlpakuModel::where('id_mahasiswa', $mahasiswa->id_mahasiswa)
+                
+                ->sum(column: 'jam_alpa'); // Menghitung total jam alpa
+            return view('mahasiswa.dashboard', compact('breadcrumb','namaMahasiswa', 'totalJamAlpa','totalTugas', 'activeMenu'));
         }
     }
 }
