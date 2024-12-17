@@ -28,6 +28,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            
         }
 
         .login-box {
@@ -83,6 +84,8 @@
             color: #7f4f0b;
             text-decoration: none;
         }
+
+        
     </style>
 </head>
     

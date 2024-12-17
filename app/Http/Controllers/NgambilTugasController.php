@@ -50,7 +50,7 @@ class NgambilTugasController extends Controller
             })
             ->addColumn('aksi', function ($tugas) {
                 $url = url('list-tugas/' . $tugas->id_detail_tugas . '/apply_ajax');
-                return '<button onclick="modalAction(\'' . $url . '\')" class="btn btn-primary btn-sm">Ambil</button>';
+                return '<button onclick="modalAction(\'' . $url . '\')" class="btn btn-primary btn-sm">Lihat Detail</button>';
             })
             ->rawColumns(['aksi'])
             ->make(true);
