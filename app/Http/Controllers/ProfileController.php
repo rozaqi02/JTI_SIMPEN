@@ -116,22 +116,25 @@ class ProfileController extends Controller
             ], 405);
         }
     
+        $user = UserModel::find($id);
+    
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User tidak ditemukan.'
+            ]);
+        }
+    
+        // Validasi input
         $rules = [
-            'id_user' => 'required',
-            'level_id' => 'nullable|integer',
-            'username' => 'nullable|max:20|unique:m_user,username,' . $id . ',id_user',
+            'username' => 'required|max:20|unique:m_user,username,' . $id . ',id_user',
             'password' => 'nullable|min:5|max:20',
-            'nama_admin' => 'nullable|max:255',
-            'nip' => 'nullable|max:20',
             'email' => 'nullable|email|max:255',
+            'nip' => 'nullable|max:20',
+            'nama_admin' => 'nullable|max:255',
             'nama_dosen' => 'nullable|max:255',
             'nama_tendik' => 'nullable|max:255',
-            'nama_mahasiswa' => 'nullable|max:255',
-            'nim' => 'nullable|max:20',
-            'program_studi' => 'nullable|max:100',
-            'tahun_masuk' => 'nullable|integer',
-            'bidkom' => 'nullable|array', // Hanya untuk Mahasiswa
-            'bidkom.*' => 'exists:t_bidkom,id_bidkom'
+            'no_telepon' => 'nullable|max:20',
         ];
     
         $validator = Validator::make($request->all(), $rules);
@@ -144,94 +147,55 @@ class ProfileController extends Controller
             ]);
         }
     
-        $user = UserModel::find($id);
-    
-        if ($user) {
-            // Update data pengguna umum
-            if ($request->filled('password')) {
-                $request->merge(['password' => bcrypt($request->password)]);
-            }
-    
-            $user->update([
-                'username' => $request->username,
-                'password' => $request->password ?? $user->password,
-                'level_id' => $request->level_id
-            ]);
-    
-            // Kondisi berdasarkan level_id
-            if ($request->level_id == 1) { // Admin
-                AdminModel::updateOrCreate(
-                    ['id_user' => $request->id_user],
-                    [
-                        'nama_admin' => $request->nama_admin,
-                        'nip' => $request->nip,
-                        'email' => $request->email,
-                        'no_telepon' => $request->no_telepon
-                    ]
-                );
-            }
-    
-            if ($request->level_id == 2) { // Dosen
-                DosenModel::updateOrCreate(
-                    ['id_user' => $request->id_user],
-                    [
-                        'nama_dosen' => $request->nama_dosen,
-                        'nip' => $request->nip,
-                        'email' => $request->email,
-                        'no_telepon' => $request->no_telepon
-                    ]
-                );
-            }
-    
-            if ($request->level_id == 3) { // Tendik
-                TendikModel::updateOrCreate(
-                    ['id_user' => $request->id_user],
-                    [
-                        'nama_tendik' => $request->nama_tendik,
-                        'nip' => $request->nip,
-                        'email' => $request->email,
-                        'no_telepon' => $request->no_telepon
-                    ]
-                );
-            }
-    
-            if ($request->level_id == 4) { // Mahasiswa
-                $mahasiswa = MahasiswaModel::updateOrCreate(
-                    ['id_user' => $request->id_user],
-                    [
-                        'nama_mahasiswa' => $request->nama_mahasiswa,
-                        'nim' => $request->nim,
-                        'email' => $request->email,
-                        'program_studi' => $request->program_studi,
-                        'tahun_masuk' => $request->tahun_masuk,
-                        'no_telepon' => $request->no_telepon
-                    ]
-                );
-    
-                // Update relasi Bidkom jika mahasiswa
-                if ($request->has('bidkom')) {
-                    $mahasiswa->detailBidkom()->delete(); // Hapus data sebelumnya
-                    foreach ($request->bidkom as $id_bidkom) {
-                        $mahasiswa->detailBidkom()->create([
-                            'id_bidkom' => $id_bidkom
-                        ]);
-                    }
-                }
-            }
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'Data berhasil diperbarui.'
-            ]);
+        // Update data pengguna umum
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
         }
     
+        $user->username = $request->username;
+        $user->save();
+    
+        // Update berdasarkan level_id dari user, bukan request
+        if ($user->level_id == 1) { // Admin
+            AdminModel::updateOrCreate(
+                ['id_user' => $user->id_user], // Kondisi
+                [
+                    'nama_admin' => $request->nama_admin ?? $user->admin->nama_admin,
+                    'nip' => $request->nip ?? $user->admin->nip,
+                    'email' => $request->email ?? $user->admin->email,
+                    'no_telepon' => $request->no_telepon ?? $user->admin->no_telepon,
+                ]
+            );
+        } elseif ($user->level_id == 2) { // Dosen
+            DosenModel::updateOrCreate(
+                ['id_user' => $user->id_user],
+                [
+                    'nama_dosen' => $request->nama_dosen ?? $user->dosen->nama_dosen,
+                    'nip' => $request->nip ?? $user->dosen->nip,
+                    'email' => $request->email ?? $user->dosen->email,
+                    'no_telepon' => $request->no_telepon ?? $user->dosen->no_telepon,
+                ]
+            );
+        } elseif ($user->level_id == 3) { // Tendik
+            TendikModel::updateOrCreate(
+                ['id_user' => $user->id_user],
+                [
+                    'nama_tendik' => $request->nama_tendik ?? $user->tendik->nama_tendik,
+                    'nip' => $request->nip ?? $user->tendik->nip,
+                    'email' => $request->email ?? $user->tendik->email,
+                    'no_telepon' => $request->no_telepon ?? $user->tendik->no_telepon,
+                ]
+            );
+        }
+        
+    
         return response()->json([
-            'status' => false,
-            'message' => 'User tidak ditemukan.'
+            'status' => true,
+            'message' => 'Data berhasil diperbarui.'
         ]);
     }
-
-    public function edit_foto(string $id)
+    
+        public function edit_foto(string $id)
     {
         $user = UserModel::find($id);
         $level = LevelModel::select('level_id', 'level_nama')->get();
