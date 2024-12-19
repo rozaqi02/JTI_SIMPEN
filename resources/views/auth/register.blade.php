@@ -158,6 +158,9 @@
                         <input type="text" class="form-control" id="nim" name="nim">
                     </div>
                     <div class="form-group">
+                        <label for="no_telepon">Nomor Telepon</label>
+                        <input type="text" class="form-control" id="no_telepon" name="no_telepon">
+                    </div>
                     <div class="form-group">
                         <label for="email_mahasiswa">Email</label>
                         <input type="email" class="form-control" id="email_mahasiswa" name="email">
@@ -166,10 +169,6 @@
                         <label for="nama_mahasiswa">Nama Mahasiswa</label>
                         <input type="text" class="form-control" id="nama_mahasiswa" name="nama_mahasiswa">
                     </div>
-                    <div class="form-group">
-                    <label for="no_telepon">Nomor Telepon</label>
-                    <input type="text" class="form-control" id="no_telepon" name="no_telepon">
-                </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">Registrasi</button>

@@ -29,8 +29,8 @@
                 </div>
                 <div class="modal-body">
                     <!-- Level Pengguna -->
-                    <input type="hidden" name="level_id" value="{{ $user->level_id }}">
-                    <div class="form-group">
+                   <input type="hidden" value="{{ $user->id_user }}" name="id_user" id="id_user"> 
+                    <div class="form-group" >
                         <label>Level Pengguna</label>
                         <select name="level_id" id="level_id" class="form-control" required>
                             <option value="">- Pilih Level -</option>
