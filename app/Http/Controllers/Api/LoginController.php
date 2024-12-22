@@ -3,58 +3,59 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\Api\UserModel;
 
 class LoginController extends Controller
 {
-    // Fungsi untuk login
     public function __invoke(Request $request)
     {
+        // set validation
         $validator = Validator::make($request->all(), [
-            'username'  => 'required',
-            'password'  => 'required'
+            'username' => 'required',
+            'password' => 'required'
         ]);
 
+        // if validation fails
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors' => $validator->errors()
+            ], 422);
         }
 
-        $credentials = $request->only('username','password');
+        // get credentials from request
+        $credentials = $request->only('username', 'password');
 
-        if (!$token = auth()->guard('api')->attempt($credentials)) {
+        // attempt to create a token
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
-                'success'   => false,
-                'message'   => 'Username atau Password Anda Salah'
+                'success' => false,
+                'message' => 'Username atau Password salah'
             ], 401);
         }
 
+        // get authenticated user with level relation
+        $user = UserModel::with('level')->find(auth()->user()->id_user);
+
+        // if auth success
         return response()->json([
-            'success'   => true,
-            'user'      => auth()->guard('api')->user(),
-            'token'     => $token
-        ], 200);
-    }
-
-    // Fungsi untuk mengambil data user berdasarkan id_user
-    public function getUser($id_user)
-    {
-        // Cek apakah user dengan id_user ditemukan
-        $user = UserModel::find($id_user); // Mengambil user berdasarkan id_user
-
-        // Jika user tidak ditemukan
-        if (!$user) {
-            return response()->json([
-                'success'   => false,
-                'message'   => 'User tidak ditemukan'
-            ], 404);
-        }
-
-        // Kembalikan data user
-        return response()->json([
-            'success'   => true,
-            'user'      => $user
+            'success' => true,
+            'message' => 'Login berhasil',
+            'user' => [
+                'id_user' => $user->id_user,
+                'username' => $user->username,
+                'level' => [
+                    'id' => $user->level->level_id,
+                    'nama' => $user->level->level_nama,
+                    'kode' => $user->level->level_kode
+                ]
+            ],
+            'token' => $token,
+            'token_type' => 'bearer'
         ], 200);
     }
 }
