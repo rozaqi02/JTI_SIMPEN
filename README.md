@@ -1,66 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://via.placeholder.com/150" alt="JTI SIMPEN Logo" width="150"/>
 </p>
 
-## About Laravel
+# JTI SIMPEN - Sistem Informasi Manajemen Kompensasi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  <strong>Sistem berbasis web untuk mempermudah pengelolaan kompensasi di Jurusan Teknologi Informasi, Politeknik Negeri Malang.</strong>
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  JTI SIMPEN dirancang untuk membantu mahasiswa mengajukan kompensasi, memilih pekerjaan, dan memvalidasi tugas dengan efisien. Sistem ini mendukung tiga tipe pengguna: <b>admin</b>, <b>dosen</b>, dan <b>mahasiswa</b>.
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📋 Fitur Utama
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Pengajuan Kompensasi**: *Mahasiswa* dapat mengajukan kompensasi melalui antarmuka web yang ramah pengguna.
+- **Manajemen Pekerjaan**: *Dosen* dapat menambahkan dan mengelola daftar pekerjaan.
+- **Validasi Pekerjaan**: *Admin* memiliki wewenang untuk memvalidasi pekerjaan yang diselesaikan.
+- **Dashboard Admin**: Alat terpusat untuk mengelola semua data sistem.
+- **Monitoring Mobile**: Aplikasi mobile untuk memantau status pekerjaan (khusus untuk pengguna tertentu).
+- **Keamanan**: Sistem otentikasi untuk akses yang aman dan terlindungi.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠 Teknologi yang Digunakan
 
-## Laravel Sponsors
+| Kategori         | Teknologi                     |
+|------------------|-------------------------------|
+| **Backend**      | Laravel (PHP Framework)       |
+| **Frontend**     | HTML, CSS, JavaScript         |
+| **Database**     | MySQL                        |
+| **API**          | RESTful API                  |
+| **Testing**      | Cypress (Automated Testing)   |
+| **Desain**       | UI/UX untuk Web & Mobile      |
+| **Alat Lain**    | StarUML, Visual Paradigm, IDE |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🚀 Prasyarat
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Untuk menjalankan proyek ini, pastikan Anda memiliki:
+- **PHP** >= 7.4
+- **Composer** untuk dependensi PHP
+- **MySQL** untuk database
+- **Node.js** (opsional, untuk pengujian Cypress)
+- **Git** untuk kloning repositori
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## ⚙️ Cara Menjalankan Proyek
 
-## Code of Conduct
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi di lingkungan lokal:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Kloning Repositori**  
+   ```bash
+   git clone https://github.com/rozaqi02/JTI_SIMPEN.git
 
-## Security Vulnerabilities
+Masuk ke Direktori Proyek  
+bash
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+cd JTI_SIMPEN
 
-## License
+Instal Dependensi  
+bash
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+composer install
+
+Konfigurasi Lingkungan  
+Salin file .env.example menjadi .env:  
+bash
+
+cp .env.example .env
+
+Edit file .env untuk mengatur koneksi database:  
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database
+DB_USERNAME=nama_pengguna
+DB_PASSWORD=kata_sandi
+
+Generate Application Key  
+bash
+
+php artisan key:generate
+
+Jalankan Migrasi Database  
+bash
+
+php artisan migrate
+
+Jalankan Server Lokal  
+bash
+
+php artisan serve
+
+Akses aplikasi di http://localhost:8000.
+
+(Opsional) Pengujian dengan Cypress  
+Instal dependensi frontend:  
+bash
+
+npm install
+
+Jalankan Cypress:  
+bash
+
+npx cypress open
+
+ Struktur Proyek
+plaintext
+
+JTI_SIMPEN/
+├── app/                # Logika aplikasi (Controllers, Models)
+├── database/           # Migrasi dan seeder database
+├── public/             # File statis (CSS, JS, gambar)
+├── resources/          # Views (Blade templates) dan aset frontend
+├── routes/             # Definisi rute web dan API
+├── tests/              # Skrip pengujian (termasuk Cypress)
+├── .env.example        # Contoh file konfigurasi
+├── composer.json       # Dependensi PHP
+├── package.json        # Dependensi Node.js (untuk Cypress)
+└── README.md           # Dokumentasi ini
+
+ Dokumentasi Proyek
+Proyek ini dikembangkan melalui tahapan berikut:
+Analisis Kebutuhan: Wawancara dengan stakeholder dan studi peraturan kompensasi JTI.
+
+Perancangan: Pembuatan use case diagram, activity diagram, ERD, dan mockup UI/UX.
+
+Pengembangan: Implementasi backend (Laravel), frontend, database, dan API.
+
+Pengujian: Pengujian fungsional dan otomatis menggunakan Cypress.
+
+Penyempurnaan: Perbaikan berdasarkan hasil pengujian.
+
+Pelatihan Pengguna: Pelatihan untuk pengguna dan pembuatan dokumentasi.
+
+Implementasi: Penerapan sistem ke lingkungan produksi.
+
+ Tantangan dan Solusi
+Tantangan: Pengalaman tim yang terbatas dalam proyek berskala besar.
+Solusi: Kolaborasi dengan dosen pembimbing dan pembagian tugas yang jelas.  
+
+Tantangan: Skenario pengujian awal kurang mendetail.
+Solusi: Menyusun skenario pengujian untuk setiap fitur aplikasi.
+
+ Kontribusi
+Proyek ini dikembangkan sebagai bagian dari mata kuliah berbasis proyek di Politeknik Negeri Malang. Kontribusi tim meliputi:
+Analisis dan Desain: Merancang sistem berdasarkan kebutuhan pengguna.
+
+Pengembangan: Membuat backend, frontend, dan API.
+
+Pengujian: Memastikan fungsionalitas melalui pengujian manual dan otomatis.
+
+Dokumentasi: Menyusun panduan pengguna dan laporan proyek.
+
+Ingin berkontribusi? Silakan buat pull request atau hubungi saya melalui GitHub.
+ Lisensi
+Proyek ini dilisensikan di bawah MIT License (LICENSE). Silakan gunakan sesuai ketentuan.
+ Kontak
+Untuk pertanyaan atau saran, hubungi saya melalui:  
+GitHub: rozaqi02  
+
+Email: abrorrozaqi@gmail.com
